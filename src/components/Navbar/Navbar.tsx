@@ -1,40 +1,37 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Text from './Text/Text';
+import Text from '../Text/Text';
 import styles from './Navbar.module.scss';
 
 const Navbar: React.FC = () => {
   return (
     <nav className={styles.navbar}>
-      <div className={styles.links}>
+      <div className={styles.logo}>
         <Link to="/">
           <Text textType="heading-sm" textWeight="bold" textColor="primary">
-            Home
+            Hack the 6ix
           </Text>
         </Link>
-        <Link to="/about-you">
+      </div>
+      <div className={styles.links}>
+        <Link to="/about">
           <Text textType="heading-sm" textWeight="bold" textColor="primary">
-            About You
+            About
           </Text>
         </Link>
-        <Link to="/experiences">
+        <Link to="/schedule">
           <Text textType="heading-sm" textWeight="bold" textColor="primary">
-            Experiences
+            Schedule
           </Text>
         </Link>
-        <Link to="/long-answer">
+        <Link to="/sponsors">
           <Text textType="heading-sm" textWeight="bold" textColor="primary">
-            Long Answer
+            Sponsors
           </Text>
         </Link>
-        <Link to="/review">
+        <Link to="/faq">
           <Text textType="heading-sm" textWeight="bold" textColor="primary">
-            Review
-          </Text>
-        </Link>
-        <Link to="/survey">
-          <Text textType="heading-sm" textWeight="bold" textColor="primary">
-            Survey
+            FAQ
           </Text>
         </Link>
       </div>
@@ -42,4 +39,4 @@ const Navbar: React.FC = () => {
   );
 };
 
-export default Navbar;
+export default Navbar; 

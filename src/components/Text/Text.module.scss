@@ -1,0 +1,120 @@
+@use '../../styles/colors';
+@use '../../styles/typography';
+
+.text {
+  display: inline-block;
+}
+
+.font--rubik {
+  font-family: 'Rubik', sans-serif;
+}
+
+.font--inconsolata {
+  font-family: 'Inconsolata', monospace;
+}
+
+.color--primary {
+  color: var(--color-primary);
+}
+
+.color--secondary {
+  color: var(--color-secondary);
+}
+
+.color--accent {
+  color: var(--color-accent);
+}
+
+.color--white {
+  color: var(--color-white);
+}
+
+.color--black {
+  color: var(--color-black);
+}
+
+.wght--regular {
+  font-weight: 400;
+}
+
+.wght--medium {
+  font-weight: 500;
+}
+
+.wght--semi-bold {
+  font-weight: 600;
+}
+
+.wght--bold {
+  font-weight: 700;
+}
+
+.wght--extra-bold {
+  font-weight: 800;
+}
+
+.type--display {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 52px;
+  letter-spacing: -0.022em;
+}
+
+.type--heading-lg {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 52px;
+  letter-spacing: -0.022em;
+}
+
+.type--heading-sm {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.017em;
+  text-align: center;
+}
+
+.type--subtitle-lg {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -0.022em;
+}
+
+.type--subtitle-sm {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.017em;
+  text-align: center;
+}
+
+.type--paragraph-lg {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: -0.011em;
+}
+
+.type--paragraph-sm {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: -0.011em;
+}
+
+.type--label {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.011em;
+} 

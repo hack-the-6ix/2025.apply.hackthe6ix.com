@@ -1,4 +1,11 @@
+import Text from '../components/Text/Text';
+
 export default function Review() {
-    return <h1>Review</h1>;
-  }
-  
+  return (
+    <div>
+      <Text textType="heading-lg" textFont="rubik" textColor="primary">
+        Review app before submitting
+      </Text>
+    </div>
+  );
+}

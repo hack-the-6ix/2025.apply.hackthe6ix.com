@@ -1,4 +1,11 @@
+import Text from '../components/Text/Text';
+
 export default function Home() {
-    return <h1>Home</h1>;
-  }
-  
+  return (
+    <div>
+      <Text textType="heading-lg" textFont="rubik" textColor="primary">
+        :3 placeholder
+      </Text>
+    </div>
+  );
+}
