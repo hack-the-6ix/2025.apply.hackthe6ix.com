@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import styles from './Text.module.scss';
 
-export type TextColor = 'primary' | 'secondary' | 'accent' | 'white' | 'black';
+export type TextColor = 'primary' | 'secondary' | 'accent' | 'white' | 'black' | 'neutral-500';
 
 export type TextType =
   | 'display'
@@ -21,7 +21,7 @@ export type TextWeight =
   | 'bold'
   | 'extra-bold';
 
-export type TextFont = 'rubik' | 'inconsolata';
+export type TextFont = 'rubik' | 'inconsolata' | 'jersey10';
 
 export type TextProps = {
   textType: TextType;
