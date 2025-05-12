@@ -22,7 +22,7 @@ export type TextWeight =
   | 'bold'
   | 'extra-bold';
 
-export type TextFont = 'rubik' | 'inconsolata' | 'jersey10';
+export type TextFont = 'rubik' | 'inconsolata' | 'jersey-10-regular';
 
 export type TextProps = {
   textType: TextType;
