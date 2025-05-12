@@ -7,6 +7,7 @@ export type TextColor = 'primary' | 'secondary' | 'accent' | 'white' | 'black' |
 export type TextType =
   | 'display'
   | 'heading-lg'
+  | 'heading-md'
   | 'heading-sm'
   | 'subtitle-lg'
   | 'subtitle-sm'
