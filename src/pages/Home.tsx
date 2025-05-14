@@ -1,5 +1,4 @@
 import Text from "../components/Text/Text";
-
 import grassSVG from "../assets/grass.svg";
 import appleSVG from "../assets/apple.svg";
 import tree1SVG from "../assets/tree1.svg";
@@ -13,8 +12,7 @@ export default function Home() {
 
   return (
     <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#ACDCFD] via-[#B3E9FC] to-[#B9F2FC] h-[100vh] w-full flex flex-col justify-center items-center text-center">
-
-<div className="overflow-hidden absolute bottom-0 left-[60%] sm:flex hidden">
+      <div className="overflow-hidden absolute bottom-0 left-[60%] sm:flex hidden">
         {Array.from({ length: 3 }).map((_, index) => (
           <img
             key={index}
@@ -84,7 +82,7 @@ export default function Home() {
           className="absolute h-[300px] w-[300px] bottom-[80px] right-[20px]"
         />
 
-<img
+        <img
           src={tree2SVG}
           alt="Tree"
           className="absolute h-[300px] w-[300px] bottom-[80px] left-[calc(10%+130px)]"
@@ -105,8 +103,10 @@ export default function Home() {
       >
         Application due:
       </Text>
-      <button className="hover:bg-[#20b7ac] relative sm:w-[180px] w-full bg-[#00887E] border-black sm:border-[5px] border-[3px] sm:h-[80px] h-[50px] flex justify-center items-center sm:mt-[30px] mt-[140px]"
-      onClick={() => (window.location.href = "/apply")}>
+      <button
+        className="hover:bg-[#20b7ac] relative sm:w-[180px] w-full bg-[#00887E] border-black sm:border-[5px] border-[3px] sm:h-[80px] h-[50px] flex justify-center items-center sm:mt-[30px] mt-[140px]"
+        onClick={() => (window.location.href = "/apply")}
+      >
         <Text
           textType="heading-lg"
           textWeight="regular"

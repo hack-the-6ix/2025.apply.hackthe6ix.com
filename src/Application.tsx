@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import AboutYou from "./pages/AboutYou";
 import Experiences from "./pages/Experiences";
 import grassSVG from "./assets/grass.svg";
+import appleSVG from "./assets/apple.svg";
 
 function Application() {
   const [searchParams] = useSearchParams();
@@ -23,6 +24,12 @@ function Application() {
 
       <Navbar complete={[false, false, false, false, true]} />
       {section === "about" ? <AboutYou /> : section === "experience" ? <Experiences /> : <div></div>} 
+
+      <img
+        src={appleSVG}
+        alt="Apple"
+        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[55px] right-[70px] w-[35px] h-[35px] bottom-[38px]  animate-bounce-custom"
+      />
     </div>
   );
 }
