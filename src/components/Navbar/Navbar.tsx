@@ -7,11 +7,11 @@ interface NavbarProps {
 }
 
 const NAV_LINKS = [
-  { label: "About You", path: "/" },
-  { label: "Experiences", path: "/experiences" },
-  { label: "Long-Answer", path: "/long-answer" },
-  { label: "Survey", path: "/review" },
-  { label: "Review", path: "/survey" },
+  { label: "About You", path: "/apply?section=about" },
+  { label: "Experiences", path: "/apply?section=experience" },
+  { label: "Long-Answer", path: "/apply?section=long-answer" },
+  { label: "Survey", path: "/apply?section=survey" },
+  { label: "Review", path: "/apply?section=review" },
 ];
 
 const Navbar: React.FC<NavbarProps> = ({ complete }) => {
