@@ -1,7 +1,23 @@
 @import "tailwindcss";
 
 .font--jersey-10-regular {
-    font-family: "Jersey 10", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+  font-family: "Jersey 10", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(10px);
   }
+
+  50% {
+    transform: translateY(-30px);
+  }
+}
+
+.animate-bounce-custom {
+  animation: bounce 1s infinite;
+}
