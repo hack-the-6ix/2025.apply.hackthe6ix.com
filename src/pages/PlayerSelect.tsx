@@ -3,6 +3,13 @@ import Button from "../components/Button/Button";
 import frameSVG from "../assets/frame.svg";
 import signSVG from "../assets/frame-sign.svg";
 import { useState } from "react";
+import ProgressBar from "../components/ProgressBar/ProgressBar";
+import cupPNG from "../assets/cup.png";
+import duckPNG from "../assets/duck.png";
+import tissuePNG from "../assets/tissue.png";
+import tree2SVG from "../assets/tree2.svg";
+import shrub_flowerSVG from "../assets/bush_flower.svg";
+import birdSVG from "../assets/bird.svg";
 
 export default function PlayerSelect() {
   const COLORS = [
@@ -14,58 +21,136 @@ export default function PlayerSelect() {
     "#BCBBB5",
   ];
 
+  const ITEMS = [cupPNG, tissuePNG, duckPNG];
+
   const ENCOURAGEMENTS = [
-    "Lookin' Fine!",
-    "Good Choice!",
-    "Nice Pick!",
-    "Love the Fit!",
+    "LOOKIN' FINE!",
+    "GOOD CHOICE!",
+    "NICE PICK!",
+    "LOVE IT!",
   ];
 
+  const STATBONUS = ["+3 ENERGY", "+3 MORALE", "+3 VIBES"];
+
   const [encouragement, setEncouragement] = useState(0);
+
   const [skinChoice, setSkinChoice] = useState(0);
+  const [itemChoice, setItemChoice] = useState(0);
+  const [page, setPage] = useState(1);
 
   return (
-    <div className="w-full h-full flex items-center justify-center px-4 py-8 overflow-hidden">
-      <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center gap-12 sm:gap-[150px] w-full max-w-[1200px]">
-        <div className="flex flex-col items-center sm:items-end w-full sm:w-[430px] gap-4">
-          <Text textType="heading-lg" textFont="rubik" textColor="primary">
-            Select your hacker!
-          </Text>
-          <div className="flex gap-2 flex-wrap justify-center sm:justify-end mb-6">
-            {COLORS.map((color, index) => (
-              <div
-                key={index}
-                className="w-[50px] h-[50px] border-[3px]  rounded-[10px]"
-                style={{
-                  backgroundColor: color,
-                  borderColor: skinChoice == index ? "#00887E" : "#919DAF",
-                }}
+    <div className="overflow-hidden bg-linear-to-b from-[#ACDCFD] via-[#B3E9FC] to-[#B9F2FC] h-[100vh] w-full">
+      <img
+        src={tree2SVG}
+        alt="Tree"
+        className="sm:block hidden absolute h-[300px] w-[300px] bottom-[80px] left-[25px]"
+      />
+
+      <img
+        src={shrub_flowerSVG}
+        alt="Shrubs"
+        className="sm:block hidden absolute h-[90px] w-[200px] bottom-[90px] left-[450px]"
+      />
+
+      <img
+        src={birdSVG}
+        alt="Shrubs"
+        className="sm:block hidden absolute h-[90px] w-[200px] bottom-[90px] left-[300px]"
+      />
+
+      <img
+        src={shrub_flowerSVG}
+        alt="Shrubs"
+        className="sm:block hidden absolute h-[90px] w-[200px] bottom-[90px] right-[150px]"
+      />
+      <div className="w-full h-full flex items-center justify-center px-4 py-8 overflow-hidden">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center gap-12 sm:gap-[150px] w-full max-w-[1200px]">
+          <div className="flex flex-col items-center sm:items-end w-full sm:w-[430px] gap-4">
+            <Text textType="heading-lg" textFont="rubik" textColor="primary">
+              {page === 1 ? "Select your hacker!" : "Select your item!"}
+            </Text>
+            {page === 2 ? (
+              <div className="flex gap-2 flex-wrap justify-center sm:justify-end mb-6">
+                {ITEMS.map((item, index) => (
+                  <div
+                    key={index}
+                    className="w-[70px] h-[70px] border-[3px] bg-white rounded-[10px]"
+                    style={{
+                      borderColor: itemChoice == index ? "#00887E" : "#919DAF",
+                    }}
+                    onClick={() => {
+                      setItemChoice(index);
+                    }}
+                  >
+                    <img
+                      key={index}
+                      src={item}
+                      alt="Character Item"
+                      className="sm:h-[70px] sm:w-[70px] h-[46px] w-[30px]"
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex gap-2 flex-wrap justify-center sm:justify-end mb-6">
+                {COLORS.map((color, index) => (
+                  <div
+                    key={index}
+                    className="w-[50px] h-[50px] border-[3px]  rounded-[10px]"
+                    style={{
+                      backgroundColor: color,
+                      borderColor: skinChoice == index ? "#00887E" : "#919DAF",
+                    }}
+                    onClick={() => {
+                      setSkinChoice(index);
+                      setEncouragement(
+                        (prev) => (prev + 1) % ENCOURAGEMENTS.length
+                      );
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+
+            <div className="flex flex-row gap-3">
+              {page == 2 && (
+                <Button variant="back" onClick={() => setPage(page - 1)} />
+              )}
+              <Button
                 onClick={() => {
-                  setSkinChoice(index);
-                  setEncouragement(
-                    (prev) => (prev + 1) % ENCOURAGEMENTS.length
-                  );
+                  if (page == 1) {
+                    setPage(page + 1);
+                  } else {
+                    window.location.href = "/apply?section=about";
+                  }
                 }}
               />
-            ))}
+            </div>
+            <ProgressBar numSteps={2} currPage={page} />
           </div>
-          <Button />
-        </div>
 
-        <div className="flex flex-col items-start gap-4">
-          <img
-            src={frameSVG}
-            alt="Character Frame"
-            className="h-[290px] w-[290px] sm:h-[420px] sm:w-[420px]"
-          />
-          <div className="relative sm:block hidden">
+          <div className="flex flex-col items-start gap-4">
             <img
-              src={signSVG}
-              alt="Sign"
-              className="sm:h-[70px] sm:w-[180px]"
+              src={frameSVG}
+              alt="Character Frame"
+              className="h-[290px] w-[290px] sm:h-[420px] sm:w-[420px]"
             />
-            <div className="absolute left-[25px] top-[5px] font--jersey-10-regular text-[24px] color-[#252C37]">
-              {ENCOURAGEMENTS[encouragement]}
+            <div className="relative sm:block hidden">
+              <img
+                src={signSVG}
+                alt="Sign"
+                className="sm:h-[70px] sm:w-[180px]"
+              />
+              {page == 1 ? (
+                <div className="absolute left-[25px] top-[5px] font--jersey-10-regular text-[24px] color-[#252C37]">
+                  {ENCOURAGEMENTS[encouragement]}
+                </div>
+              ) : (
+                <div className="absolute left-[25px] top-[10px] font--jersey-10-regular text-[24px] leading-[24px]">
+                  <div className="color-[#252C37]">STAT BONUS:</div>
+                  <div className="color-[#08566B]">{STATBONUS[itemChoice]}</div>
+                </div>
+              )}
             </div>
           </div>
         </div>

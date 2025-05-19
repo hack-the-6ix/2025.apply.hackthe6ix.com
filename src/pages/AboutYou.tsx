@@ -1,7 +1,6 @@
 import tree2SVG from "../assets/tree2.svg";
 import shrub_flowerSVG from "../assets/bush_flower.svg";
 import birdSVG from "../assets/bird.svg";
-import PlayerSelect from "./PlayerSelect";
 
 export default function AboutYou() {
   return (
@@ -30,7 +29,6 @@ export default function AboutYou() {
         alt="Shrubs"
         className="sm:block hidden absolute h-[90px] w-[200px] bottom-[90px] right-[150px]"
       />
-      <PlayerSelect />
     </div>
   );
 }

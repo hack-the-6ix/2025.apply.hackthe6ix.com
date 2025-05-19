@@ -11,7 +11,6 @@ export default function Experiences() {
             Your School (Most Recently Attended)*
           </Text>
 
-
         </div>
         <div className="h-[44px]">
           <Input placeholder='Something'></Input>

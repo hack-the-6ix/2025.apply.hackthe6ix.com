@@ -7,7 +7,7 @@ interface NavbarProps {
 }
 
 const NAV_LINKS = [
-  { label: "About You", path: "/apply?section=about" },
+  { label: "About You", path: "/apply?section=player" },
   { label: "Experiences", path: "/apply?section=experience" },
   { label: "Long-Answer", path: "/apply?section=long-answer" },
   { label: "Survey", path: "/apply?section=survey" },
