@@ -10,30 +10,32 @@ import tissuePNG from "../assets/tissue.png";
 import tree2SVG from "../assets/tree2.svg";
 import shrub_flowerSVG from "../assets/bush_flower.svg";
 import birdSVG from "../assets/bird.svg";
+import { useContext } from "react";
+import { Context } from "../components/ContextProvider";
+import { useNavigate } from "react-router-dom";
+
+const COLORS = [
+  "#F2D4B5",
+  "#C98266",
+  "#6E3C3C",
+  "#79C9D2",
+  "#E1E6E7",
+  "#BCBBB5",
+];
+const ITEMS = [cupPNG, tissuePNG, duckPNG];
+const ENCOURAGEMENTS = [
+  "LOOKIN' FINE!",
+  "GOOD CHOICE!",
+  "NICE PICK!",
+  "LOVE IT!",
+];
+const STATBONUS = ["+3 ENERGY", "+3 MORALE", "+3 VIBES"];
 
 export default function PlayerSelect() {
-  const COLORS = [
-    "#F2D4B5",
-    "#C98266",
-    "#6E3C3C",
-    "#79C9D2",
-    "#E1E6E7",
-    "#BCBBB5",
-  ];
-
-  const ITEMS = [cupPNG, tissuePNG, duckPNG];
-
-  const ENCOURAGEMENTS = [
-    "LOOKIN' FINE!",
-    "GOOD CHOICE!",
-    "NICE PICK!",
-    "LOVE IT!",
-  ];
-
-  const STATBONUS = ["+3 ENERGY", "+3 MORALE", "+3 VIBES"];
+  const navigate = useNavigate();
+  const {setCompletedSection, completedSection} = useContext(Context);
 
   const [encouragement, setEncouragement] = useState(0);
-
   const [skinChoice, setSkinChoice] = useState(0);
   const [itemChoice, setItemChoice] = useState(0);
   const [page, setPage] = useState(1);
@@ -121,7 +123,11 @@ export default function PlayerSelect() {
                   if (page == 1) {
                     setPage(page + 1);
                   } else {
-                    window.location.href = "/apply?section=about";
+                    const updateCompleted = completedSection.map((val, i) =>
+                      i === 0 ? true : val
+                    );
+                    setCompletedSection(updateCompleted)
+                    navigate("/apply?section=about");
                   }
                 }}
               />

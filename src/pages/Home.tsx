@@ -6,8 +6,10 @@ import tree2SVG from "../assets/tree2.svg";
 import signSVG from "../assets/sign.svg";
 import shrubSVG from "../assets/shrub.svg";
 import shrub2SVG from "../assets/shrub2.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
   const GRASSCOUNT = 40;
 
   return (
@@ -105,7 +107,7 @@ export default function Home() {
       </Text>
       <button
         className="hover:bg-[#20b7ac] relative sm:w-[180px] w-full bg-[#00887E] border-black sm:border-[5px] border-[3px] sm:h-[80px] h-[50px] flex justify-center items-center sm:mt-[30px] mt-[140px]"
-        onClick={() => (window.location.href = "/apply?section=player")}
+        onClick={() => navigate("/apply?section=player")}
       >
         <Text
           textType="heading-lg"

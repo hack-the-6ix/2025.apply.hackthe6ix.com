@@ -40,7 +40,7 @@ function Application() {
         ))}
       </div>
 
-      <Navbar complete={[false, false, false, false, true]} />
+      <Navbar />
       {CurrentPage}
       <img
         src={appleSVG}
