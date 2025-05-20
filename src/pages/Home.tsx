@@ -6,6 +6,9 @@ import tree2SVG from "../assets/tree2.svg";
 import signSVG from "../assets/sign.svg";
 import shrubSVG from "../assets/shrub.svg";
 import shrub2SVG from "../assets/shrub2.svg";
+import cloudSVG from "../assets/cloudsLaptop.svg";
+import cloudPhoneSVG from "../assets/cloudsPhone.svg";
+
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
@@ -24,6 +27,17 @@ export default function Home() {
           />
         ))}
       </div>
+      <img
+        src={cloudSVG}
+        alt="Cloud"
+        className="absolute w-full top-0 left-0 hidden sm:block z-[0]"
+      />
+
+      <img
+        src={cloudPhoneSVG}
+        alt="Cloud"
+        className="absolute w-full top-[80px] left-0 sm:hidden block z-[0]"
+      />
 
       <div className="overflow-hidden absolute bottom-0 left-0 w-full flex justify-between items-end">
         {Array.from({ length: GRASSCOUNT }).map((_, index) => (
@@ -91,7 +105,7 @@ export default function Home() {
         />
       </div>
 
-      <Text textType="heading-lg" textFont="rubik" textColor="primary">
+      <Text textType="heading-lg" textFont="rubik" textColor="primary" className="z-[100]">
         Hack the 6ix 2025
       </Text>
       <div className="font--jersey-10-regular sm:text-[80px] text-[68px] color-[#252C37] sm:leading-20 leading-13">

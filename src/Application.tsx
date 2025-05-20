@@ -1,4 +1,4 @@
-import React, { type JSX } from "react";
+import { type JSX } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import { useSearchParams } from "react-router-dom";
 import AboutYou from "./pages/AboutYou";
@@ -23,9 +23,7 @@ function Application() {
     review: <Review />,
   };
 
-  const CurrentPage = pageComponents[section || "about"] || (
-    <PlayerSelect />
-  );
+  const CurrentPage = pageComponents[section || "about"] || <PlayerSelect />;
 
   return (
     <div className="w-full">
@@ -39,8 +37,9 @@ function Application() {
           />
         ))}
       </div>
-
-      <Navbar />
+      <div className="sm:block hidden">
+        <Navbar />
+      </div>
       {CurrentPage}
       <img
         src={appleSVG}

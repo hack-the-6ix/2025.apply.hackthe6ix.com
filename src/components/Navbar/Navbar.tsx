@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Text from "../Text/Text";
 import { useContext } from "react";
 import { Context } from "../ContextProvider";
+import { useSearchParams } from "react-router-dom";
 
 
 const NAV_LINKS = [
@@ -15,11 +16,13 @@ const NAV_LINKS = [
 
 const Navbar: React.FC = () => {
   const {completedSection} = useContext(Context);
+  const [searchParams] = useSearchParams();
+  const section = searchParams.get("section");
   return (
     <nav className="w-full flex flex-row items-center justify-center gap-[96px] absolute top-[55px]">
       {NAV_LINKS.map(({ label, path }, i) => (
         <Link to={path} key={label} className="relative flex items-center gap-1">
-          <Text textType="heading-sm" textWeight="bold" textColor="primary">
+          <Text textType="heading-sm" textWeight="bold" textColor={section == "player" || section == "about" || section == "review" ? "primary": "white"}>
             {label}
           </Text>
           {!completedSection[i] && (
