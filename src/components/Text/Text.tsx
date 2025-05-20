@@ -12,6 +12,7 @@ export type TextType =
   | 'subtitle-lg'
   | 'subtitle-sm'
   | 'paragraph-lg'
+  | 'paragraph-lg-semibold'
   | 'paragraph-sm'
   | 'label';
 

@@ -1,55 +1,65 @@
 @use '../../styles/colors';
 
 .container {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
   position: relative;
+  width: 100%;
 }
 
 .label {
   font-family: 'Rubik', sans-serif;
-  font-size: 14px;
   font-weight: 500;
-  color: var(--color-primary);
+  font-size: 14px;
+  line-height: 20px;
+  color: #111827;
+  margin-bottom: 4px;
+
+  &.error {
+    color: #EF4444;
+  }
 }
 
 .trigger {
-  font-family: 'Rubik', sans-serif;
-  font-size: 16px;
-  padding: 12px 16px;
+  width: 100%;
+  height: 44px;
+  padding: 12px;
   border: 1px solid #E0E0E0;
-  border-radius: 8px;
+  border-radius: 10px;
   background-color: white;
-  cursor: pointer;
+  transition: all 0.2s ease-in-out;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 48px;
-  transition: all 0.2s ease-in-out;
+  cursor: pointer;
 
-  &:hover:not(.disabled) {
-    border-color: #BDBDBD;
+  &:hover {
+    border-color: #00887E;
   }
 
   &.open {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 2px rgba(8, 86, 107, 0.1);
+    border-color: #00887E;
   }
 
   &.error {
-    border-color: #D32F2F;
+    border-color: #EF4444;
   }
 
   &.disabled {
-    background-color: #F5F5F5;
+    background-color: #F3F4F6;
     cursor: not-allowed;
-    color: #9E9E9E;
   }
 }
 
 .value {
-  color: #212121;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: -0.011em;
+  color: #9E9E9E;
+
+  &.selected {
+    color: #111827;
+  }
 }
 
 .arrow {
@@ -73,25 +83,29 @@
   margin-top: 4px;
   background-color: white;
   border: 1px solid #E0E0E0;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  max-height: 300px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  max-height: 240px;
   overflow-y: auto;
+  z-index: 10;
 }
 
 .option {
-  padding: 12px 16px;
+  padding: 12px;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: -0.011em;
+  color: #111827;
 
   &:hover {
-    background-color: #F5F5F5;
+    background-color: #F9FAFB;
   }
 
   &.selected {
-    background-color: rgba(8, 86, 107, 0.1);
-    color: var(--color-primary);
+    background-color: #F3F4F6;
   }
 }
 
@@ -101,11 +115,13 @@
 
 .helperText {
   font-family: 'Rubik', sans-serif;
-  font-size: 12px;
-  color: #666666;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #6B7280;
   margin-top: 4px;
 
   &.error {
-    color: #D32F2F;
+    color: #EF4444;
   }
 } 

@@ -25,7 +25,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   value,
   onChange,
   label,
-  placeholder = 'Select an option',
+  placeholder = 'Select',
   error,
   helperText,
   fullWidth = false,
@@ -33,9 +33,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   className,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState(value || "");
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const selectedOption = options.find((option) => option.value === value);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -48,42 +47,44 @@ const Dropdown: React.FC<DropdownProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleSelect = (optionValue: string) => {
-    onChange(optionValue);
+  const handleSelect = (option: string) => {
+    setSelectedValue(option);
+    onChange(option);
     setIsOpen(false);
   };
 
-  const containerClasses = cn(styles.container, {
-    [styles.fullWidth]: fullWidth,
-    [styles.disabled]: disabled,
-  });
-
-  const triggerClasses = cn(styles.trigger, {
-    [styles.error]: error,
-    [styles.open]: isOpen,
-  });
-
-  const labelClasses = cn(styles.label, {
-    [styles.error]: error,
-  });
-
-  const helperClasses = cn(styles.helperText, {
-    [styles.error]: error,
-  });
-
   return (
-    <div className={containerClasses} ref={dropdownRef}>
-      {label && <label className={labelClasses}>{label}</label>}
+    <div className={styles.container} ref={dropdownRef}>
+      {label && <label className={cn(styles.label, { [styles.error]: error })}>{label}</label>}
       <div
-        className={triggerClasses}
+        className={cn(styles.trigger, {
+          [styles.open]: isOpen,
+          [styles.error]: error,
+          [styles.disabled]: disabled,
+        })}
         onClick={() => !disabled && setIsOpen(!isOpen)}
         role="button"
         tabIndex={0}
       >
-        <span className={styles.value}>
-          {selectedOption ? selectedOption.label : placeholder}
+        <span className={cn(styles.value, { [styles.selected]: selectedValue })}>
+          {selectedValue || placeholder}
         </span>
-        <span className={styles.arrow} />
+        <svg 
+          width="12" 
+          height="8" 
+          viewBox="0 0 12 8" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+          className={`transition-transform ${isOpen ? 'rotate-180' : ''}`}
+        >
+          <path 
+            d="M1 1.5L6 6.5L11 1.5" 
+            stroke="#6B7280" 
+            strokeWidth="1.5" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+          />
+        </svg>
       </div>
       {isOpen && (
         <div className={styles.menu}>
@@ -91,7 +92,7 @@ const Dropdown: React.FC<DropdownProps> = ({
             <div
               key={option.value}
               className={cn(styles.option, {
-                [styles.selected]: option.value === value,
+                [styles.selected]: option.value === selectedValue,
               })}
               onClick={() => handleSelect(option.value)}
               role="button"
@@ -103,7 +104,9 @@ const Dropdown: React.FC<DropdownProps> = ({
         </div>
       )}
       {(error || helperText) && (
-        <span className={helperClasses}>{error || helperText}</span>
+        <span className={cn(styles.helperText, { [styles.error]: error })}>
+          {error || helperText}
+        </span>
       )}
     </div>
   );
