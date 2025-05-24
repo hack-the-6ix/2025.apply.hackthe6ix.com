@@ -18,6 +18,11 @@ export interface DropdownProps {
   fullWidth?: boolean;
   disabled?: boolean;
   className?: string;
+  backgroundColor?: string;
+  textColor?: string;
+  menuBackgroundColor?: string;
+  menuTextColor?: string;
+  hoverColor?: string;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -31,10 +36,42 @@ const Dropdown: React.FC<DropdownProps> = ({
   fullWidth = false,
   disabled = false,
   className,
+  backgroundColor = '#ffffff',
+  textColor = '#111827',
+  menuBackgroundColor = '#ffffff',
+  menuTextColor = '#111827',
+  hoverColor,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(value || "");
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Function to darken a hex color
+  const darkenColor = (hex: string, amount: number = 20) => {
+    // Remove the # if present
+    hex = hex.replace('#', '');
+    
+    // Convert to RGB
+    let r = parseInt(hex.substring(0, 2), 16);
+    let g = parseInt(hex.substring(2, 4), 16);
+    let b = parseInt(hex.substring(4, 6), 16);
+    
+    // If the color is white (or very close to white), convert to a light gray
+    if (r > 240 && g > 240 && b > 240) {
+      return '#F3F4F6'; // Light gray color
+    }
+    
+    // Darken each component
+    r = Math.max(0, r - amount);
+    g = Math.max(0, g - amount);
+    b = Math.max(0, b - amount);
+    
+    // Convert back to hex
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+  };
+
+  // Use provided hoverColor or calculate a darker shade of menuBackgroundColor
+  const defaultHoverColor = darkenColor(menuBackgroundColor, 10);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -62,6 +99,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           [styles.error]: error,
           [styles.disabled]: disabled,
         })}
+        style={{ backgroundColor, color: textColor }}
         onClick={() => !disabled && setIsOpen(!isOpen)}
         role="button"
         tabIndex={0}
@@ -70,24 +108,35 @@ const Dropdown: React.FC<DropdownProps> = ({
           {selectedValue || placeholder}
         </span>
         <svg 
-          width="12" 
-          height="8" 
-          viewBox="0 0 12 8" 
+          width="24" 
+          height="24" 
+          viewBox="0 0 24 24" 
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
-          className={`transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          style={{
+            transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+            transition: 'transform 0.2s ease-in-out',
+          }}
         >
           <path 
-            d="M1 1.5L6 6.5L11 1.5" 
-            stroke="#6B7280" 
-            strokeWidth="1.5" 
+            d="M6 9L12 15L18 9" 
+            stroke={textColor} 
+            strokeWidth="2" 
             strokeLinecap="round" 
             strokeLinejoin="round"
           />
         </svg>
       </div>
       {isOpen && (
-        <div className={styles.menu}>
+        <div
+          className={styles.menu}
+          style={{
+            backgroundColor: menuBackgroundColor,
+            color: menuTextColor,
+            '--hover-color': hoverColor || defaultHoverColor,
+            '--selected-text-color': textColor,
+          } as React.CSSProperties}
+        >
           {options.map((option) => (
             <div
               key={option.value}

@@ -22,8 +22,7 @@
   width: 100%;
   height: 44px;
   padding: 12px;
-  border: 1px solid #E0E0E0;
-  border-radius: 10px;
+  border-radius: 10px; 
   background-color: white;
   transition: all 0.2s ease-in-out;
   display: flex;
@@ -58,7 +57,7 @@
   color: #9E9E9E;
 
   &.selected {
-    color: #111827;
+    color: var(--selected-text-color);
   }
 }
 
@@ -98,14 +97,14 @@
   font-size: 16px;
   line-height: 20px;
   letter-spacing: -0.011em;
-  color: #111827;
+  transition: background-color 0.2s ease-in-out;
 
   &:hover {
-    background-color: #F9FAFB;
+    background-color: var(--hover-color);
   }
 
   &.selected {
-    background-color: #F3F4F6;
+    background-color: var(--hover-color);
   }
 }
 
