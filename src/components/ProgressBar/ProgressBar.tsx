@@ -5,11 +5,13 @@ interface ProgressBarProps {
   numSteps: number;
   currPage: number;
   className?: string;
+  darkMode?: boolean;
 }
 
 const ProgressBar: React.FC<ProgressBarProps> = ({
   numSteps = 2,
   currPage = 1,
+  darkMode = false,
   className = "",
   ...props
 }) => {
@@ -24,7 +26,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
         textType="paragraph-sm"
         textWeight="bold"
         textFont="rubik"
-        textColor="primary"
+        textColor={darkMode? "white" : "primary"}
       >
         {currPage}/{numSteps}
       </Text>

@@ -7,7 +7,6 @@ import LongAnswer from "./pages/LongAnswer";
 import Survey from "./pages/Survey";
 import Review from "./pages/Review";
 import grassSVG from "./assets/grass.svg";
-import appleSVG from "./assets/apple.svg";
 import PlayerSelect from "./pages/PlayerSelect";
 
 function Application() {
@@ -41,11 +40,6 @@ function Application() {
         <Navbar />
       </div>
       {CurrentPage}
-      <img
-        src={appleSVG}
-        alt="Apple"
-        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[55px] right-[70px] w-[35px] h-[35px] bottom-[38px]  animate-bounce-custom"
-      />
     </div>
   );
 }

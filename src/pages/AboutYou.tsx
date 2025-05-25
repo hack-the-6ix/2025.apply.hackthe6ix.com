@@ -1,8 +1,10 @@
 import tree2SVG from "../assets/tree2.svg";
-import shrub_flowerSVG from "../assets/bush_flower.svg";
-import birdSVG from "../assets/bird.svg";
-import Text from "../components/Text/Text"
-import Input from "../components/Input/Input"
+import birdlogSVG from "../assets/bird_log.svg";
+import appleSVG from "../assets/apple.svg";
+
+import cliffSVG from "../assets/cliff.svg";
+import Text from "../components/Text/Text";
+import Input from "../components/Input/Input";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../components/ContextProvider";
@@ -10,11 +12,14 @@ import { useContext, useState } from "react";
 import Button from "../components/Button/Button";
 import Checkbox from "../components/Checkbox/Checkbox";
 import Dropdown from "../components/Dropdown/Dropdown";
-import { CANADIAN_PROVINCES } from '../constants/locations';
+import { CANADIAN_PROVINCES } from "../constants/locations";
+import { PLAYER_IMAGES } from "../constants/images";
 
 export default function AboutYou() {
   const navigate = useNavigate();
-  const {setCompletedSection, completedSection} = useContext(Context);
+  const { setCompletedSection, completedSection, selectedItem, selectedSkin } =
+    useContext(Context);
+  const [checked, setChecked] = useState(false);
   const [page, setPage] = useState(1);
 
   return (
@@ -24,27 +29,53 @@ export default function AboutYou() {
           <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
             <div className="flex flex-col gap-4 py-4">
               {page === 1 && (
-                <Text textType="heading-lg" textFont="rubik" textColor="primary">
+                <Text
+                  textType="heading-lg"
+                  textFont="rubik"
+                  textColor="primary"
+                >
                   Nice! Next, fill in some information on yourself:
                 </Text>
               )}
               {page === 2 && (
-                <Text textType="heading-lg" textFont="rubik" textColor="primary">
+                <Text
+                  textType="heading-lg"
+                  textFont="rubik"
+                  textColor="primary"
+                >
                   What's your email?
                 </Text>
               )}
               {page === 3 && (
-                <Text textType="heading-lg" textFont="rubik" textColor="primary">
+                <Text
+                  textType="heading-lg"
+                  textFont="rubik"
+                  textColor="primary"
+                >
                   Where are you located?
                 </Text>
               )}
               {page === 4 && (
                 <>
-                  <Text textType="heading-lg" textFont="rubik" textColor="primary" className="ml-[5px]">
+                  <Text
+                    textType="heading-lg"
+                    textFont="rubik"
+                    textColor="primary"
+                    className="ml-[5px]"
+                  >
                     Emergency Information
                   </Text>
-                  <Text textType="paragraph-sm" textFont="rubik" textColor="primary" className="ml-[5px]">
-                  Your safety is our priority. In the case of an emergency, this person will be contacted. We respect your privacy and guarantee that this information will be only be accessed by authorized personnel.                  </Text>
+                  <Text
+                    textType="paragraph-sm"
+                    textFont="rubik"
+                    textColor="primary"
+                    className="ml-[5px]"
+                  >
+                    Your safety is our priority. In the case of an emergency,
+                    this person will be contacted. We respect your privacy and
+                    guarantee that this information will be only be accessed by
+                    authorized personnel.{" "}
+                  </Text>
                 </>
               )}
             </div>
@@ -52,45 +83,65 @@ export default function AboutYou() {
             <div className="flex flex-col gap-1 w-full">
               {page === 1 && (
                 <>
-                  <Text textType="paragraph-sm" textFont="rubik" textColor="primary" className="ml-[10px]">
+                  <Text
+                    textType="paragraph-sm"
+                    textFont="rubik"
+                    textColor="primary"
+                    className="ml-[10px]"
+                  >
                     Your full name*
                   </Text>
-                  <Input placeholder="John Doe"/>
+                  <Input placeholder="John Doe" />
                 </>
               )}
 
               {page === 2 && (
                 <>
-                  <Input placeholder="john.doe@university.com"/>
+                  <Input placeholder="john.doe@university.com" />
                   <div className="ml-2 py-2">
-                    <Checkbox label="I give permission to Hack the 6ix for sending me emails containing information from the event sponsors. " />
+                    <Checkbox textColor={"#08566B"} backgroundColor="#B3E9FC" checked={checked} onChange={() => setChecked(!checked)} label="I give permission to Hack the 6ix for sending me emails containing information from the event sponsors. " />
                   </div>
                 </>
               )}
 
               {page === 3 && (
                 <>
-                  <Text textType="paragraph-sm" textFont="rubik" textColor="primary" className="ml-[10px]">
+                  <Text
+                    textType="paragraph-sm"
+                    textFont="rubik"
+                    textColor="primary"
+                    className="ml-[10px]"
+                  >
                     City*
                   </Text>
-                  <Input placeholder="Toronto"/>
+                  <Input placeholder="Toronto" />
                   <div className="flex gap-4">
                     <div className="w-1/2">
-                      <Text textType="paragraph-sm" textFont="rubik" textColor="primary" className="ml-[10px]">
+                      <Text
+                        textType="paragraph-sm"
+                        textFont="rubik"
+                        textColor="primary"
+                        className="ml-[10px]"
+                      >
                         Province*
                       </Text>
-                      <Dropdown 
+                      <Dropdown
                         options={CANADIAN_PROVINCES}
-                        onChange={(value) => console.log(value)} 
+                        onChange={(value) => console.log(value)}
                       />
                     </div>
                     <div className="w-1/2">
-                      <Text textType="paragraph-sm" textFont="rubik" textColor="primary" className="ml-[10px]">
+                      <Text
+                        textType="paragraph-sm"
+                        textFont="rubik"
+                        textColor="primary"
+                        className="ml-[10px]"
+                      >
                         Country*
                       </Text>
-                      <Dropdown 
+                      <Dropdown
                         options={[{ label: "Canada", value: "CA" }]}
-                        onChange={(value) => console.log(value)} 
+                        onChange={(value) => console.log(value)}
                       />
                     </div>
                   </div>
@@ -98,42 +149,61 @@ export default function AboutYou() {
               )}
               {page === 4 && (
                 <>
-
                   <div className="flex gap-4">
                     <div className="w-1/2">
-                      <Text textType="paragraph-sm" textFont="rubik" textColor="primary" className="ml-[10px]">
+                      <Text
+                        textType="paragraph-sm"
+                        textFont="rubik"
+                        textColor="primary"
+                        className="ml-[10px]"
+                      >
                         First Name*
                       </Text>
-                      <Input placeholder="Jane"/>
+                      <Input placeholder="Jane" />
                     </div>
                     <div className="w-1/2">
-                      <Text textType="paragraph-sm" textFont="rubik" textColor="primary" className="ml-[10px]">
+                      <Text
+                        textType="paragraph-sm"
+                        textFont="rubik"
+                        textColor="primary"
+                        className="ml-[10px]"
+                      >
                         Last Name*
                       </Text>
-                      <Input placeholder="Doe"/>
+                      <Input placeholder="Doe" />
                     </div>
                   </div>
                   <div className="flex gap-4">
                     <div className="w-1/2">
-                      <Text textType="paragraph-sm" textFont="rubik" textColor="primary" className="ml-[10px]">
+                      <Text
+                        textType="paragraph-sm"
+                        textFont="rubik"
+                        textColor="primary"
+                        className="ml-[10px]"
+                      >
                         Phone Number*
                       </Text>
-                      <Input placeholder="###-###-####"/>
+                      <Input placeholder="###-###-####" />
                     </div>
                     <div className="w-1/2">
-                      <Text textType="paragraph-sm" textFont="rubik" textColor="primary" className="ml-[10px]">
+                      <Text
+                        textType="paragraph-sm"
+                        textFont="rubik"
+                        textColor="primary"
+                        className="ml-[10px]"
+                      >
                         Relationship*
                       </Text>
-                      <Dropdown 
+                      <Dropdown
                         options={[
                           { label: "Parent", value: "parent" },
                           { label: "Guardian", value: "guardian" },
                           { label: "Sibling", value: "sibling" },
                           { label: "Spouse", value: "spouse" },
                           { label: "Friend", value: "friend" },
-                          { label: "Other", value: "other" }
+                          { label: "Other", value: "other" },
                         ]}
-                        onChange={(value) => console.log(value)} 
+                        onChange={(value) => console.log(value)}
                       />
                     </div>
                   </div>
@@ -142,8 +212,8 @@ export default function AboutYou() {
             </div>
 
             <div className="flex flex-row justify-end w-full gap-3">
-              <Button 
-                variant="back" 
+              <Button
+                variant="back"
                 onClick={() => {
                   if (page === 1) {
                     navigate("/apply?section=player");
@@ -154,7 +224,7 @@ export default function AboutYou() {
               >
                 Back
               </Button>
-              <Button 
+              <Button
                 onClick={() => {
                   if (page < 4) {
                     setPage(page + 1);
@@ -185,21 +255,27 @@ export default function AboutYou() {
       />
 
       <img
-        src={shrub_flowerSVG}
-        alt="Shrubs"
-        className="sm:block hidden absolute h-[90px] w-[200px] bottom-[90px] left-[450px]"
+        src={birdlogSVG}
+        alt="bird on log"
+        className="sm:block hidden absolute h-[120px] w-[280px] bottom-[90px] left-[250px]"
       />
 
       <img
-        src={birdSVG}
-        alt="Shrubs"
-        className="sm:block hidden absolute h-[90px] w-[200px] bottom-[90px] left-[300px]"
+        src={cliffSVG}
+        alt="cliff"
+        className="sm:block hidden absolute h-[600px]  bottom-[27px] right-[0px]"
       />
 
       <img
-        src={shrub_flowerSVG}
-        alt="Shrubs"
-        className="sm:block hidden absolute h-[90px] w-[200px] bottom-[90px] right-[150px]"
+        src={PLAYER_IMAGES[selectedSkin][selectedItem]}
+        alt="Player"
+        className=" absolute sm:h-[140px] h-[70px] sm:bottom-[85px] sm:right-[200px] right-[100px] bottom-[35px]"
+      />
+
+      <img
+        src={appleSVG}
+        alt="Apple"
+        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[150px] right-[70px] w-[35px] h-[35px] bottom-[38px]  animate-bounce-custom"
       />
     </div>
   );

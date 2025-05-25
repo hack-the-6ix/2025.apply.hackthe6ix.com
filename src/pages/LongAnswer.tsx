@@ -39,7 +39,7 @@ export default function LongAnswer() {
       case 2:
         return (
           <div className="flex flex-col gap-4">
-            <Text textType="heading-lg" textFont="rubik" textColor="white">
+            <Text textType="heading-lg" textFont="rubik" textColor="white" className="mt-12">
               What is one project you were proud of? What tools and methods did you use to complete it?*
             </Text>
             <TextArea
@@ -102,7 +102,7 @@ export default function LongAnswer() {
                 />
               </div>
               <div className="flex justify-end w-full">
-                <ProgressBar numSteps={3} currPage={page} />
+                <ProgressBar darkMode={true} numSteps={3} currPage={page} />
               </div>
             </div>
           </div>

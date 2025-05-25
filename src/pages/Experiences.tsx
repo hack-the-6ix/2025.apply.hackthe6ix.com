@@ -225,9 +225,10 @@ export default function Experiences() {
             <div className="flex flex-col gap-4 w-full">
               <div className="flex flex-row justify-end w-full gap-3">
                 {page > 1 && (
-                  <Button variant="back" onClick={() => setPage(page - 1)} />
+                  <Button variant="back" onClick={() => setPage(page - 1)} darkMode={true}/>
                 )}
                 <Button
+                darkMode={true}
                   onClick={() => {
                     if (page < 5) {
                       setPage(page + 1);
@@ -242,7 +243,7 @@ export default function Experiences() {
                 />
               </div>
               <div className="flex justify-end w-full">
-                <ProgressBar numSteps={5} currPage={page} />
+                <ProgressBar darkMode={true} numSteps={5} currPage={page} />
               </div>
             </div>
           </div>

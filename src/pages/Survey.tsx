@@ -189,9 +189,10 @@ export default function Survey() {
             <div className="flex flex-col gap-4 w-full">
               <div className="flex flex-row justify-end w-full gap-3">
                 {page > 1 && (
-                  <Button variant="back" onClick={() => setPage(page - 1)} />
+                  <Button darkMode={true} variant="back" onClick={() => setPage(page - 1)} />
                 )}
                 <Button
+                darkMode={true}
                   onClick={() => {
                     if (page < 5) {
                       setPage(page + 1);
@@ -206,7 +207,7 @@ export default function Survey() {
                 />
               </div>
               <div className="flex justify-end w-full">
-                <ProgressBar numSteps={5} currPage={page} />
+                <ProgressBar darkMode={true}  numSteps={5} currPage={page} />
               </div>
             </div>
           </div>

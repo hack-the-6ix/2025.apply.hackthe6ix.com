@@ -5,19 +5,21 @@ import { FaArrowLeft } from "react-icons/fa6";
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "next" | "back";
   children?: React.ReactNode;
+  darkMode?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
   variant = "next",
   children,
   className = "",
+  darkMode = false,
   ...props
 }) => {
-  const baseStyles = "rounded-md px-4 py-2 font-semibold transition sm:w-[110px] h-[44px] w-full border border-[#00887E] flex items-center justify-center";
+  const baseStyles = `rounded-md px-4 py-2 font-semibold transition sm:w-[110px] h-[44px] w-full border flex items-center justify-center`;
   const variantStyles =
     variant === "back"
-      ? "bg-transparent text-[#00887E] hover:bg-[#00887E] hover:text-white"
-      : "bg-[#00887E] text-white hover:bg-transparent hover:text-[#00887E]";
+      ? `bg-transparent text-[#00887E] hover:bg-[#00887E] hover:border-transparent hover:text-white  ${darkMode ? "border-white text-white" : "border-[#00887E]"}`
+      : `bg-[#00887E] border-transparent text-white hover:bg-transparent ${darkMode ? "text-white hover:text-white hover:border-white" : "hover:border-[#00887E] hover:text-[#00887E]"}`;
 
       if (children){
         return (
