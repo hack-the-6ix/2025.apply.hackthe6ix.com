@@ -1,15 +1,217 @@
-import Input from '../components/Input/Input';
+import { useState } from 'react';
 import Text from '../components/Text/Text';
+import Dropdown from '../components/Dropdown/Dropdown';
+import Input from '../components/Input/Input';
+import Checkbox from '../components/Checkbox/Checkbox';
+import Button from '../components/Button/Button';
+import ProgressBar from '../components/ProgressBar/ProgressBar';
+import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { Context } from '../components/ContextProvider';
+
+const WORKSHOPS = [
+  { label: "Basics in Python", value: "python1" },
+  { label: "Basics in Python", value: "python2" },
+  { label: "Basics in Python", value: "python3" },
+  { label: "Basics in Python", value: "python4" },
+  { label: "Basics in Python", value: "python5" },
+  { label: "Basics in Python", value: "python6" },
+  { label: "Basics in Python", value: "python7" },
+  { label: "Basics in Python", value: "python8" },
+  { label: "Basics in Python", value: "python9" },
+  { label: "Basics in Python", value: "python10" },
+  { label: "Basics in Python", value: "python11" },
+  { label: "Basics in Python", value: "python12" },
+];
+
+const TSHIRT_SIZES = [
+  { label: "XS", value: "xs" },
+  { label: "S", value: "s" },
+  { label: "M", value: "m" },
+  { label: "L", value: "l" },
+  { label: "XL", value: "xl" },
+  { label: "XXL", value: "xxl" },
+];
 
 export default function Survey() {
+  const navigate = useNavigate();
+  const { setCompletedSection, completedSection } = useContext(Context);
+  const [page, setPage] = useState(1);
+  const [selectedWorkshops, setSelectedWorkshops] = useState<string[]>([]);
+  const [tshirtSize, setTshirtSize] = useState("");
+  const [dietaryRestrictions, setDietaryRestrictions] = useState("");
+  const [allergies, setAllergies] = useState("");
+  const [gender, setGender] = useState("");
+  const [ethnicity, setEthnicity] = useState("");
+  const [permission1, setPermission1] = useState(false);
+  const [permission2, setPermission2] = useState(false);
+
+  const handleWorkshopToggle = (value: string) => {
+    if (selectedWorkshops.includes(value)) {
+      setSelectedWorkshops(selectedWorkshops.filter(v => v !== value));
+    } else if (selectedWorkshops.length < 3) {
+      setSelectedWorkshops([...selectedWorkshops, value]);
+    }
+  };
+
+  const renderPage = () => {
+    switch (page) {
+      case 1:
+        return (
+          <div className="flex flex-col gap-4">
+            <Text textType="heading-lg" textFont="rubik" textColor="white">
+              Please choose 3 workshops that you are interested in.*
+            </Text>
+            <div className="grid grid-cols-3 gap-4">
+              {WORKSHOPS.map((workshop) => (
+                <Checkbox
+                  key={workshop.value}
+                  checked={selectedWorkshops.includes(workshop.value)}
+                  onChange={() => handleWorkshopToggle(workshop.value)}
+                  label={workshop.label}
+                  backgroundColor="#656B8C"
+                  textColor="white"
+                />
+              ))}
+            </div>
+          </div>
+        );
+      case 2:
+        return (
+          <div className="flex flex-col gap-4">
+            <Text textType="heading-lg" textFont="rubik" textColor="white">
+              What's your t-shirt size?*
+            </Text>
+            <Dropdown
+              options={TSHIRT_SIZES}
+              onChange={setTshirtSize}
+              placeholder="Select your t-shirt size"
+              backgroundColor="#646989"
+              textColor="white"
+              menuBackgroundColor="#646989"
+              menuTextColor="white"
+            />
+          </div>
+        );
+      case 3:
+        return (
+          <div className="flex flex-col gap-4">
+            <Text textType="heading-lg" textFont="rubik" textColor="white">
+              Please specify any dietary restrictions and/or allergies you have.
+            </Text>
+            <div className="flex flex-row gap-4">
+              <div className="w-1/2">
+                <Input
+                  value={dietaryRestrictions}
+                  onChange={(e) => setDietaryRestrictions(e.target.value)}
+                  placeholder="Dietary restrictions..."
+                  backgroundColor="#646989"
+                  textColor="white"
+                />
+              </div>
+              <div className="w-1/2">
+                <Input
+                  value={allergies}
+                  onChange={(e) => setAllergies(e.target.value)}
+                  placeholder="Allergies..."
+                  backgroundColor="#646989"
+                  textColor="white"
+                />
+              </div>
+            </div>
+          </div>
+        );
+      case 4:
+        return (
+          <div className="flex flex-col gap-4">
+            <Text textType="heading-lg" textFont="rubik" textColor="white">
+              Please specify your gender and background:
+            </Text>
+            <div className="flex flex-row gap-4">
+              <div className="w-1/2">
+                <Input
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                  placeholder="Gender..."
+                  backgroundColor="#646989"
+                  textColor="white"
+                />
+              </div>
+              <div className="w-1/2">
+                <Input
+                  value={ethnicity}
+                  onChange={(e) => setEthnicity(e.target.value)}
+                  placeholder="Ethnicity..."
+                  backgroundColor="#646989"
+                  textColor="white"
+                />
+              </div>
+            </div>
+          </div>
+        );
+      case 5:
+        return (
+          <div className="flex flex-col gap-4">
+            <Text textType="heading-lg" textFont="rubik" textColor="white">
+              Final step: we need your permission!
+            </Text>
+            <div className="flex flex-col gap-4">
+              <Checkbox
+                checked={permission1}
+                onChange={setPermission1}
+                label="I give permission to Hack the 6ix to use my information for the purpose of the event."
+                backgroundColor="#475D7B"
+                textColor="white"
+              />
+              <Checkbox
+                checked={permission2}
+                onChange={setPermission2}
+                label="I give permission to Hack the 6ix to share my information with our sponsors."
+                backgroundColor="#475D7B"
+                textColor="white"
+              />
+            </div>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#21293C] via-[#60639D] to-[#DF6369]  h-[100vh] w-full flex flex-col justify-center items-center text-center">
-      <div>
-        <Text textType="heading-lg" textFont="rubik" textColor="white">
-          Please choose 3 workshops
-        </Text>
-        <Input placeholder="long answer" />
+    <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#21293C] via-[#60639D] to-[#DF6369] h-[100vh] w-full flex flex-col justify-center items-start">
+      <div className="w-full h-full flex items-center justify-start px-4 py-8 overflow-hidden">
+        <div className="flex flex-col items-start justify-center gap-12 w-full max-w-[1200px] ml-[158px] -mt-[100px]">
+          <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
+            <div className="flex flex-col gap-4 w-full">
+              {renderPage()}
+            </div>
+            <div className="flex flex-col gap-4 w-full">
+              <div className="flex flex-row justify-end w-full gap-3">
+                {page > 1 && (
+                  <Button variant="back" onClick={() => setPage(page - 1)} />
+                )}
+                <Button
+                  onClick={() => {
+                    if (page < 5) {
+                      setPage(page + 1);
+                    } else {
+                      const updateCompleted = completedSection.map((val, i) =>
+                        i === 3 ? true : val
+                      );
+                      setCompletedSection(updateCompleted);
+                      navigate("/apply?section=review");
+                    }
+                  }}
+                />
+              </div>
+              <div className="flex justify-end w-full">
+                <ProgressBar numSteps={5} currPage={page} />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    /</div>
+    </div>
   );
 }

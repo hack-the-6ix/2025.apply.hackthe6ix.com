@@ -1,14 +1,112 @@
-import Input from '../components/Input/Input';
+import { useState } from 'react';
 import Text from '../components/Text/Text';
+import TextArea from '../components/TextArea/TextArea';
+import Input from '../components/Input/Input';
+import Button from '../components/Button/Button';
+import ProgressBar from '../components/ProgressBar/ProgressBar';
+import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { Context } from '../components/ContextProvider';
 
 export default function LongAnswer() {
+  const navigate = useNavigate();
+  const { setCompletedSection, completedSection } = useContext(Context);
+  const [page, setPage] = useState(1);
+  const [accomplish, setAccomplish] = useState("");
+  const [project, setProject] = useState("");
+  const [funFact, setFunFact] = useState("");
+
+  const renderPage = () => {
+    switch (page) {
+      case 1:
+        return (
+          <div className="flex flex-col gap-4">
+            <Text textType="heading-lg" textFont="rubik" textColor="white">
+              What would you like to accomplish at Hack the 6ix?*
+            </Text>
+            <TextArea
+              value={accomplish}
+              onChange={(e) => setAccomplish(e.target.value)}
+              placeholder="Tell us what you hope to achieve..."
+              backgroundColor="#3D4759"
+              textColor="white"
+              rows={10}
+              maxWords={200}
+              showWordCount={true}
+            />
+          </div>
+        );
+      case 2:
+        return (
+          <div className="flex flex-col gap-4">
+            <Text textType="heading-lg" textFont="rubik" textColor="white">
+              What is one project you were proud of? What tools and methods did you use to complete it?*
+            </Text>
+            <TextArea
+              value={project}
+              onChange={(e) => setProject(e.target.value)}
+              placeholder="Share your project experience..."
+              backgroundColor="#3D4759"
+              textColor="white"
+              rows={10}
+              maxWords={200}
+              showWordCount={true}
+            />
+          </div>
+        );
+      case 3:
+        return (
+          <div className="flex flex-col gap-4">
+            <Text textType="heading-lg" textFont="rubik" textColor="white">
+              Fun Fact*
+            </Text>
+            <Input
+              value={funFact}
+              onChange={(e) => setFunFact(e.target.value)}
+              placeholder="Share something interesting about yourself..."
+              backgroundColor="#3D4759"
+              textColor="white"
+            />
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#21293C] to-[#06162F] h-[100vh] w-full flex flex-col justify-center items-center text-center">
-      <div>
-        <Text textType="heading-lg" textFont="rubik" textColor="white">
-          What would you like to accomplish?
-        </Text>
-        <Input placeholder="long answer" />
+    <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#21293C] to-[#06162F] h-[100vh] w-full flex flex-col justify-center items-start">
+      <div className="w-full h-full flex items-center justify-start px-4 py-8 overflow-hidden">
+        <div className="flex flex-col items-start justify-center gap-12 w-full max-w-[1200px] ml-[158px] -mt-[100px]">
+          <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
+            <div className="flex flex-col gap-4 w-full">
+              {renderPage()}
+            </div>
+            <div className="flex flex-col gap-4 w-full">
+              <div className="flex flex-row justify-end w-full gap-3">
+                {page > 1 && (
+                  <Button variant="back" onClick={() => setPage(page - 1)} />
+                )}
+                <Button
+                  onClick={() => {
+                    if (page < 3) {
+                      setPage(page + 1);
+                    } else {
+                      const updateCompleted = completedSection.map((val, i) =>
+                        i === 2 ? true : val
+                      );
+                      setCompletedSection(updateCompleted);
+                      navigate("/apply?section=survey");
+                    }
+                  }}
+                />
+              </div>
+              <div className="flex justify-end w-full">
+                <ProgressBar numSteps={3} currPage={page} />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
