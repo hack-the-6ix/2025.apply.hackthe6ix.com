@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
     <nav className="w-full flex flex-row items-center justify-center gap-[96px] absolute top-[55px]">
       {NAV_LINKS.map(({ label, path }, i) => (
         <Link to={path} key={label} className="relative flex items-center gap-1">
-          <Text textType="heading-sm" textWeight="bold" textColor={section == "player" || section == "about" || section == "review" ? "primary": "white"}>
+          <Text textType="heading-sm" textWeight="bold" textColor={section == "player" || section == "about" || section == "review" || section == "player" ? "primary": "white"}>
             {label}
           </Text>
           {!completedSection[i] && (

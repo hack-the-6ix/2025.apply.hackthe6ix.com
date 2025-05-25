@@ -15,8 +15,6 @@ import { CANADIAN_PROVINCES } from '../constants/locations';
 export default function AboutYou() {
   const navigate = useNavigate();
   const {setCompletedSection, completedSection} = useContext(Context);
-  const [skinChoice, setSkinChoice] = useState(0);
-  const [itemChoice, setItemChoice] = useState(0);
   const [page, setPage] = useState(1);
 
   return (
@@ -148,7 +146,7 @@ export default function AboutYou() {
                 variant="back" 
                 onClick={() => {
                   if (page === 1) {
-                    navigate("/apply?section=playerselect");
+                    navigate("/apply?section=player");
                   } else {
                     setPage(page - 1);
                   }
@@ -162,7 +160,7 @@ export default function AboutYou() {
                     setPage(page + 1);
                   } else {
                     const updateCompleted = completedSection.map((val, i) =>
-                      i === 1 ? true : val
+                      i === 0 ? true : val
                     );
                     setCompletedSection(updateCompleted);
                     navigate("/apply?section=experience");
