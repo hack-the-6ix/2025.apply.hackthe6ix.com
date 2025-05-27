@@ -36,9 +36,7 @@ function Application() {
           />
         ))}
       </div>
-      <div className="sm:block hidden">
-        <Navbar />
-      </div>
+      <Navbar />
       {CurrentPage}
     </div>
   );
