@@ -23,9 +23,9 @@ export default function AboutYou() {
   const [page, setPage] = useState(1);
 
   return (
-    <div className="overflow-hidden bg-linear-to-b from-[#ACDCFD] via-[#B3E9FC] to-[#B9F2FC] h-[100vh] w-full">
-      <div className="w-full h-full flex items-center justify-center px-4 py-8 overflow-hidden">
-        <div className="flex flex-col items-start justify-center gap-12 w-full max-w-[1200px] ml-[158px] -mt-[100px]">
+    <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#ACDCFD] via-[#B3E9FC] to-[#B9F2FC]  h-[100vh] w-full flex flex-col justify-center items-start">
+      <div className="w-full h-full flex items-center justify-start px-4 py-8 overflow-hidden">
+        <div className="flex flex-col items-start justify-center gap-12 w-full max-w-[1200px] sm:ml-[158px] -mt-[100px]">
           <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
             <div className="flex flex-col gap-4 py-4">
               {page === 1 && (
