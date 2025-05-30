@@ -146,7 +146,7 @@ export default function LongAnswer() {
       <img
         src={firefly}
         alt="firefly"
-        className="sm:block hidden absolute bottom-[140px] left-[100px]"
+        className="sm:block hidden absolute bottom-[140px] left-[100px] animate-float"
       />
       <img
         src={pine_tree}
@@ -181,12 +181,12 @@ export default function LongAnswer() {
       <img
         src={firefly}
         alt="firefly"
-        className="sm:block hidden absolute bottom-[45px] right-[230px]"
+        className="sm:block hidden absolute bottom-[45px] right-[230px] animate-float"
       />
       <img
         src={firefly}
         alt="firefly"
-        className="sm:block hidden absolute bottom-[200px] right-[30px]"
+        className="sm:block hidden absolute bottom-[200px] right-[30px] animate-float"
       />
       <img
         src={cloud2}
