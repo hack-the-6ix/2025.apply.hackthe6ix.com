@@ -1,3 +1,15 @@
+import blobSVG from "../assets/blob.svg";
+import centipedeSVG from "../assets/centi.svg";
+import rock1SVG from "../assets/rock1.svg";
+import rock2SVG from "../assets/rock2.svg";
+import rock3SVG from "../assets/rock3.svg";
+import mushroomSVG from "../assets/mushroom.svg";
+import appleSVG from "../assets/apple.svg";
+import p12 from "../assets/players/12.png";
+import bat from "../assets/bat.svg";
+import corner_rocks from "../assets/corner_rocks.svg";
+import corner_rocks2 from "../assets/corner_rocks2.svg";
+
 import { useState } from 'react';
 import Input from '../components/Input/Input';
 import Text from '../components/Text/Text';
@@ -249,6 +261,78 @@ export default function Experiences() {
           </div>
         </div>
       </div>
+
+
+      <img
+        src={blobSVG}
+        alt="blob"
+        className="sm:block hidden absolute h-[80px] w-[80px] bottom-[120px] left-[25px] z-[1]"
+      />
+      <img
+        src={rock1SVG}
+        alt="rock1"
+        className="sm:block hidden absolute h-[80px] w-[80px] bottom-[90px] left-[85px]"
+      />
+      <img
+        src={rock2SVG}
+        alt="rock2"
+        className="sm:block hidden absolute h-[80px] w-[80px] bottom-[70px] left-[25px]"
+      />
+      <img
+        src={rock3SVG}
+        alt="rock3"
+        className="sm:block hidden absolute h-[80px] w-[80px] bottom-[70px] left-[150px]"
+      />
+      <img 
+        src={centipedeSVG}
+        alt="centipede"
+        className="sm:block hidden absolute h-[100px] w-[100px] bottom-[50px] left-[170px]"
+      />
+      <img
+        src={mushroomSVG}
+        alt="mushroom"
+        className="sm:block hidden absolute h-[30] w-[30] bottom-[100px] right-[300px]"
+      />
+      <img
+        src={p12}
+        alt="p12"
+        className="sm:block hidden absolute h-[140px] w-[140px] bottom-[100px] right-[185px]"
+      />
+      <img
+        src={appleSVG}
+        alt="apple"
+        className="sm:block hidden absolute h-[70px] w-[70px] bottom-[100px] right-[150px]"
+      />
+      <img
+        src={rock3SVG}
+        alt="rock3"
+        className="sm:block hidden absolute h-[30] w-[30] bottom-[80px] right-[60px]"
+      />
+      <img
+        src={mushroomSVG}
+        alt="mushroom"
+        className="sm:block hidden absolute h-[30] w-[30] bottom-[130px] right-[80px] z-[1]"
+      />
+      <img
+        src={mushroomSVG}
+        alt="mushroom"
+        className="sm:block hidden absolute h-[30] w-[30] bottom-[130px] right-[80px] z-[1]"
+      />
+      <img
+        src={bat}
+        alt="bat"
+        className="sm:block hidden absolute h-[30] w-[30] top-[180px] right-[180px] z-[1]"
+      />
+      <img
+        src={corner_rocks}
+        alt="corner_rocks"
+        className="sm:block hidden absolute h-[30] w-[30] top-[0px] right-[0px]"
+      />
+      <img
+        src={corner_rocks2}
+        alt="corner_rocks"
+        className="sm:block hidden absolute h-[30] w-[30] top-[0px] left-[0px]"
+      />
     </div>
   );
 }
