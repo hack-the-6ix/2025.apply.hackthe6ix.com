@@ -301,7 +301,7 @@ export default function Experiences() {
       <img
         src={appleSVG}
         alt="apple"
-        className="sm:block hidden absolute h-[70px] w-[70px] bottom-[100px] right-[150px]"
+        className="sm:block hidden absolute h-[70px] w-[70px] bottom-[100px] right-[150px] animate-bounce-custom"
       />
       <img
         src={rock3SVG}
@@ -321,7 +321,7 @@ export default function Experiences() {
       <img
         src={bat}
         alt="bat"
-        className="sm:block hidden absolute h-[30] w-[30] top-[180px] right-[180px] z-[1]"
+        className="sm:block hidden absolute h-[30] w-[30] top-[180px] right-[180px] z-[1] animate-bounce-custom"
       />
       <img
         src={corner_rocks}

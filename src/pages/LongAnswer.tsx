@@ -1,3 +1,12 @@
+import cloud from "../assets/cloud.svg"
+import cloud_group from "../assets/cloud_group.svg"
+import firefly from "../assets/firefly.svg"
+import pine_tree from "../assets/pine_tree.svg"
+import corner_rock3 from "../assets/corner_rock3.svg"
+import p12 from "../assets/players/12.png"
+import apple from "../assets/apple.svg"
+import cloud2 from "../assets/cloud2.svg"
+
 import { useState } from 'react';
 import Text from '../components/Text/Text';
 import TextArea from '../components/TextArea/TextArea';
@@ -108,6 +117,82 @@ export default function LongAnswer() {
           </div>
         </div>
       </div>
+
+      <img
+        src={corner_rock3}
+        alt="corner_rocks"
+        className="sm:block hidden absolute h-[30] w-[30] top-[15px] left-[0px]"
+      />
+      <img
+        src={pine_tree}
+        alt="corner_rocks"
+        className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] left-[0px] z-[1]"
+      />
+      <img
+        src={cloud}
+        alt="cloud"
+        className="sm:block hidden absolute bottom-[120px] left-[-200px]"
+      />
+      <img
+        src={pine_tree}
+        alt="corner_rocks"
+        className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] left-[220px]"
+      />
+      <img
+        src={cloud}
+        alt="cloud"
+        className="sm:block hidden absolute bottom-[120px] left-[240px]"
+      />
+      <img
+        src={firefly}
+        alt="firefly"
+        className="sm:block hidden absolute bottom-[140px] left-[100px]"
+      />
+      <img
+        src={pine_tree}
+        alt="corner_rocks"
+        className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] right-[140px]"
+      />
+      <img
+        src={pine_tree}
+        alt="corner_rocks"
+        className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] right-[-70px]"
+      />
+      <img
+        src={pine_tree}
+        alt="corner_rocks"
+        className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] right-[-170px]"
+      />
+      <img
+        src={cloud_group}
+        alt="cloud_group"
+        className="sm:block hidden absolute h-[350px] w-[350px] top-[80px] right-[0]"
+      />
+      <img
+        src={p12}
+        alt="p12"
+        className="sm:block hidden absolute h-[140px] w-[140px] bottom-[90px] right-[185px]"
+      />
+      <img
+        src={apple}
+        alt="apple"
+        className="sm:block hidden absolute bottom-[90px] right-[150px] animate-bounce-custom"
+      />
+      <img
+        src={firefly}
+        alt="firefly"
+        className="sm:block hidden absolute bottom-[45px] right-[230px]"
+      />
+      <img
+        src={firefly}
+        alt="firefly"
+        className="sm:block hidden absolute bottom-[200px] right-[30px]"
+      />
+      <img
+        src={cloud2}
+        alt="cloud2"
+        className="sm:block hidden absolute bottom-[100px] right-[0]"
+      />
     </div>
   );
 }
