@@ -1,3 +1,12 @@
+import brickhouse from "../assets/brickhouse.svg"
+import pinetree from "../assets/pine_tree.svg"
+import campfire from "../assets/campfire.svg"
+import apple from "../assets/apple.svg"
+import bookgirl from "../assets/bookgirl.svg"
+import firefly from "../assets/firefly.svg"
+import cloud from "../assets/cloud.svg"
+import cloudgroup2 from "../assets/cloudgroup2.svg"
+
 import { useState } from 'react';
 import Text from '../components/Text/Text';
 import Dropdown from '../components/Dropdown/Dropdown';
@@ -213,6 +222,52 @@ export default function Survey() {
           </div>
         </div>
       </div>
+
+      <img
+        src={brickhouse}
+        alt="brickhouse"
+        className="sm:block hidden absolute h-[140px] w-[140px] bottom-[90px] right-[-32px]"
+      />
+      <img
+        src={bookgirl}
+        alt="bookgirl"
+        className="sm:block hidden absolute h-[140px] w-[140px] bottom-[90px] right-[135px]"
+      />
+      <img
+        src={apple}
+        alt="apple"
+        className="sm:block hidden absolute bottom-[90px] right-[90px]"
+      />
+      <img
+        src={campfire}
+        alt="campfire"
+        className="sm:block hidden absolute bottom-[80px] right-[250px]"
+      />
+      <img
+        src={firefly}
+        alt="firefly"
+        className="sm:block hidden absolute bottom-[30px] right-[270px] animate-float"
+      />
+      <img
+        src={firefly}
+        alt="firefly"
+        className="sm:block hidden absolute bottom-[70px] right-[170px] animate-float"
+      />
+      <img
+        src={pinetree}
+        alt="pinetree"
+        className="sm:block hidden absolute h-[250px] w-[250px] bottom-[70px] left-[-60px] z-[1]"
+      />
+      <img
+        src={cloud}
+        alt="cloud"
+        className="sm:block hidden absolute bottom-[140px] left-[-200px]"
+      />
+      <img
+        src={cloudgroup2}
+        alt="cloud"
+        className="sm:block hidden absolute top-[240px] right-[-0px]"
+      />
     </div>
   );
 }

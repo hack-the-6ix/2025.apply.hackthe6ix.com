@@ -85,7 +85,7 @@ export default function LongAnswer() {
 
   return (
     <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#21293C] to-[#06162F] h-[100vh] w-full flex flex-col justify-center items-start">
-      <div className="w-full h-full flex items-center justify-start px-4 py-8 overflow-hidden">
+      <div className="w-full h-full flex items-center justify-start px-4 py-8 overflow-hidden relative z-10">
         <div className="flex flex-col items-start justify-center gap-12 w-full max-w-[1200px] sm:ml-[158px] -mt-[100px]">
           <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
             <div className="flex flex-col gap-4 w-full">
@@ -94,9 +94,10 @@ export default function LongAnswer() {
             <div className="flex flex-col gap-4 w-full">
               <div className="flex flex-row justify-end w-full gap-3">
                 {page > 1 && (
-                  <Button variant="back" onClick={() => setPage(page - 1)} />
+                  <Button variant="back" onClick={() => setPage(page - 1)} darkMode={true} />
                 )}
                 <Button
+                  darkMode={true}
                   onClick={() => {
                     if (page < 3) {
                       setPage(page + 1);
