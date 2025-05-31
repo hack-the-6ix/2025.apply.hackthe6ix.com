@@ -5,10 +5,10 @@ import rock2SVG from "../assets/rock2.svg";
 import rock3SVG from "../assets/rock3.svg";
 import mushroomSVG from "../assets/mushroom.svg";
 import appleSVG from "../assets/apple.svg";
-import p12 from "../assets/players/12.png";
 import bat from "../assets/bat.svg";
 import corner_rocks from "../assets/corner_rocks.svg";
 import corner_rocks2 from "../assets/corner_rocks2.svg";
+import { PLAYER_IMAGES } from "../constants/images";
 
 import { useState } from 'react';
 import Input from '../components/Input/Input';
@@ -56,7 +56,8 @@ const HACKATHON_EXPERIENCE = [
 
 export default function Experiences() {
   const navigate = useNavigate();
-  const { setCompletedSection, completedSection } = useContext(Context);
+  const { setCompletedSection, completedSection, selectedItem, selectedSkin } =
+    useContext(Context);
   const [page, setPage] = useState(1);
   const [school, setSchool] = useState("");
   const [year, setYear] = useState("");
@@ -236,8 +237,10 @@ export default function Experiences() {
             </div>
             <div className="flex flex-col gap-4 w-full">
               <div className="flex flex-row justify-end w-full gap-3">
-                {page > 1 && (
+                {page > 1 ? (
                   <Button variant="back" onClick={() => setPage(page - 1)} darkMode={true}/>
+                ) : (
+                  <Button variant="back" onClick={() => navigate("/apply?section=about")} darkMode={true}/>
                 )}
                 <Button
                 darkMode={true}
@@ -294,14 +297,14 @@ export default function Experiences() {
         className="sm:block hidden absolute h-[30] w-[30] bottom-[100px] right-[300px]"
       />
       <img
-        src={p12}
-        alt="p12"
-        className="sm:block hidden absolute h-[140px] w-[140px] bottom-[100px] right-[185px]"
+        src={PLAYER_IMAGES[selectedSkin][selectedItem]}
+        alt="Player"
+        className=" absolute sm:h-[140px] h-[70px] sm:bottom-[85px] sm:right-[200px] right-[100px] bottom-[35px]"
       />
       <img
         src={appleSVG}
-        alt="apple"
-        className="sm:block hidden absolute h-[70px] w-[70px] bottom-[100px] right-[150px] animate-bounce-custom"
+        alt="Apple"
+        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[150px] right-[70px] w-[35px] h-[35px] bottom-[38px]  animate-bounce-custom"
       />
       <img
         src={rock3SVG}

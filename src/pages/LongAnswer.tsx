@@ -3,7 +3,7 @@ import cloud_group from "../assets/cloud_group.svg"
 import firefly from "../assets/firefly.svg"
 import pine_tree from "../assets/pine_tree.svg"
 import corner_rock3 from "../assets/corner_rock3.svg"
-import p12 from "../assets/players/12.png"
+import { PLAYER_IMAGES } from "../constants/images";
 import apple from "../assets/apple.svg"
 import cloud2 from "../assets/cloud2.svg"
 
@@ -19,7 +19,8 @@ import { Context } from '../components/ContextProvider';
 
 export default function LongAnswer() {
   const navigate = useNavigate();
-  const { setCompletedSection, completedSection } = useContext(Context);
+  const { setCompletedSection, completedSection, selectedItem, selectedSkin } =
+    useContext(Context);
   const [page, setPage] = useState(1);
   const [accomplish, setAccomplish] = useState("");
   const [project, setProject] = useState("");
@@ -93,8 +94,10 @@ export default function LongAnswer() {
             </div>
             <div className="flex flex-col gap-4 w-full">
               <div className="flex flex-row justify-end w-full gap-3">
-                {page > 1 && (
+                {page > 1 ? (
                   <Button variant="back" onClick={() => setPage(page - 1)} darkMode={true} />
+                ) : (
+                  <Button variant="back" onClick={() => navigate("/apply?section=experience")} darkMode={true} />
                 )}
                 <Button
                   darkMode={true}
@@ -170,14 +173,14 @@ export default function LongAnswer() {
         className="sm:block hidden absolute h-[350px] w-[350px] top-[80px] right-[0]"
       />
       <img
-        src={p12}
-        alt="p12"
-        className="sm:block hidden absolute h-[140px] w-[140px] bottom-[90px] right-[185px]"
+        src={PLAYER_IMAGES[selectedSkin][selectedItem]}
+        alt="Player"
+        className=" absolute sm:h-[140px] h-[70px] sm:bottom-[85px] sm:right-[200px] right-[100px] bottom-[35px]"
       />
       <img
         src={apple}
-        alt="apple"
-        className="sm:block hidden absolute bottom-[90px] right-[150px] animate-bounce-custom"
+        alt="Apple"
+        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[150px] right-[70px] w-[35px] h-[35px] bottom-[38px]  animate-bounce-custom"
       />
       <img
         src={firefly}

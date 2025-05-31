@@ -2,7 +2,7 @@ import brickhouse from "../assets/brickhouse.svg"
 import pinetree from "../assets/pine_tree.svg"
 import campfire from "../assets/campfire.svg"
 import apple from "../assets/apple.svg"
-import bookgirl from "../assets/bookgirl.svg"
+import { PLAYER_IMAGES } from "../constants/images";
 import firefly from "../assets/firefly.svg"
 import cloud from "../assets/cloud.svg"
 import cloudgroup2 from "../assets/cloudgroup2.svg"
@@ -44,7 +44,8 @@ const TSHIRT_SIZES = [
 
 export default function Survey() {
   const navigate = useNavigate();
-  const { setCompletedSection, completedSection } = useContext(Context);
+  const { setCompletedSection, completedSection, selectedItem, selectedSkin } =
+    useContext(Context);
   const [page, setPage] = useState(1);
   const [selectedWorkshops, setSelectedWorkshops] = useState<string[]>([]);
   const [tshirtSize, setTshirtSize] = useState("");
@@ -197,8 +198,10 @@ export default function Survey() {
             </div>
             <div className="flex flex-col gap-4 w-full">
               <div className="flex flex-row justify-end w-full gap-3">
-                {page > 1 && (
+                {page > 1 ? (
                   <Button darkMode={true} variant="back" onClick={() => setPage(page - 1)} />
+                ) : (
+                  <Button darkMode={true} variant="back" onClick={() => navigate("/apply?section=long-answer")} />
                 )}
                 <Button
                 darkMode={true}
@@ -229,14 +232,14 @@ export default function Survey() {
         className="sm:block hidden absolute h-[140px] w-[140px] bottom-[90px] right-[-32px]"
       />
       <img
-        src={bookgirl}
-        alt="bookgirl"
-        className="sm:block hidden absolute h-[140px] w-[140px] bottom-[90px] right-[135px]"
+        src={PLAYER_IMAGES[selectedSkin][selectedItem]}
+        alt="Player"
+        className=" absolute sm:h-[140px] h-[70px] sm:bottom-[85px] sm:right-[120px] right-[100px] bottom-[35px]"
       />
       <img
         src={apple}
-        alt="apple"
-        className="sm:block hidden absolute bottom-[90px] right-[90px]"
+        alt="Apple"
+        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[80px] right-[70px] w-[35px] h-[35px] bottom-[38px]  animate-bounce-custom"
       />
       <img
         src={campfire}
