@@ -44,17 +44,19 @@ const TSHIRT_SIZES = [
 
 export default function Survey() {
   const navigate = useNavigate();
-  const { setCompletedSection, completedSection, selectedItem, selectedSkin } =
+  const { setCompletedSection, completedSection, selectedItem, selectedSkin, formData, setFormData } =
     useContext(Context);
   const [page, setPage] = useState(1);
-  const [selectedWorkshops, setSelectedWorkshops] = useState<string[]>([]);
-  const [tshirtSize, setTshirtSize] = useState("");
-  const [dietaryRestrictions, setDietaryRestrictions] = useState("");
-  const [allergies, setAllergies] = useState("");
-  const [gender, setGender] = useState("");
-  const [ethnicity, setEthnicity] = useState("");
-  const [permission1, setPermission1] = useState(false);
-  const [permission2, setPermission2] = useState(false);
+  
+  // Initialize state from context
+  const [selectedWorkshops, setSelectedWorkshops] = useState<string[]>(formData?.selectedWorkshops || []);
+  const [tshirtSize, setTshirtSize] = useState(formData?.tshirtSize || "");
+  const [dietaryRestrictions, setDietaryRestrictions] = useState(formData?.dietaryRestrictions || "");
+  const [allergies, setAllergies] = useState(formData?.allergies || "");
+  const [gender, setGender] = useState(formData?.gender || "");
+  const [ethnicity, setEthnicity] = useState(formData?.ethnicity || "");
+  const [permission1, setPermission1] = useState(formData?.permission1 || false);
+  const [permission2, setPermission2] = useState(formData?.permission2 || false);
 
   const handleWorkshopToggle = (value: string) => {
     if (selectedWorkshops.includes(value)) {
@@ -62,6 +64,20 @@ export default function Survey() {
     } else if (selectedWorkshops.length < 3) {
       setSelectedWorkshops([...selectedWorkshops, value]);
     }
+  };
+
+  const updateFormData = () => {
+    setFormData({
+      ...formData,
+      selectedWorkshops,
+      tshirtSize,
+      dietaryRestrictions,
+      allergies,
+      gender,
+      ethnicity,
+      permission1,
+      permission2
+    });
   };
 
   const renderPage = () => {
@@ -204,11 +220,12 @@ export default function Survey() {
                   <Button darkMode={true} variant="back" onClick={() => navigate("/apply?section=long-answer")} />
                 )}
                 <Button
-                darkMode={true}
+                  darkMode={true}
                   onClick={() => {
                     if (page < 5) {
                       setPage(page + 1);
                     } else {
+                      updateFormData();
                       const updateCompleted = completedSection.map((val, i) =>
                         i === 3 ? true : val
                       );
@@ -216,10 +233,12 @@ export default function Survey() {
                       navigate("/apply?section=review");
                     }
                   }}
-                />
+                >
+                  Next
+                </Button>
               </div>
               <div className="flex justify-end w-full">
-                <ProgressBar darkMode={true}  numSteps={5} currPage={page} />
+                <ProgressBar darkMode={true} numSteps={5} currPage={page} />
               </div>
             </div>
           </div>

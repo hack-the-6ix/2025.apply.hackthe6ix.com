@@ -19,12 +19,23 @@ import { Context } from '../components/ContextProvider';
 
 export default function LongAnswer() {
   const navigate = useNavigate();
-  const { setCompletedSection, completedSection, selectedItem, selectedSkin } =
+  const { setCompletedSection, completedSection, selectedItem, selectedSkin, formData, setFormData } =
     useContext(Context);
   const [page, setPage] = useState(1);
-  const [accomplish, setAccomplish] = useState("");
-  const [project, setProject] = useState("");
-  const [funFact, setFunFact] = useState("");
+  
+  // Initialize state from context
+  const [accomplish, setAccomplish] = useState(formData?.accomplish || "");
+  const [project, setProject] = useState(formData?.project || "");
+  const [funFact, setFunFact] = useState(formData?.funFact || "");
+
+  const updateFormData = () => {
+    setFormData({
+      ...formData,
+      accomplish,
+      project,
+      funFact
+    });
+  };
 
   const renderPage = () => {
     switch (page) {
@@ -105,14 +116,17 @@ export default function LongAnswer() {
                     if (page < 3) {
                       setPage(page + 1);
                     } else {
+                      updateFormData();
                       const updateCompleted = completedSection.map((val, i) =>
                         i === 2 ? true : val
                       );
                       setCompletedSection(updateCompleted);
-                      navigate("/apply?section=survey");
+                      navigate("/apply?section=review");
                     }
                   }}
-                />
+                >
+                  Next
+                </Button>
               </div>
               <div className="flex justify-end w-full">
                 <ProgressBar darkMode={true} numSteps={3} currPage={page} />

@@ -56,23 +56,40 @@ const HACKATHON_EXPERIENCE = [
 
 export default function Experiences() {
   const navigate = useNavigate();
-  const { setCompletedSection, completedSection, selectedItem, selectedSkin } =
+  const { setCompletedSection, completedSection, selectedItem, selectedSkin, formData, setFormData } =
     useContext(Context);
   const [page, setPage] = useState(1);
-  const [school, setSchool] = useState("");
-  const [year, setYear] = useState("");
-  const [program, setProgram] = useState("");
-  const [hackathonCount, setHackathonCount] = useState("");
-  const [resume, setResume] = useState<File | null>(null);
-  const [emailPermission, setEmailPermission] = useState(false);
-  const [github, setGithub] = useState("");
-  const [linkedin, setLinkedin] = useState("");
-  const [portfolio, setPortfolio] = useState("");
+  
+  // Initialize state from context
+  const [school, setSchool] = useState(formData?.school || "");
+  const [year, setYear] = useState(formData?.year || "");
+  const [program, setProgram] = useState(formData?.program || "");
+  const [hackathonCount, setHackathonCount] = useState(formData?.hackathonCount || "");
+  const [resume, setResume] = useState<File | null>(formData?.resume || null);
+  const [emailPermission, setEmailPermission] = useState(formData?.emailPermission || false);
+  const [github, setGithub] = useState(formData?.github || "");
+  const [linkedin, setLinkedin] = useState(formData?.linkedin || "");
+  const [portfolio, setPortfolio] = useState(formData?.portfolio || "");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setResume(event.target.files[0]);
     }
+  };
+
+  const updateFormData = () => {
+    setFormData({
+      ...formData,
+      school,
+      year,
+      program,
+      hackathonCount,
+      resume,
+      emailPermission,
+      github,
+      linkedin,
+      portfolio
+    });
   };
 
   const renderPage = () => {
@@ -88,6 +105,7 @@ export default function Experiences() {
             </Text>
             <Dropdown
               options={SCHOOLS}
+              value={school}
               onChange={setSchool}
               placeholder="Select your school"
               backgroundColor="#475D7B"
@@ -110,6 +128,7 @@ export default function Experiences() {
                 </Text>
                 <Dropdown
                   options={YEARS}
+                  value={year}
                   onChange={setYear}
                   placeholder="Select year of study"
                   backgroundColor="#475D7B"
@@ -124,6 +143,7 @@ export default function Experiences() {
                 </Text>
                 <Dropdown
                   options={PROGRAMS}
+                  value={program}
                   onChange={setProgram}
                   placeholder="Select your program"
                   backgroundColor="#475D7B"
@@ -143,6 +163,7 @@ export default function Experiences() {
             </Text>
             <Dropdown
               options={HACKATHON_EXPERIENCE}
+              value={hackathonCount}
               onChange={setHackathonCount}
               placeholder="Select number of hackathons"
               backgroundColor="#475D7B"
@@ -240,7 +261,7 @@ export default function Experiences() {
                 {page > 1 ? (
                   <Button variant="back" onClick={() => setPage(page - 1)} darkMode={true}/>
                 ) : (
-                  <Button variant="back" onClick={() => navigate("/apply?section=about")} darkMode={true}/>
+                  <Button variant="back" onClick={() => navigate("/apply?section=about-you")} darkMode={true}/>
                 )}
                 <Button
                 darkMode={true}
@@ -248,6 +269,7 @@ export default function Experiences() {
                     if (page < 5) {
                       setPage(page + 1);
                     } else {
+                      updateFormData();
                       const updateCompleted = completedSection.map((val, i) =>
                         i === 1 ? true : val
                       );
@@ -255,7 +277,9 @@ export default function Experiences() {
                       navigate("/apply?section=long-answer");
                     }
                   }}
-                />
+                >
+                  Next
+                </Button>
               </div>
               <div className="flex justify-end w-full">
                 <ProgressBar darkMode={true} numSteps={5} currPage={page} />
@@ -264,7 +288,6 @@ export default function Experiences() {
           </div>
         </div>
       </div>
-
 
       <img
         src={blobSVG}
