@@ -3,10 +3,11 @@ import apple from "../assets/apple.svg"
 import brickhouse from "../assets/brickhouse_review.svg"
 import bush from "../assets/bush.svg"
 import mushroom from "../assets/mushroom.svg"
+import { CheckCircle, AlertCircle } from 'lucide-react';
 
 import Input from '../components/Input/Input';
 import Text from '../components/Text/Text';
-import { useContext } from 'react';
+import { useContext, useState, useRef, useEffect } from 'react';
 import { Context } from '../components/ContextProvider';
 import Button from '../components/Button/Button';
 import { useNavigate } from 'react-router-dom';
@@ -38,6 +39,39 @@ const TSHIRT_SIZES = [
 export default function Review() {
   const navigate = useNavigate();
   const { formData, selectedSkin, selectedItem } = useContext(Context);
+  const [showButtons, setShowButtons] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  const isFormComplete = () => {
+    return formData?.fullName && 
+           formData?.email && 
+           formData?.city && 
+           formData?.province && 
+           formData?.country && 
+           formData?.emergencyFirstName && 
+           formData?.emergencyLastName && 
+           formData?.emergencyPhone && 
+           formData?.emergencyRelationship && 
+           formData?.school && 
+           formData?.year && 
+           formData?.program && 
+           formData?.hackathonCount && 
+           formData?.resume && 
+           formData?.accomplish && 
+           formData?.project && 
+           formData?.funFact && 
+           formData?.tshirtSize && 
+           formData?.gender && 
+           formData?.ethnicity;
+  };
+
+  const handleScroll = () => {
+    if (contentRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = contentRef.current;
+      const isAtBottom = Math.abs(scrollHeight - scrollTop - clientHeight) < 1;
+      setShowButtons(isAtBottom);
+    }
+  };
 
   return (
     <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-[linear-gradient(to_bottom,_#B1E1F9,_#E5DCD9,_#FCD2B3,_#F5AB42)] min-h-screen w-full flex flex-col items-center">
@@ -45,8 +79,30 @@ export default function Review() {
         <Text textType="heading-lg" textFont="rubik" textColor="primary" className="mb-6">
           Review Your Information
         </Text>
+
+        <div className="flex items-center gap-2 mb-6">
+          {isFormComplete() ? (
+            <div className="flex items-center gap-2 bg-green-100/80 px-4 py-2 rounded-[90px]">
+              <CheckCircle className="w-5 h-5 text-green-600" />
+              <Text textType="paragraph-sm" textFont="rubik" textColor="primary" className="font-medium">
+                Ready to submit
+              </Text>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 bg-orange-100/80 px-4 py-2 rounded-[90px]">
+              <AlertCircle className="w-5 h-5 text-orange-500" />
+              <Text textType="paragraph-sm" textFont="rubik" textColor="primary" className="font-medium">
+                Incomplete application
+              </Text>
+            </div>
+          )}
+        </div>
         
-        <div className="max-h-[35vh] overflow-y-auto pr-4 space-y-6">
+        <div 
+          ref={contentRef}
+          onScroll={handleScroll}
+          className="max-h-[35vh] overflow-y-auto pr-4 space-y-6"
+        >
           {/* Personal Information */}
           <div className="space-y-2">
             <Text textType="heading-sm" textFont="rubik" textColor="primary">
@@ -296,12 +352,12 @@ export default function Review() {
           </div>
         </div>
 
-        <div className="flex justify-end gap-4 mt-6">
+        <div className={`flex justify-end gap-4 mt-6 transition-opacity duration-300 ${showButtons ? 'opacity-100' : 'opacity-0'}`}>
           <Button variant="back" onClick={() => navigate('/apply?section=survey')}>
             Back
           </Button>
           <Button onClick={() => navigate('/apply?section=submit')}>
-            Submit Application
+            Submit
           </Button>
         </div>
       </div>

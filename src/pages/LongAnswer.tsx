@@ -121,7 +121,7 @@ export default function LongAnswer() {
                         i === 2 ? true : val
                       );
                       setCompletedSection(updateCompleted);
-                      navigate("/apply?section=review");
+                      navigate("/apply?section=survey");
                     }
                   }}
                 >
