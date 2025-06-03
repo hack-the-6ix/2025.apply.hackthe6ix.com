@@ -104,38 +104,44 @@ export default function Home() {
           className="absolute h-[300px] w-[300px] bottom-[80px] left-[calc(10%+130px)]"
         />
       </div>
-
-      <Text textType="heading-lg" textFont="rubik" textColor="primary" className="z-[100]">
-        Hack the 6ix 2025
-      </Text>
-      <div className="font--jersey-10-regular sm:text-[80px] text-[68px] color-[#252C37] sm:leading-20 leading-13">
-        HACKER APPLICATION
-      </div>
-      <Text
-        textType="heading-md"
-        textWeight="regular"
-        textFont="rubik"
-        textColor="secondary"
-      >
-        Application due:
-      </Text>
-      <button
-        className="hover:bg-[#20b7ac] relative sm:w-[180px] w-full bg-[#00887E] border-black sm:border-[5px] border-[3px] sm:h-[80px] h-[50px] flex justify-center items-center sm:mt-[30px] mt-[140px]"
-        onClick={() => navigate("/apply?section=player")}
-      >
+      <div className="flex flex-col items-center justify-center z-10">
         <Text
           textType="heading-lg"
+          textFont="rubik"
+          textColor="primary"
+          className="z-[100]"
+        >
+          Hack the 6ix 2025
+        </Text>
+        <div className="font--jersey-10-regular font-stretch-150% sm:text-[80px] text-[68px] color-[#252C37] sm:leading-20 leading-13">
+          HACKER APPLICATION
+        </div>
+        <Text
+          textType="heading-md"
           textWeight="regular"
           textFont="rubik"
-          textColor="white"
+          textColor="secondary"
         >
-          START
+          Application due: June 30, 2025 @ 11:59pm EST
         </Text>
-        <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] top-[-6px] left-[-6px]"></div>
-        <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] top-[-6px] right-[-6px]"></div>
-        <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] bottom-[-6px] left-[-6px]"></div>
-        <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] bottom-[-6px] right-[-6px]"></div>
-      </button>
+        <button
+          className="hover:bg-[#20b7ac] relative sm:w-[180px] w-full bg-[#00887E] border-black sm:border-[5px] border-[3px] sm:h-[80px] h-[50px] flex justify-center items-center sm:mt-[30px] mt-[140px] transition-colors cursor-pointer"
+          onClick={() => navigate("/apply?section=player")}
+        >
+          <Text
+            textType="heading-lg"
+            textWeight="regular"
+            textFont="rubik"
+            textColor="white"
+          >
+            START
+          </Text>
+          <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] top-[-6px] left-[-6px]"></div>
+          <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] top-[-6px] right-[-6px]"></div>
+          <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] bottom-[-6px] left-[-6px]"></div>
+          <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] bottom-[-6px] right-[-6px]"></div>
+        </button>
+      </div>
     </div>
   );
 }
