@@ -1,3 +1,15 @@
+import blobSVG from "../assets/blob.svg";
+import centipedeSVG from "../assets/centi.svg";
+import rock1SVG from "../assets/rock1.svg";
+import rock2SVG from "../assets/rock2.svg";
+import rock3SVG from "../assets/rock3.svg";
+import mushroomSVG from "../assets/mushroom.svg";
+import appleSVG from "../assets/apple.svg";
+import bat from "../assets/bat.svg";
+import corner_rocks from "../assets/corner_rocks.svg";
+import corner_rocks2 from "../assets/corner_rocks2.svg";
+import { PLAYER_IMAGES } from "../constants/images";
+
 import { useState } from 'react';
 import Input from '../components/Input/Input';
 import Text from '../components/Text/Text';
@@ -44,22 +56,40 @@ const HACKATHON_EXPERIENCE = [
 
 export default function Experiences() {
   const navigate = useNavigate();
-  const { setCompletedSection, completedSection } = useContext(Context);
+  const { setCompletedSection, completedSection, selectedItem, selectedSkin, formData, setFormData } =
+    useContext(Context);
   const [page, setPage] = useState(1);
-  const [school, setSchool] = useState("");
-  const [year, setYear] = useState("");
-  const [program, setProgram] = useState("");
-  const [hackathonCount, setHackathonCount] = useState("");
-  const [resume, setResume] = useState<File | null>(null);
-  const [emailPermission, setEmailPermission] = useState(false);
-  const [github, setGithub] = useState("");
-  const [linkedin, setLinkedin] = useState("");
-  const [portfolio, setPortfolio] = useState("");
+  
+  // Initialize state from context
+  const [school, setSchool] = useState(formData?.school || "");
+  const [year, setYear] = useState(formData?.year || "");
+  const [program, setProgram] = useState(formData?.program || "");
+  const [hackathonCount, setHackathonCount] = useState(formData?.hackathonCount || "");
+  const [resume, setResume] = useState<File | null>(formData?.resume || null);
+  const [emailPermission, setEmailPermission] = useState(formData?.emailPermission || false);
+  const [github, setGithub] = useState(formData?.github || "");
+  const [linkedin, setLinkedin] = useState(formData?.linkedin || "");
+  const [portfolio, setPortfolio] = useState(formData?.portfolio || "");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setResume(event.target.files[0]);
     }
+  };
+
+  const updateFormData = () => {
+    setFormData({
+      ...formData,
+      school,
+      year,
+      program,
+      hackathonCount,
+      resume,
+      emailPermission,
+      github,
+      linkedin,
+      portfolio
+    });
   };
 
   const renderPage = () => {
@@ -75,6 +105,7 @@ export default function Experiences() {
             </Text>
             <Dropdown
               options={SCHOOLS}
+              value={school}
               onChange={setSchool}
               placeholder="Select your school"
               backgroundColor="#475D7B"
@@ -97,6 +128,7 @@ export default function Experiences() {
                 </Text>
                 <Dropdown
                   options={YEARS}
+                  value={year}
                   onChange={setYear}
                   placeholder="Select year of study"
                   backgroundColor="#475D7B"
@@ -111,6 +143,7 @@ export default function Experiences() {
                 </Text>
                 <Dropdown
                   options={PROGRAMS}
+                  value={program}
                   onChange={setProgram}
                   placeholder="Select your program"
                   backgroundColor="#475D7B"
@@ -130,6 +163,7 @@ export default function Experiences() {
             </Text>
             <Dropdown
               options={HACKATHON_EXPERIENCE}
+              value={hackathonCount}
               onChange={setHackathonCount}
               placeholder="Select number of hackathons"
               backgroundColor="#475D7B"
@@ -224,8 +258,10 @@ export default function Experiences() {
             </div>
             <div className="flex flex-col gap-4 w-full">
               <div className="flex flex-row justify-end w-full gap-3">
-                {page > 1 && (
+                {page > 1 ? (
                   <Button variant="back" onClick={() => setPage(page - 1)} darkMode={true}/>
+                ) : (
+                  <Button variant="back" onClick={() => navigate("/apply?section=about-you")} darkMode={true}/>
                 )}
                 <Button
                 darkMode={true}
@@ -233,6 +269,7 @@ export default function Experiences() {
                     if (page < 5) {
                       setPage(page + 1);
                     } else {
+                      updateFormData();
                       const updateCompleted = completedSection.map((val, i) =>
                         i === 1 ? true : val
                       );
@@ -240,7 +277,9 @@ export default function Experiences() {
                       navigate("/apply?section=long-answer");
                     }
                   }}
-                />
+                >
+                  Next
+                </Button>
               </div>
               <div className="flex justify-end w-full">
                 <ProgressBar darkMode={true} numSteps={5} currPage={page} />
@@ -249,6 +288,77 @@ export default function Experiences() {
           </div>
         </div>
       </div>
+
+      <img
+        src={blobSVG}
+        alt="blob"
+        className="sm:block hidden absolute h-[80px] w-[80px] bottom-[120px] left-[25px] z-[1]"
+      />
+      <img
+        src={rock1SVG}
+        alt="rock1"
+        className="sm:block hidden absolute h-[80px] w-[80px] bottom-[90px] left-[85px]"
+      />
+      <img
+        src={rock2SVG}
+        alt="rock2"
+        className="sm:block hidden absolute h-[80px] w-[80px] bottom-[70px] left-[25px]"
+      />
+      <img
+        src={rock3SVG}
+        alt="rock3"
+        className="sm:block hidden absolute h-[80px] w-[80px] bottom-[70px] left-[150px]"
+      />
+      <img 
+        src={centipedeSVG}
+        alt="centipede"
+        className="sm:block hidden absolute h-[100px] w-[100px] bottom-[50px] left-[170px]"
+      />
+      <img
+        src={mushroomSVG}
+        alt="mushroom"
+        className="sm:block hidden absolute h-[30] w-[30] bottom-[100px] right-[300px]"
+      />
+      <img
+        src={PLAYER_IMAGES[selectedSkin][selectedItem]}
+        alt="Player"
+        className=" absolute sm:h-[140px] h-[70px] sm:bottom-[85px] sm:right-[200px] right-[100px] bottom-[35px]"
+      />
+      <img
+        src={appleSVG}
+        alt="Apple"
+        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[150px] right-[70px] w-[35px] h-[35px] bottom-[38px]  animate-bounce-custom"
+      />
+      <img
+        src={rock3SVG}
+        alt="rock3"
+        className="sm:block hidden absolute h-[30] w-[30] bottom-[80px] right-[60px]"
+      />
+      <img
+        src={mushroomSVG}
+        alt="mushroom"
+        className="sm:block hidden absolute h-[30] w-[30] bottom-[130px] right-[80px] z-[1]"
+      />
+      <img
+        src={mushroomSVG}
+        alt="mushroom"
+        className="sm:block hidden absolute h-[30] w-[30] bottom-[130px] right-[80px] z-[1]"
+      />
+      <img
+        src={bat}
+        alt="bat"
+        className="sm:block hidden absolute h-[30] w-[30] top-[180px] right-[180px] z-[1] animate-bounce-custom"
+      />
+      <img
+        src={corner_rocks}
+        alt="corner_rocks"
+        className="sm:block hidden absolute h-[30] w-[30] top-[0px] right-[0px]"
+      />
+      <img
+        src={corner_rocks2}
+        alt="corner_rocks"
+        className="sm:block hidden absolute h-[30] w-[30] top-[0px] left-[0px]"
+      />
     </div>
   );
 }

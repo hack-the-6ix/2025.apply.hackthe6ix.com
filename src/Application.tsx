@@ -7,11 +7,22 @@ import LongAnswer from "./pages/LongAnswer";
 import Survey from "./pages/Survey";
 import Review from "./pages/Review";
 import grassSVG from "./assets/grass.svg";
+import dirtSVG from "./assets/dirt.svg";
 import PlayerSelect from "./pages/PlayerSelect";
+import darkGrassSVG from "./assets/darkgrass.svg";
+// Mapping of pages to their background SVGs
+const pageBackgrounds: { [key: string]: string } = {
+  player: grassSVG,
+  about: grassSVG,
+  experience: dirtSVG,
+  "long-answer": darkGrassSVG,
+  survey: darkGrassSVG,
+  review: grassSVG,
+};
 
 function Application() {
   const [searchParams] = useSearchParams();
-  const section = searchParams.get("section");
+  const section = searchParams.get("section") || "about";
 
   const pageComponents: { [key: string]: JSX.Element } = {
     player: <PlayerSelect />,
@@ -22,7 +33,8 @@ function Application() {
     review: <Review />,
   };
 
-  const CurrentPage = pageComponents[section || "about"] || <PlayerSelect />;
+  const CurrentPage = pageComponents[section] || <PlayerSelect />;
+  const currentBackground = pageBackgrounds[section] || grassSVG;
 
   return (
     <div className="w-full">
@@ -30,8 +42,8 @@ function Application() {
         {Array.from({ length: 40 }).map((_, index) => (
           <img
             key={index}
-            src={grassSVG}
-            alt="Grass"
+            src={currentBackground}
+            alt="Background"
             className="sm:h-[118px] sm:w-[78px] h-[46px] w-[30px]"
           />
         ))}

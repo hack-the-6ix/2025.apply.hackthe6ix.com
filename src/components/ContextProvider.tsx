@@ -1,5 +1,44 @@
 import { createContext, useState } from "react";
 
+interface FormData {
+  // About You fields
+  fullName?: string;
+  email?: string;
+  city?: string;
+  province?: string;
+  country?: string;
+  emergencyFirstName?: string;
+  emergencyLastName?: string;
+  emergencyPhone?: string;
+  emergencyRelationship?: string;
+  
+  // Experience fields
+  school?: string;
+  year?: string;
+  program?: string;
+  hackathonCount?: string;
+  resume?: File | null;
+  emailPermission?: boolean;
+  github?: string;
+  linkedin?: string;
+  portfolio?: string;
+
+  // Long Answer fields
+  accomplish?: string;
+  project?: string;
+  funFact?: string;
+
+  // Survey fields
+  selectedWorkshops?: string[];
+  tshirtSize?: string;
+  dietaryRestrictions?: string;
+  allergies?: string;
+  gender?: string;
+  ethnicity?: string;
+  permission1?: boolean;
+  permission2?: boolean;
+}
+
 export const Context = createContext<{
   completedSection: boolean[];
   setCompletedSection: (section: boolean[]) => void;
@@ -7,6 +46,8 @@ export const Context = createContext<{
   setSelectedSkin: (skin: number) => void;
   selectedItem: number;
   setSelectedItem: (item: number) => void;
+  formData: FormData;
+  setFormData: (data: FormData) => void;
 }>({
   completedSection: [false, false, false, false, false],
   setCompletedSection: () => {},
@@ -14,6 +55,8 @@ export const Context = createContext<{
   setSelectedItem: () => {},
   selectedSkin: 0,
   setSelectedSkin: () => {},
+  formData: {},
+  setFormData: () => {},
 });
 
 export default function ContextProvider({
@@ -31,9 +74,21 @@ export default function ContextProvider({
 
   const [selectedSkin, setSelectedSkin] = useState(0);
   const [selectedItem, setSelectedItem] = useState(0);
+  const [formData, setFormData] = useState<FormData>({});
 
   return (
-    <Context.Provider value={{ completedSection, setCompletedSection, selectedItem, setSelectedItem, selectedSkin, setSelectedSkin}}>
+    <Context.Provider 
+      value={{ 
+        completedSection, 
+        setCompletedSection, 
+        selectedItem, 
+        setSelectedItem, 
+        selectedSkin, 
+        setSelectedSkin,
+        formData,
+        setFormData
+      }}
+    >
       {children}
     </Context.Provider>
   );

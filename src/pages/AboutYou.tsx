@@ -17,10 +17,36 @@ import { PLAYER_IMAGES } from "../constants/images";
 
 export default function AboutYou() {
   const navigate = useNavigate();
-  const { setCompletedSection, completedSection, selectedItem, selectedSkin } =
+  const { setCompletedSection, completedSection, selectedItem, selectedSkin, formData, setFormData } =
     useContext(Context);
   const [checked, setChecked] = useState(false);
   const [page, setPage] = useState(1);
+
+  // Form state
+  const [fullName, setFullName] = useState(formData?.fullName || '');
+  const [email, setEmail] = useState(formData?.email || '');
+  const [city, setCity] = useState(formData?.city || '');
+  const [province, setProvince] = useState(formData?.province || '');
+  const [country, setCountry] = useState(formData?.country || '');
+  const [emergencyFirstName, setEmergencyFirstName] = useState(formData?.emergencyFirstName || '');
+  const [emergencyLastName, setEmergencyLastName] = useState(formData?.emergencyLastName || '');
+  const [emergencyPhone, setEmergencyPhone] = useState(formData?.emergencyPhone || '');
+  const [emergencyRelationship, setEmergencyRelationship] = useState(formData?.emergencyRelationship || '');
+
+  const updateFormData = () => {
+    setFormData({
+      ...formData,
+      fullName,
+      email,
+      city,
+      province,
+      country,
+      emergencyFirstName,
+      emergencyLastName,
+      emergencyPhone,
+      emergencyRelationship
+    });
+  };
 
   return (
     <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#ACDCFD] via-[#B3E9FC] to-[#B9F2FC]  h-[100vh] w-full flex flex-col justify-center items-start">
@@ -91,15 +117,29 @@ export default function AboutYou() {
                   >
                     Your full name*
                   </Text>
-                  <Input placeholder="John Doe" />
+                  <Input 
+                    placeholder="John Doe" 
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                  />
                 </>
               )}
 
               {page === 2 && (
                 <>
-                  <Input placeholder="john.doe@university.com" />
+                  <Input 
+                    placeholder="john.doe@university.com" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                   <div className="ml-2 py-2">
-                    <Checkbox textColor={"#08566B"} backgroundColor="#B3E9FC" checked={checked} onChange={() => setChecked(!checked)} label="I give permission to Hack the 6ix for sending me emails containing information from the event sponsors. " />
+                    <Checkbox 
+                      textColor={"#08566B"} 
+                      backgroundColor="#B3E9FC" 
+                      checked={checked} 
+                      onChange={() => setChecked(!checked)} 
+                      label="I give permission to Hack the 6ix for sending me emails containing information from the event sponsors. " 
+                    />
                   </div>
                 </>
               )}
@@ -114,7 +154,11 @@ export default function AboutYou() {
                   >
                     City*
                   </Text>
-                  <Input placeholder="Toronto" />
+                  <Input 
+                    placeholder="Toronto" 
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                  />
                   <div className="flex gap-4">
                     <div className="w-1/2">
                       <Text
@@ -127,7 +171,8 @@ export default function AboutYou() {
                       </Text>
                       <Dropdown
                         options={CANADIAN_PROVINCES}
-                        onChange={(value) => console.log(value)}
+                        value={province}
+                        onChange={(value) => setProvince(value)}
                       />
                     </div>
                     <div className="w-1/2">
@@ -141,7 +186,8 @@ export default function AboutYou() {
                       </Text>
                       <Dropdown
                         options={[{ label: "Canada", value: "CA" }]}
-                        onChange={(value) => console.log(value)}
+                        value={country}
+                        onChange={(value) => setCountry(value)}
                       />
                     </div>
                   </div>
@@ -159,7 +205,11 @@ export default function AboutYou() {
                       >
                         First Name*
                       </Text>
-                      <Input placeholder="Jane" />
+                      <Input 
+                        placeholder="Jane" 
+                        value={emergencyFirstName}
+                        onChange={(e) => setEmergencyFirstName(e.target.value)}
+                      />
                     </div>
                     <div className="w-1/2">
                       <Text
@@ -170,7 +220,11 @@ export default function AboutYou() {
                       >
                         Last Name*
                       </Text>
-                      <Input placeholder="Doe" />
+                      <Input 
+                        placeholder="Doe" 
+                        value={emergencyLastName}
+                        onChange={(e) => setEmergencyLastName(e.target.value)}
+                      />
                     </div>
                   </div>
                   <div className="flex gap-4">
@@ -183,7 +237,11 @@ export default function AboutYou() {
                       >
                         Phone Number*
                       </Text>
-                      <Input placeholder="###-###-####" />
+                      <Input 
+                        placeholder="###-###-####" 
+                        value={emergencyPhone}
+                        onChange={(e) => setEmergencyPhone(e.target.value)}
+                      />
                     </div>
                     <div className="w-1/2">
                       <Text
@@ -203,7 +261,8 @@ export default function AboutYou() {
                           { label: "Friend", value: "friend" },
                           { label: "Other", value: "other" },
                         ]}
-                        onChange={(value) => console.log(value)}
+                        value={emergencyRelationship}
+                        onChange={(value) => setEmergencyRelationship(value)}
                       />
                     </div>
                   </div>
@@ -229,6 +288,7 @@ export default function AboutYou() {
                   if (page < 4) {
                     setPage(page + 1);
                   } else {
+                    updateFormData();
                     const updateCompleted = completedSection.map((val, i) =>
                       i === 0 ? true : val
                     );

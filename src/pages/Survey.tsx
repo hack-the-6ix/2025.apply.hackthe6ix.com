@@ -1,3 +1,12 @@
+import brickhouse from "../assets/brickhouse.svg"
+import pinetree from "../assets/pine_tree.svg"
+import campfire from "../assets/campfire.svg"
+import apple from "../assets/apple.svg"
+import { PLAYER_IMAGES } from "../constants/images";
+import firefly from "../assets/firefly.svg"
+import cloud from "../assets/cloud.svg"
+import cloudgroup2 from "../assets/cloudgroup2.svg"
+
 import { useState } from 'react';
 import Text from '../components/Text/Text';
 import Dropdown from '../components/Dropdown/Dropdown';
@@ -35,16 +44,19 @@ const TSHIRT_SIZES = [
 
 export default function Survey() {
   const navigate = useNavigate();
-  const { setCompletedSection, completedSection } = useContext(Context);
+  const { setCompletedSection, completedSection, selectedItem, selectedSkin, formData, setFormData } =
+    useContext(Context);
   const [page, setPage] = useState(1);
-  const [selectedWorkshops, setSelectedWorkshops] = useState<string[]>([]);
-  const [tshirtSize, setTshirtSize] = useState("");
-  const [dietaryRestrictions, setDietaryRestrictions] = useState("");
-  const [allergies, setAllergies] = useState("");
-  const [gender, setGender] = useState("");
-  const [ethnicity, setEthnicity] = useState("");
-  const [permission1, setPermission1] = useState(false);
-  const [permission2, setPermission2] = useState(false);
+  
+  // Initialize state from context
+  const [selectedWorkshops, setSelectedWorkshops] = useState<string[]>(formData?.selectedWorkshops || []);
+  const [tshirtSize, setTshirtSize] = useState(formData?.tshirtSize || "");
+  const [dietaryRestrictions, setDietaryRestrictions] = useState(formData?.dietaryRestrictions || "");
+  const [allergies, setAllergies] = useState(formData?.allergies || "");
+  const [gender, setGender] = useState(formData?.gender || "");
+  const [ethnicity, setEthnicity] = useState(formData?.ethnicity || "");
+  const [permission1, setPermission1] = useState(formData?.permission1 || false);
+  const [permission2, setPermission2] = useState(formData?.permission2 || false);
 
   const handleWorkshopToggle = (value: string) => {
     if (selectedWorkshops.includes(value)) {
@@ -52,6 +64,20 @@ export default function Survey() {
     } else if (selectedWorkshops.length < 3) {
       setSelectedWorkshops([...selectedWorkshops, value]);
     }
+  };
+
+  const updateFormData = () => {
+    setFormData({
+      ...formData,
+      selectedWorkshops,
+      tshirtSize,
+      dietaryRestrictions,
+      allergies,
+      gender,
+      ethnicity,
+      permission1,
+      permission2
+    });
   };
 
   const renderPage = () => {
@@ -188,15 +214,18 @@ export default function Survey() {
             </div>
             <div className="flex flex-col gap-4 w-full">
               <div className="flex flex-row justify-end w-full gap-3">
-                {page > 1 && (
+                {page > 1 ? (
                   <Button darkMode={true} variant="back" onClick={() => setPage(page - 1)} />
+                ) : (
+                  <Button darkMode={true} variant="back" onClick={() => navigate("/apply?section=long-answer")} />
                 )}
                 <Button
-                darkMode={true}
+                  darkMode={true}
                   onClick={() => {
                     if (page < 5) {
                       setPage(page + 1);
                     } else {
+                      updateFormData();
                       const updateCompleted = completedSection.map((val, i) =>
                         i === 3 ? true : val
                       );
@@ -204,15 +233,63 @@ export default function Survey() {
                       navigate("/apply?section=review");
                     }
                   }}
-                />
+                >
+                  Next
+                </Button>
               </div>
               <div className="flex justify-end w-full">
-                <ProgressBar darkMode={true}  numSteps={5} currPage={page} />
+                <ProgressBar darkMode={true} numSteps={5} currPage={page} />
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <img
+        src={brickhouse}
+        alt="brickhouse"
+        className="sm:block hidden absolute h-[140px] w-[140px] bottom-[90px] right-[-32px]"
+      />
+      <img
+        src={PLAYER_IMAGES[selectedSkin][selectedItem]}
+        alt="Player"
+        className=" absolute sm:h-[140px] h-[70px] sm:bottom-[85px] sm:right-[120px] right-[100px] bottom-[35px]"
+      />
+      <img
+        src={apple}
+        alt="Apple"
+        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[80px] right-[70px] w-[35px] h-[35px] bottom-[38px]  animate-bounce-custom"
+      />
+      <img
+        src={campfire}
+        alt="campfire"
+        className="sm:block hidden absolute bottom-[80px] right-[250px]"
+      />
+      <img
+        src={firefly}
+        alt="firefly"
+        className="sm:block hidden absolute bottom-[30px] right-[270px] animate-float"
+      />
+      <img
+        src={firefly}
+        alt="firefly"
+        className="sm:block hidden absolute bottom-[70px] right-[170px] animate-float"
+      />
+      <img
+        src={pinetree}
+        alt="pinetree"
+        className="sm:block hidden absolute h-[250px] w-[250px] bottom-[70px] left-[-60px] z-[1]"
+      />
+      <img
+        src={cloud}
+        alt="cloud"
+        className="sm:block hidden absolute bottom-[140px] left-[-200px]"
+      />
+      <img
+        src={cloudgroup2}
+        alt="cloud"
+        className="sm:block hidden absolute top-[240px] right-[-0px]"
+      />
     </div>
   );
 }
