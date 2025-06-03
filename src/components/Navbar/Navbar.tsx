@@ -64,7 +64,7 @@ const Navbar: React.FC = () => {
           className="absolute top-[65px] left-1/2 -translate-x-1/2 w-[calc(100%-50px)] rounded-xl flex flex-col items-start px-6 py-4 sm:hidden"
           style={{
             backgroundColor: LIGHT_MODE.includes(section ?? "null")
-              ? "#B9F2FC"
+              ? "#cfedfe"
               : "#21293C",
             border: LIGHT_MODE.includes(section ?? "null")
               ? "2px solid rgba(255, 255, 255, 0.7)"
