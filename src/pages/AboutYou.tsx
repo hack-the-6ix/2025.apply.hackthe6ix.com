@@ -284,6 +284,9 @@ export default function AboutYou() {
                 Back
               </Button>
               <Button
+                disabled={(page == 1 && !fullName) || (page == 2 && (!email || !checked)) || (page == 3 && (!city || !province || !country) )
+                   || (page == 4 && (!emergencyFirstName || !emergencyLastName || !emergencyPhone || !emergencyRelationship) )
+                }
                 onClick={() => {
                   if (page < 4) {
                     setPage(page + 1);

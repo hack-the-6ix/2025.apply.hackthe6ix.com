@@ -220,6 +220,8 @@ export default function Survey() {
                   <Button darkMode={true} variant="back" onClick={() => navigate("/apply?section=long-answer")} />
                 )}
                 <Button
+                                disabled={(page == 1 && selectedWorkshops.length != 3) || (page == 2 && (!tshirtSize)) || (page == 5 && (!permission1 || !permission2)) 
+                }
                   darkMode={true}
                   onClick={() => {
                     if (page < 5) {

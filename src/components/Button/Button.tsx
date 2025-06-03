@@ -15,7 +15,7 @@ const Button: React.FC<ButtonProps> = ({
   darkMode = false,
   ...props
 }) => {
-  const baseStyles = `rounded-md px-4 py-2 font-semibold transition sm:w-[110px] h-[44px] w-full border flex items-center justify-center`;
+  const baseStyles = `disabled:bg-gray-400 disabled:text-gray-100 disabled:cursor-not-allowed disabled:border-0 rounded-md px-4 py-2 font-semibold transition sm:w-[110px] h-[44px] w-full border flex items-center justify-center`;
   const variantStyles =
     variant === "back"
       ? `bg-transparent text-[#00887E] hover:bg-[#00887E] hover:border-transparent hover:text-white  ${darkMode ? "border-white text-white" : "border-[#00887E]"}`

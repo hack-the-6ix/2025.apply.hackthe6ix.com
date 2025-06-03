@@ -264,6 +264,9 @@ export default function Experiences() {
                   <Button variant="back" onClick={() => navigate("/apply?section=about-you")} darkMode={true}/>
                 )}
                 <Button
+                                disabled={(page == 1 && !school) || (page == 2 && (!year || !program)) || (page == 3 && (!hackathonCount) )
+                   || (page == 4 && (!resume))
+                }
                 darkMode={true}
                   onClick={() => {
                     if (page < 5) {
