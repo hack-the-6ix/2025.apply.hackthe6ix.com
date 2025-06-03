@@ -21,6 +21,7 @@ import Checkbox from '../components/Checkbox/Checkbox';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { Context } from '../components/ContextProvider';
+import { useSearchParams } from "react-router-dom";
 
 // Placeholder data for dropdowns
 const SCHOOLS = [
@@ -55,10 +56,12 @@ const HACKATHON_EXPERIENCE = [
 ];
 
 export default function Experiences() {
+    const [searchParams] = useSearchParams();
+  const pageInitial = parseInt(searchParams.get("page") || "1");
   const navigate = useNavigate();
   const { setCompletedSection, completedSection, selectedItem, selectedSkin, formData, setFormData } =
     useContext(Context);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(pageInitial);
   
   // Initialize state from context
   const [school, setSchool] = useState(formData?.school || "");
@@ -261,7 +264,7 @@ export default function Experiences() {
                 {page > 1 ? (
                   <Button variant="back" onClick={() => setPage(page - 1)} darkMode={true}/>
                 ) : (
-                  <Button variant="back" onClick={() => navigate("/apply?section=about-you")} darkMode={true}/>
+                  <Button variant="back" onClick={() => navigate("/apply?section=about&page=4")} darkMode={true}/>
                 )}
                 <Button
                                 disabled={(page == 1 && !school) || (page == 2 && (!year || !program)) || (page == 3 && (!hackathonCount) )

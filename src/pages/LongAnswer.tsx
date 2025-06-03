@@ -16,8 +16,11 @@ import ProgressBar from "../components/ProgressBar/ProgressBar";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "../components/ContextProvider";
+import { useSearchParams } from "react-router-dom";
 
 export default function LongAnswer() {
+      const [searchParams] = useSearchParams();
+  const pageInitial = parseInt(searchParams.get("page") || "1");
   const navigate = useNavigate();
   const {
     setCompletedSection,
@@ -27,7 +30,7 @@ export default function LongAnswer() {
     formData,
     setFormData,
   } = useContext(Context);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(pageInitial);
 
   // Initialize state from context
   const [accomplish, setAccomplish] = useState(formData?.accomplish || "");
@@ -124,7 +127,7 @@ export default function LongAnswer() {
                 ) : (
                   <Button
                     variant="back"
-                    onClick={() => navigate("/apply?section=experience")}
+                    onClick={() => navigate("/apply?section=experience&page=5")}
                     darkMode={true}
                   />
                 )}
