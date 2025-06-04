@@ -11,7 +11,7 @@ const NAV_LINKS = [
   { label: "Experiences", path: "/apply?section=experience" },
   { label: "Long-Answer", path: "/apply?section=long-answer" },
   { label: "Survey", path: "/apply?section=survey" },
-  { label: "Review", path: "/apply?section=review" },
+  { label: "Review", path: "/apply?section=review" }
 ];
 
 const LIGHT_MODE: string[] = ["player", "about", "review"];
@@ -29,14 +29,14 @@ const Navbar: React.FC = () => {
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle Menu"
           style={{
-            color: LIGHT_MODE.includes(section ?? "null") ? "#08566B" : "white",
+            color: LIGHT_MODE.includes(section ?? "null") ? "#08566B" : "white"
           }}
         >
           {menuOpen ? <RxCross2 size={24} /> : <IoMenu size={24} />}
         </button>
       </div>
 
-      <div className="hidden sm:flex flex-row items-center justify-center gap-32 w-full mt-[75px] ">
+      <div className="hidden sm:flex flex-row items-center justify-center gap-16 lg:gap-32 w-full mt-[75px] ">
         {NAV_LINKS.map(({ label, path }, i) => (
           <Link
             to={path}
