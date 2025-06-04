@@ -21,21 +21,21 @@ const COLORS = [
   "#6E3C3C",
   "#79C9D2",
   "#E1E6E7",
-  "#BCBBB5",
+  "#BCBBB5"
 ];
 const ITEMS = [cupPNG, tissuePNG, duckPNG];
 const ENCOURAGEMENTS = [
   "LOOKIN' FINE!",
   "GOOD CHOICE!",
   "NICE PICK!",
-  "LOVE IT!",
+  "LOVE IT!"
 ];
 const STATBONUS = ["NONE", "+3 ENERGY", "+3 MORALE", "+3 VIBES"];
 
 function ColorPicker({
   selectedSkin,
   setSelectedSkin,
-  setEncouragement,
+  setEncouragement
 }: {
   selectedSkin: number;
   setSelectedSkin: (skin: number) => void;
@@ -49,11 +49,13 @@ function ColorPicker({
           className="sm:w-[50px] h-[50px] w-[31%] sm:h-[48px] border-[3px] rounded-[5px] sm:rounded-[10px]"
           style={{
             backgroundColor: color,
-            borderColor: selectedSkin === index ? "#00887E" : "#919DAF",
+            borderColor: selectedSkin === index ? "#00887E" : "#919DAF"
           }}
           onClick={() => {
-            setSelectedSkin(index);
-            setEncouragement((prev) => (prev + 1) % ENCOURAGEMENTS.length);
+            if (selectedSkin !== index) {
+              setSelectedSkin(index);
+              setEncouragement((prev) => (prev + 1) % ENCOURAGEMENTS.length);
+            }
           }}
         />
       ))}
@@ -63,7 +65,7 @@ function ColorPicker({
 
 function ItemPicker({
   selectedItem,
-  setSelectedItem,
+  setSelectedItem
 }: {
   selectedItem: number;
   setSelectedItem: (item: number) => void;
@@ -75,7 +77,7 @@ function ItemPicker({
           key={index}
           className="border-[3px] bg-[#F3FAE0] rounded-[5px] sm:rounded-[10px] flex items-center justify-center w-[31%] sm:w-[70px] h-[70px]"
           style={{
-            borderColor: selectedItem === index + 1 ? "#00887E" : "#919DAF",
+            borderColor: selectedItem === index + 1 ? "#00887E" : "#919DAF"
           }}
           onClick={() => setSelectedItem(index + 1)}
         >
@@ -89,7 +91,7 @@ function ItemPicker({
 function SignDisplay({
   page,
   encouragement,
-  selectedItem,
+  selectedItem
 }: {
   page: number;
   encouragement: number;
