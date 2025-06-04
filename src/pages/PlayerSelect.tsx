@@ -73,7 +73,7 @@ function ItemPicker({
       {ITEMS.map((item, index) => (
         <div
           key={index}
-          className="border-[3px] bg-[#F3FAE0] rounded-[5px] sm:rounded-[10px] flex items-center justify-center w-[31%] sm:w-[70px] h-[70px]"
+          className="border-[3px] bg-[#F3FAE0] rounded-[5px] sm:rounded-[10px] flex items-center justify-center w-[31%] sm:w-[70px] h-[70px] hover:scale-105 transition-all duration-300"
           style={{
             borderColor: selectedItem === index + 1 ? "#00887E" : "#919DAF"
           }}
