@@ -18,11 +18,11 @@ const Button: React.FC<ButtonProps> = ({
   const baseStyles = `disabled:bg-gray-400 disabled:text-gray-100 disabled:cursor-not-allowed disabled:border-0 rounded-md px-4 py-2 font-semibold transition sm:w-[110px] h-[44px] w-full border flex items-center justify-center cursor-pointer`;
   const variantStyles =
     variant === "back"
-      ? `bg-transparent text-[#00887E] hover:bg-[#a0e6fa]  ${
-          darkMode ? "border-white text-white" : "border-[#00887E]"
+      ? `bg-transparent text-[#00887E]   ${
+            darkMode ? "border-white text-white hover:bg-[#66799180]" : "border-[#00887E] hover:bg-[#a0e6fa]"
         }`
-      : `bg-[#00887E] border-transparent text-white hover:bg-[#007a71] ${
-          darkMode ? "text-white hover:border-white" : "hover:border-[#00887E]"
+      : `bg-[#00887E] border-transparent text-white ${
+          darkMode ? "text-white hover:border-white" : "hover:border-[]"
         }`;
 
   if (children) {
