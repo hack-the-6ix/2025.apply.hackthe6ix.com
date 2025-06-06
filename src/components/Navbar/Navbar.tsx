@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useLocation } from "react-router-dom";
 import Text from "../Text/Text";
 import { Context } from "../ContextProvider";
 import { useContext } from "react";
@@ -21,6 +21,7 @@ const Navbar: React.FC = () => {
   const [searchParams] = useSearchParams();
   const section = searchParams.get("section");
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
 
   return (
     <nav className="w-full flex items-center justify-between absolute z-50">
@@ -29,7 +30,9 @@ const Navbar: React.FC = () => {
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle Menu"
           style={{
-            color: LIGHT_MODE.includes(section ?? "null") ? "#08566B" : "white"
+            color: LIGHT_MODE.includes(section ?? "null")
+              ? "#023441"
+              : "#FA8D1F"
           }}
         >
           {menuOpen ? <RxCross2 size={24} /> : <IoMenu size={24} />}
@@ -43,12 +46,56 @@ const Navbar: React.FC = () => {
             key={label}
             className="relative flex items-center gap-1"
           >
+            {location.search.includes(path.split("?")[1]) && (
+              <div className="absolute top-[-20px] left-[50%] -translate-x-1/2">
+                <div className="flex flex-row items-center justify-center">
+                  <div
+                    className={`w-[7px] h-[7px] ${
+                      LIGHT_MODE.includes(section ?? "null")
+                        ? "bg-[#023441]"
+                        : "bg-[#FA8D1F]"
+                    }`}
+                  ></div>
+                  <div
+                    className={`w-[7px] h-[7px] ${
+                      LIGHT_MODE.includes(section ?? "null")
+                        ? "bg-[#023441]"
+                        : "bg-[#FA8D1F]"
+                    }`}
+                  ></div>
+                  <div
+                    className={`w-[7px] h-[7px] ${
+                      LIGHT_MODE.includes(section ?? "null")
+                        ? "bg-[#023441]"
+                        : "bg-[#FA8D1F]"
+                    }`}
+                  ></div>
+                </div>
+                <div className="flex flex-row items-center justify-center">
+                  <div className="w-[7px] h-[7px] bg-transparent"></div>
+                  <div
+                    className={`w-[7px] h-[7px] ${
+                      LIGHT_MODE.includes(section ?? "null")
+                        ? "bg-[#023441]"
+                        : "bg-[#FA8D1F]"
+                    }`}
+                  ></div>
+                  <div className="w-[7px] h-[7px] bg-transparent"></div>
+                </div>
+              </div>
+            )}
             <Text
               textType="heading-sm"
               textWeight="bold"
-              textColor={
-                LIGHT_MODE.includes(section ?? "null") ? "primary" : "white"
-              }
+              className={`${
+                location.search.includes(path.split("?")[1])
+                  ? LIGHT_MODE.includes(section ?? "null")
+                    ? "!text-[#023441]"
+                    : "!text-[#FA8D1F]"
+                  : LIGHT_MODE.includes(section ?? "null")
+                  ? "!text-[#07566B]"
+                  : "!text-[#FFF]"
+              }`}
             >
               {label}
             </Text>

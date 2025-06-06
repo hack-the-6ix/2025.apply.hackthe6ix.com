@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import Navbar from './components/Navbar';
 import Home from "./pages/Home";
 import Application from "./Application";
 import ContextProvider from "./components/ContextProvider";
+import Callback from "./pages/Callback";
+import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
 
 function App() {
   return (
@@ -10,7 +11,15 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/apply" element={<Application />} />
+          <Route path="/callback" element={<Callback />} />
+          <Route
+            path="/apply"
+            element={
+              <ProtectedRoute>
+                <Application />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Router>
     </ContextProvider>
