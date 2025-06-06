@@ -21,7 +21,7 @@ export default function Callback() {
         console.log("state", state);
         console.log("code", code);
         const response = await fetchHt6<AuthResponse, CallbackPayload>(
-          "/auth/public/callback",
+          "/auth/apply-backend/callback",
           {
             method: "POST",
             body: { state: state || "", code: code || "" }
@@ -33,13 +33,15 @@ export default function Callback() {
           response.message.token &&
           response.message.refreshToken
         ) {
+          console.log("response", response);
           localStorage.setItem("token", response.message.token);
           localStorage.setItem("refreshToken", response.message.refreshToken);
+          console.log(response.message.redirectTo);
           navigate(response.message.redirectTo || "/");
         }
       } catch (error) {
         console.error("Authentication failed:", error);
-        // navigate("/");
+        navigate("/");
       }
     }
 

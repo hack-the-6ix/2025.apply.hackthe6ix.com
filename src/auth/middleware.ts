@@ -22,7 +22,7 @@ export async function checkAuth(): Promise<boolean> {
 
   const callbackURL = `${window.location.origin}/callback`;
   const response = await fetchHt6<AuthResponse, LoginPayload>(
-    "/auth/public/login",
+    "/auth/apply-backend/login",
     {
       method: "POST",
       body: {
