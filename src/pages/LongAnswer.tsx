@@ -1,28 +1,37 @@
-import cloud from "../assets/cloud.svg"
-import cloud_group from "../assets/cloud_group.svg"
-import firefly from "../assets/firefly.svg"
-import pine_tree from "../assets/pine_tree.svg"
-import corner_rock3 from "../assets/corner_rock3.svg"
+import cloud from "../assets/cloud.svg";
+import cloud_group from "../assets/cloud_group.svg";
+import firefly from "../assets/firefly.svg";
+import pine_tree from "../assets/pine_tree.svg";
+import corner_rock3 from "../assets/corner_rock3.svg";
 import { PLAYER_IMAGES } from "../constants/images";
-import apple from "../assets/apple.svg"
-import cloud2 from "../assets/cloud2.svg"
+import apple from "../assets/apple.svg";
+import cloud2 from "../assets/cloud2.svg";
 
-import { useState } from 'react';
-import Text from '../components/Text/Text';
-import TextArea from '../components/TextArea/TextArea';
-import Input from '../components/Input/Input';
-import Button from '../components/Button/Button';
-import ProgressBar from '../components/ProgressBar/ProgressBar';
-import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import { Context } from '../components/ContextProvider';
+import { useState } from "react";
+import Text from "../components/Text/Text";
+import TextArea from "../components/TextArea/TextArea";
+import Input from "../components/Input/Input";
+import Button from "../components/Button/Button";
+import ProgressBar from "../components/ProgressBar/ProgressBar";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { Context } from "../components/ContextProvider";
+import { useSearchParams } from "react-router-dom";
 
 export default function LongAnswer() {
+      const [searchParams] = useSearchParams();
+  const pageInitial = parseInt(searchParams.get("page") || "1");
   const navigate = useNavigate();
-  const { setCompletedSection, completedSection, selectedItem, selectedSkin, formData, setFormData } =
-    useContext(Context);
-  const [page, setPage] = useState(1);
-  
+  const {
+    setCompletedSection,
+    completedSection,
+    selectedItem,
+    selectedSkin,
+    formData,
+    setFormData,
+  } = useContext(Context);
+  const [page, setPage] = useState(pageInitial);
+
   // Initialize state from context
   const [accomplish, setAccomplish] = useState(formData?.accomplish || "");
   const [project, setProject] = useState(formData?.project || "");
@@ -33,7 +42,7 @@ export default function LongAnswer() {
       ...formData,
       accomplish,
       project,
-      funFact
+      funFact,
     });
   };
 
@@ -60,8 +69,14 @@ export default function LongAnswer() {
       case 2:
         return (
           <div className="flex flex-col gap-4">
-            <Text textType="heading-lg" textFont="rubik" textColor="white" className="mt-12">
-              What is one project you were proud of? What tools and methods did you use to complete it?*
+            <Text
+              textType="heading-lg"
+              textFont="rubik"
+              textColor="white"
+              className="mt-12"
+            >
+              What is one project you were proud of? What tools and methods did
+              you use to complete it?*
             </Text>
             <TextArea
               value={project}
@@ -100,17 +115,28 @@ export default function LongAnswer() {
       <div className="w-full h-full flex items-center justify-start px-4 py-8 overflow-hidden relative z-10">
         <div className="flex flex-col items-start justify-center gap-12 w-full max-w-[1200px] sm:ml-[158px] -mt-[100px]">
           <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
-            <div className="flex flex-col gap-4 w-full">
-              {renderPage()}
-            </div>
+            <div className="flex flex-col gap-4 w-full">{renderPage()}</div>
             <div className="flex flex-col gap-4 w-full">
               <div className="flex flex-row justify-end w-full gap-3">
                 {page > 1 ? (
-                  <Button variant="back" onClick={() => setPage(page - 1)} darkMode={true} />
+                  <Button
+                    variant="back"
+                    onClick={() => setPage(page - 1)}
+                    darkMode={true}
+                  />
                 ) : (
-                  <Button variant="back" onClick={() => navigate("/apply?section=experience")} darkMode={true} />
+                  <Button
+                    variant="back"
+                    onClick={() => navigate("/apply?section=experience&page=5")}
+                    darkMode={true}
+                  />
                 )}
                 <Button
+                  disabled={
+                    (page == 1 && !accomplish) ||
+                    (page == 2 && !project) ||
+                    (page == 3 && !funFact)
+                  }
                   darkMode={true}
                   onClick={() => {
                     if (page < 3) {
@@ -214,4 +240,3 @@ export default function LongAnswer() {
     </div>
   );
 }
-  

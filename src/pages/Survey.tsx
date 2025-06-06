@@ -16,6 +16,7 @@ import Button from '../components/Button/Button';
 import ProgressBar from '../components/ProgressBar/ProgressBar';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
+import { useSearchParams } from "react-router-dom";
 import { Context } from '../components/ContextProvider';
 
 const WORKSHOPS = [
@@ -43,10 +44,12 @@ const TSHIRT_SIZES = [
 ];
 
 export default function Survey() {
+        const [searchParams] = useSearchParams();
+  const pageInitial = parseInt(searchParams.get("page") || "1");
   const navigate = useNavigate();
   const { setCompletedSection, completedSection, selectedItem, selectedSkin, formData, setFormData } =
     useContext(Context);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(pageInitial);
   
   // Initialize state from context
   const [selectedWorkshops, setSelectedWorkshops] = useState<string[]>(formData?.selectedWorkshops || []);
@@ -217,9 +220,11 @@ export default function Survey() {
                 {page > 1 ? (
                   <Button darkMode={true} variant="back" onClick={() => setPage(page - 1)} />
                 ) : (
-                  <Button darkMode={true} variant="back" onClick={() => navigate("/apply?section=long-answer")} />
+                  <Button darkMode={true} variant="back" onClick={() => navigate("/apply?section=long-answer&page=3")} />
                 )}
                 <Button
+                                disabled={(page == 1 && selectedWorkshops.length != 3) || (page == 2 && (!tshirtSize)) || (page == 5 && (!permission1 || !permission2)) 
+                }
                   darkMode={true}
                   onClick={() => {
                     if (page < 5) {

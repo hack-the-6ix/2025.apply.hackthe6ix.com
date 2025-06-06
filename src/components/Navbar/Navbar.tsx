@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
         </button>
       </div>
 
-      <div className="hidden sm:flex flex-row items-center justify-center gap-32 w-full mt-[75px] ">
+      <div className="hidden sm:flex flex-row items-center justify-center gap-16 lg:gap-32 w-full mt-[75px] ">
         {NAV_LINKS.map(({ label, path }, i) => (
           <Link
             to={path}
@@ -111,7 +111,7 @@ const Navbar: React.FC = () => {
           className="absolute top-[65px] left-1/2 -translate-x-1/2 w-[calc(100%-50px)] rounded-xl flex flex-col items-start px-6 py-4 sm:hidden"
           style={{
             backgroundColor: LIGHT_MODE.includes(section ?? "null")
-              ? "#B9F2FC"
+              ? "#cfedfe"
               : "#21293C",
             border: LIGHT_MODE.includes(section ?? "null")
               ? "2px solid rgba(255, 255, 255, 0.7)"

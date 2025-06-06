@@ -14,24 +14,43 @@ import Checkbox from "../components/Checkbox/Checkbox";
 import Dropdown from "../components/Dropdown/Dropdown";
 import { CANADIAN_PROVINCES } from "../constants/locations";
 import { PLAYER_IMAGES } from "../constants/images";
+import { useSearchParams } from "react-router-dom";
 
 export default function AboutYou() {
+  const [searchParams] = useSearchParams();
+  const pageInitial = parseInt(searchParams.get("page") || "1");
   const navigate = useNavigate();
-  const { setCompletedSection, completedSection, selectedItem, selectedSkin, formData, setFormData } =
-    useContext(Context);
-  const [checked, setChecked] = useState(false);
-  const [page, setPage] = useState(1);
+  const {
+    setCompletedSection,
+    completedSection,
+    selectedItem,
+    selectedSkin,
+    formData,
+    setFormData,
+  } = useContext(Context);
+  const [emailPermission, setEmailPermission] = useState(
+    formData?.emailPermission || false
+  );
+  const [page, setPage] = useState(pageInitial);
 
   // Form state
-  const [fullName, setFullName] = useState(formData?.fullName || '');
-  const [email, setEmail] = useState(formData?.email || '');
-  const [city, setCity] = useState(formData?.city || '');
-  const [province, setProvince] = useState(formData?.province || '');
-  const [country, setCountry] = useState(formData?.country || '');
-  const [emergencyFirstName, setEmergencyFirstName] = useState(formData?.emergencyFirstName || '');
-  const [emergencyLastName, setEmergencyLastName] = useState(formData?.emergencyLastName || '');
-  const [emergencyPhone, setEmergencyPhone] = useState(formData?.emergencyPhone || '');
-  const [emergencyRelationship, setEmergencyRelationship] = useState(formData?.emergencyRelationship || '');
+  const [fullName, setFullName] = useState(formData?.fullName || "");
+  const [email, setEmail] = useState(formData?.email || "");
+  const [city, setCity] = useState(formData?.city || "");
+  const [province, setProvince] = useState(formData?.province || "");
+  const [country, setCountry] = useState(formData?.country || "");
+  const [emergencyFirstName, setEmergencyFirstName] = useState(
+    formData?.emergencyFirstName || ""
+  );
+  const [emergencyLastName, setEmergencyLastName] = useState(
+    formData?.emergencyLastName || ""
+  );
+  const [emergencyPhone, setEmergencyPhone] = useState(
+    formData?.emergencyPhone || ""
+  );
+  const [emergencyRelationship, setEmergencyRelationship] = useState(
+    formData?.emergencyRelationship || ""
+  );
 
   const updateFormData = () => {
     setFormData({
@@ -44,7 +63,8 @@ export default function AboutYou() {
       emergencyFirstName,
       emergencyLastName,
       emergencyPhone,
-      emergencyRelationship
+      emergencyRelationship,
+      emailPermission
     });
   };
 
@@ -117,8 +137,8 @@ export default function AboutYou() {
                   >
                     Your full name*
                   </Text>
-                  <Input 
-                    placeholder="John Doe" 
+                  <Input
+                    placeholder="John Doe"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                   />
@@ -127,18 +147,18 @@ export default function AboutYou() {
 
               {page === 2 && (
                 <>
-                  <Input 
-                    placeholder="john.doe@university.com" 
+                  <Input
+                    placeholder="john.doe@university.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                   <div className="ml-2 py-2">
-                    <Checkbox 
-                      textColor={"#08566B"} 
-                      backgroundColor="#B3E9FC" 
-                      checked={checked} 
-                      onChange={() => setChecked(!checked)} 
-                      label="I give permission to Hack the 6ix for sending me emails containing information from the event sponsors. " 
+                    <Checkbox
+                      textColor={"#08566B"}
+                      backgroundColor="#B3E9FC"
+                      checked={emailPermission}
+                      onChange={() => setEmailPermission(!emailPermission)}
+                      label="I give permission to Hack the 6ix for sending me emails containing information from the event sponsors. "
                     />
                   </div>
                 </>
@@ -154,8 +174,8 @@ export default function AboutYou() {
                   >
                     City*
                   </Text>
-                  <Input 
-                    placeholder="Toronto" 
+                  <Input
+                    placeholder="Toronto"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                   />
@@ -205,8 +225,8 @@ export default function AboutYou() {
                       >
                         First Name*
                       </Text>
-                      <Input 
-                        placeholder="Jane" 
+                      <Input
+                        placeholder="Jane"
                         value={emergencyFirstName}
                         onChange={(e) => setEmergencyFirstName(e.target.value)}
                       />
@@ -220,8 +240,8 @@ export default function AboutYou() {
                       >
                         Last Name*
                       </Text>
-                      <Input 
-                        placeholder="Doe" 
+                      <Input
+                        placeholder="Doe"
                         value={emergencyLastName}
                         onChange={(e) => setEmergencyLastName(e.target.value)}
                       />
@@ -237,8 +257,8 @@ export default function AboutYou() {
                       >
                         Phone Number*
                       </Text>
-                      <Input 
-                        placeholder="###-###-####" 
+                      <Input
+                        placeholder="###-###-####"
                         value={emergencyPhone}
                         onChange={(e) => setEmergencyPhone(e.target.value)}
                       />
@@ -284,6 +304,16 @@ export default function AboutYou() {
                 Back
               </Button>
               <Button
+                disabled={
+                  (page == 1 && !fullName) ||
+                  (page == 2 && (!email || !emailPermission)) ||
+                  (page == 3 && (!city || !province || !country)) ||
+                  (page == 4 &&
+                    (!emergencyFirstName ||
+                      !emergencyLastName ||
+                      !emergencyPhone ||
+                      !emergencyRelationship))
+                }
                 onClick={() => {
                   if (page < 4) {
                     setPage(page + 1);

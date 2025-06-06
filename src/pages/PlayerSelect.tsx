@@ -52,8 +52,10 @@ function ColorPicker({
             borderColor: selectedSkin === index ? "#00887E" : "#919DAF"
           }}
           onClick={() => {
-            setSelectedSkin(index);
-            setEncouragement((prev) => (prev + 1) % ENCOURAGEMENTS.length);
+            if (selectedSkin !== index) {
+              setSelectedSkin(index);
+              setEncouragement((prev) => (prev + 1) % ENCOURAGEMENTS.length);
+            }
           }}
         />
       ))}
