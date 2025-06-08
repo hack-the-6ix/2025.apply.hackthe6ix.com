@@ -161,80 +161,82 @@ export default function Review() {
 
   return (
     <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-[linear-gradient(to_bottom,_#B1E1F9,_#E5DCD9,_#FCD2B3,_#F5AB42)] min-h-screen w-full flex flex-col items-center">
-      <div className="w-full max-w-[1000px] bg-[#E6EFF3]/80 rounded-2xl p-6 shadow-lg mt-32 mb-16 z-10">
-        <Text
-          textType="heading-lg"
-          textFont="rubik"
-          textColor="primary"
-          className="mb-6"
-        >
-          Review Your Information
-        </Text>
+      <div className="w-full max-w-[1000px] bg-[#E6EFF3]/80 rounded-2xl p-8 shadow-lg mt-32 mb-16 z-10">
+        <div className="px-8">
+          <Text
+            textType="heading-lg"
+            textFont="rubik"
+            textColor="primary"
+            className="mb-6 pt-6"
+          >
+            Review your application
+          </Text>
 
-        {missingFields.length > 0 && (
-          <div className="mb-6 p-4 bg-red-100/80 rounded-lg">
-            <Text
-              textType="paragraph-lg"
-              textFont="rubik"
-              textColor="primary"
-              className="font-bold mb-2"
-            >
-              Please complete the following fields:
-            </Text>
-            <ul className="list-disc pl-6">
-              {missingFields.map((field) => (
-                <li key={field}>
-                  <Text
-                    textType="paragraph-lg"
-                    textFont="rubik"
-                    textColor="primary"
-                  >
-                    {field.replace(/^\//, "").replace(/\//g, " > ")}
-                  </Text>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        <div className="flex items-center gap-2 mb-6">
-          {isFormComplete() ? (
-            <div className="flex items-center gap-2 bg-green-100/80 px-4 py-2 rounded-[90px]">
-              <CheckCircle className="w-5 h-5 text-green-600" />
+          {missingFields.length > 0 && (
+            <div className="mb-6 p-4 bg-red-100/80 rounded-lg">
               <Text
-                textType="paragraph-sm"
+                textType="paragraph-lg"
                 textFont="rubik"
                 textColor="primary"
-                className="font-medium"
+                className="font-bold mb-2"
               >
-                Ready to submit
+                Please complete the following fields:
               </Text>
-            </div>
-          ) : (
-            <div className="flex items-center gap-2 bg-orange-100/80 px-4 py-2 rounded-[90px]">
-              <AlertCircle className="w-5 h-5 text-orange-500" />
-              <Text
-                textType="paragraph-sm"
-                textFont="rubik"
-                textColor="primary"
-                className="font-medium"
-              >
-                Incomplete application
-              </Text>
+              <ul className="list-disc pl-6">
+                {missingFields.map((field) => (
+                  <li key={field}>
+                    <Text
+                      textType="paragraph-lg"
+                      textFont="rubik"
+                      textColor="primary"
+                    >
+                      {field.replace(/^\//, "").replace(/\//g, " > ")}
+                    </Text>
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
+
+          <div className="flex items-center gap-2 mb-6">
+            {isFormComplete() ? (
+              <div className="flex items-center gap-2 bg-green-100/80 px-4 py-2 rounded-[90px]">
+                <CheckCircle className="w-5 h-5 text-green-600" />
+                <Text
+                  textType="paragraph-sm"
+                  textFont="rubik"
+                  textColor="primary"
+                  className="font-medium"
+                >
+                  Ready to submit
+                </Text>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 bg-orange-100/80 px-4 py-2 rounded-[90px]">
+                <AlertCircle className="w-5 h-5 text-orange-500" />
+                <Text
+                  textType="paragraph-sm"
+                  textFont="rubik"
+                  textColor="primary"
+                  className="font-medium"
+                >
+                  Incomplete application
+                </Text>
+              </div>
+            )}
+          </div>
         </div>
 
-        <div className="max-h-[35vh] overflow-y-auto pr-4 space-y-6">
+        <div className="max-h-[35vh] overflow-y-auto px-8 space-y-6">
           {/* About You Section */}
-          <div className="space-y-5">
+          <div className="space-y-7">
             <Text textType="heading-sm" textFont="rubik" textColor="primary">
               About You
             </Text>
-            <div className="bg-white/50 p-4 rounded-md">
-              <div className="grid grid-cols-2 gap-4">
+            <div className="rounded-md">
+              <div className="grid grid-cols-2 gap-y-4">
                 {/* Full Name */}
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-1.5">
                   <Text
                     textType="paragraph-sm-semibold"
                     textFont="rubik"
@@ -247,12 +249,12 @@ export default function Review() {
                     textFont="rubik"
                     textColor={formData?.fullName ? "primary" : "gray"}
                   >
-                    {formData?.fullName || "Not provided"}
+                    {formData?.fullName || "Not filled"}
                   </Text>
                 </div>
 
                 {/* Location */}
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-1.5">
                   <Text
                     textType="paragraph-sm-semibold"
                     textFont="rubik"
@@ -260,26 +262,36 @@ export default function Review() {
                   >
                     Location
                   </Text>
-                  <Text
-                    textType="paragraph-lg-semibold"
-                    textFont="rubik"
-                    textColor={formData?.city && formData?.province ? "primary" : "gray"}
-                  >
-                    {formData?.city && formData?.province
-                      ? `${formData.city}, ${formData.province}`
-                      : "Not provided"}
-                  </Text>
-                  <Text
-                    textType="paragraph-lg-semibold"
-                    textFont="rubik"
-                    textColor={formData?.country ? "primary" : "gray"}
-                  >
-                    {formData?.country || "Not provided"}
-                  </Text>
+                  {formData?.city && formData?.province && formData?.country ? (
+                    <>
+                      <Text
+                        textType="paragraph-lg-semibold"
+                        textFont="rubik"
+                        textColor="primary"
+                      >
+                        {`${formData.city}, ${formData.province}`}
+                      </Text>
+                      <Text
+                        textType="paragraph-lg-semibold"
+                        textFont="rubik"
+                        textColor="primary"
+                      >
+                        {formData.country}
+                      </Text>
+                    </>
+                  ) : (
+                    <Text
+                      textType="paragraph-lg-semibold"
+                      textFont="rubik"
+                      textColor="gray"
+                    >
+                      Not filled
+                    </Text>
+                  )}
                 </div>
 
                 {/* Email */}
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-1.5">
                   <Text
                     textType="paragraph-sm-semibold"
                     textFont="rubik"
@@ -292,12 +304,12 @@ export default function Review() {
                     textFont="rubik"
                     textColor={formData?.email ? "primary" : "gray"}
                   >
-                    {formData?.email || "Not provided"}
+                    {formData?.email || "Not filled"}
                   </Text>
                 </div>
 
                 {/* Emergency Contact */}
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-1.5">
                   <Text
                     textType="paragraph-sm-semibold"
                     textFont="rubik"
@@ -305,36 +317,46 @@ export default function Review() {
                   >
                     Emergency Contact
                   </Text>
-                  <Text
-                    textType="paragraph-lg-semibold"
-                    textFont="rubik"
-                    textColor={formData?.emergencyFirstName ? "primary" : "gray"}
-                  >
-                    {formData?.emergencyFirstName && formData?.emergencyLastName
-                      ? `${formData.emergencyFirstName} ${formData.emergencyLastName}`
-                      : "Not provided"}
-                  </Text>
-                  <Text
-                    textType="paragraph-lg-semibold"
-                    textFont="rubik"
-                    textColor={formData?.emergencyPhone ? "primary" : "gray"}
-                  >
-                    {formData?.emergencyPhone || "Not provided"}
-                  </Text>
+                  {formData?.emergencyFirstName && formData?.emergencyLastName && formData?.emergencyPhone ? (
+                    <>
+                      <Text
+                        textType="paragraph-lg-semibold"
+                        textFont="rubik"
+                        textColor="primary"
+                      >
+                        {`${formData.emergencyFirstName} ${formData.emergencyLastName}`}
+                      </Text>
+                      <Text
+                        textType="paragraph-lg-semibold"
+                        textFont="rubik"
+                        textColor="primary"
+                      >
+                        {formData.emergencyPhone}
+                      </Text>
+                    </>
+                  ) : (
+                    <Text
+                      textType="paragraph-lg-semibold"
+                      textFont="rubik"
+                      textColor="gray"
+                    >
+                      Not filled
+                    </Text>
+                  )}
                 </div>
               </div>
             </div>
           </div>
 
           {/* Experience Information */}
-          <div className="space-y-2">
+          <div className="space-y-7">
             <Text textType="heading-sm" textFont="rubik" textColor="primary">
               Your Experience
             </Text>
-            <div className="bg-white/50 p-4 rounded-md">
-              <div className="grid grid-cols-2 gap-4">
+            <div className="rounded-md">
+              <div className="grid grid-cols-2 gap-y-4">
                 {/* School */}
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-1.5">
                   <Text
                     textType="paragraph-sm-semibold"
                     textFont="rubik"
@@ -347,12 +369,12 @@ export default function Review() {
                     textFont="rubik"
                     textColor={formData?.school ? "primary" : "gray"}
                   >
-                    {formData?.school || "Not provided"}
+                    {formData?.school || "Not filled"}
                   </Text>
                 </div>
 
                 {/* Resume */}
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-1.5">
                   <Text
                     textType="paragraph-sm-semibold"
                     textFont="rubik"
@@ -365,12 +387,12 @@ export default function Review() {
                     textFont="rubik"
                     textColor={formData?.resume ? "primary" : "gray"}
                   >
-                    {formData?.resume ? "Resume uploaded" : "Not provided"}
+                    {formData?.resume ? "Resume uploaded" : "Not filled"}
                   </Text>
                 </div>
 
                 {/* Program and Year */}
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-1.5">
                   <Text
                     textType="paragraph-sm-semibold"
                     textFont="rubik"
@@ -385,12 +407,12 @@ export default function Review() {
                   >
                     {formData?.program && formData?.year
                       ? `${formData.program} - Year ${formData.year}`
-                      : "Not provided"}
+                      : "Not filled"}
                   </Text>
                 </div>
 
                 {/* Social Links */}
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-1.5">
                   <Text
                     textType="paragraph-sm-semibold"
                     textFont="rubik"
@@ -440,7 +462,7 @@ export default function Review() {
                 </div>
 
                 {/* Hackathon Experience */}
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-1.5">
                   <Text
                     textType="paragraph-sm-semibold"
                     textFont="rubik"
@@ -453,19 +475,20 @@ export default function Review() {
                     textFont="rubik"
                     textColor={formData?.hackathonCount ? "primary" : "gray"}
                   >
-                    {formData?.hackathonCount || "Not provided"}
+                    {formData?.hackathonCount || "Not filled"}
                   </Text>
                 </div>
               </div>
             </div>
           </div>
+
           {/* Long Answer Responses */}
-          <div className="space-y-2">
+          <div className="space-y-7">
             <Text textType="heading-sm" textFont="rubik" textColor="primary">
               Long Answer Responses
             </Text>
-            <div className="bg-white/50 p-4 rounded-md space-y-4">
-              <div className="flex flex-col">
+            <div className="rounded-md space-y-4">
+              <div className="flex flex-col gap-1.5">
                 <Text
                   textType="paragraph-sm-semibold"
                   textFont="rubik"
@@ -482,7 +505,7 @@ export default function Review() {
                   {formData?.accomplish || "Not filled"}
                 </Text>
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-1.5">
                 <Text
                   textType="paragraph-sm-semibold"
                   textFont="rubik"
@@ -500,7 +523,7 @@ export default function Review() {
                   {formData?.project || "Not filled"}
                 </Text>
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-1.5">
                 <Text
                   textType="paragraph-sm-semibold"
                   textFont="rubik"
@@ -520,14 +543,14 @@ export default function Review() {
           </div>
 
           {/* Survey Information */}
-          <div className="space-y-2">
+          <div className="space-y-7">
             <Text textType="heading-sm" textFont="rubik" textColor="primary">
               Survey
             </Text>
-            <div className="bg-white/50 p-4 rounded-md">
-              <div className="grid grid-cols-2 gap-4">
+            <div className="rounded-md">
+              <div className="grid grid-cols-2 gap-y-4">
                 {/* Workshops */}
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-1.5">
                   <Text
                     textType="paragraph-sm-semibold"
                     textFont="rubik"
@@ -558,7 +581,7 @@ export default function Review() {
                 </div>
 
                 {/* Dietary Restrictions */}
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-1.5">
                   <Text
                     textType="paragraph-sm-semibold"
                     textFont="rubik"
@@ -589,7 +612,7 @@ export default function Review() {
                 </div>
 
                 {/* T-shirt Size */}
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-1.5">
                   <Text
                     textType="paragraph-sm-semibold"
                     textFont="rubik"
@@ -609,7 +632,7 @@ export default function Review() {
                 </div>
 
                 {/* Gender and Background */}
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-1.5">
                   <Text
                     textType="paragraph-sm-semibold"
                     textFont="rubik"
@@ -729,12 +752,12 @@ export default function Review() {
       <img
         src={bush}
         alt="Brush"
-        className="sm:block hidden absolute left-[10px] bottom-[90px]"
+        className="sm:block hidden absolute left-[10px] bottom-[100px]"
       />
       <img
         src={brickhouse}
         alt="Brush"
-        className="sm:block hidden absolute left-[0px] bottom-[38px]"
+        className="sm:block hidden absolute left-[0px] bottom-[100px]"
       />
     </div>
   );
