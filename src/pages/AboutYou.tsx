@@ -7,13 +7,15 @@ import Text from "../components/Text/Text";
 import Input from "../components/Input/Input";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useApplicationContext } from "../contexts/ApplicationContext";
 import Button from "../components/Button/Button";
 import Checkbox from "../components/Checkbox/Checkbox";
 import Dropdown from "../components/Dropdown/Dropdown";
 import { CANADIAN_PROVINCES } from "../constants/locations";
 import { PLAYER_IMAGES } from "../constants/images";
+import { useAuth } from "../contexts/AuthContext";
+import { useSearchParams } from "react-router-dom";
 
 export default function AboutYou() {
   const navigate = useNavigate();
@@ -25,10 +27,12 @@ export default function AboutYou() {
     formData,
     setFormData
   } = useApplicationContext();
+  const { profile } = useAuth();
   const [emailPermission, setEmailPermission] = useState(
     formData?.emailPermission || false
   );
-  const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = parseInt(searchParams.get("page") || "1");
 
   // Form state
   const [fullName, setFullName] = useState(formData?.fullName || "");
@@ -48,6 +52,17 @@ export default function AboutYou() {
   const [emergencyRelationship, setEmergencyRelationship] = useState(
     formData?.emergencyRelationship || ""
   );
+
+  useEffect(() => {
+    if (profile) {
+      if (!fullName && profile.firstName && profile.lastName) {
+        setFullName(`${profile.firstName} ${profile.lastName}`);
+      }
+      if (!email && profile.email) {
+        setEmail(profile.email);
+      }
+    }
+  }, [profile, fullName, email]);
 
   const updateFormData = () => {
     setFormData({
@@ -288,9 +303,16 @@ export default function AboutYou() {
             </div>
 
             <div className="flex flex-row justify-end w-full gap-3">
-              <Button variant="back" onClick={() => navigate("/apply/player")}>
-                Back
-              </Button>
+              <Button
+                variant="back"
+                onClick={() => {
+                  if (page > 1) {
+                    setSearchParams({ page: `${page - 1}` });
+                  } else {
+                    navigate("/apply/player?page=2");
+                  }
+                }}
+              />
               <Button
                 disabled={
                   (page == 1 && !fullName) ||
@@ -304,19 +326,18 @@ export default function AboutYou() {
                 }
                 onClick={() => {
                   if (page < 4) {
-                    setPage(page + 1);
+                    setSearchParams({ page: `${page + 1}` });
                   } else {
                     updateFormData();
                     const updateCompleted = completedSection.map((val, i) =>
                       i === 0 ? true : val
                     );
                     setCompletedSection(updateCompleted);
-                    navigate("/apply/experience");
+                    navigate("/apply/experience?page=1");
                   }
                 }}
-              >
-                Next
-              </Button>
+                variant="next"
+              />
             </div>
 
             <div className="flex justify-end w-full">

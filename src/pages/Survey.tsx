@@ -16,6 +16,7 @@ import Button from "../components/Button/Button";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import { useNavigate } from "react-router-dom";
 import { useApplicationContext } from "../contexts/ApplicationContext";
+import { useSearchParams } from "react-router-dom";
 
 const WORKSHOPS = [
   { label: "Basics in Python", value: "python1" },
@@ -51,7 +52,8 @@ export default function Survey() {
     formData,
     setFormData
   } = useApplicationContext();
-  const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = parseInt(searchParams.get("page") || "1");
 
   // Initialize state from context
   const [selectedWorkshops, setSelectedWorkshops] = useState<string[]>(
@@ -228,7 +230,7 @@ export default function Survey() {
                 {page > 1 ? (
                   <Button
                     variant="back"
-                    onClick={() => setPage(page - 1)}
+                    onClick={() => setSearchParams({ page: `${page - 1}` })}
                     darkMode={true}
                   />
                 ) : (
@@ -249,7 +251,7 @@ export default function Survey() {
                   darkMode={true}
                   onClick={() => {
                     if (page < 5) {
-                      setPage(page + 1);
+                      setSearchParams({ page: `${page + 1}` });
                     } else {
                       updateFormData();
                       const updateCompleted = completedSection.map((val, i) =>

@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { PLAYER_IMAGES } from "../constants/images";
 import { useApplicationContext } from "../contexts/ApplicationContext";
 import appleSVG from "../assets/apple.svg";
+import { useSearchParams } from "react-router-dom";
 
 const COLORS = [
   "#F2D4B5",
@@ -42,7 +43,7 @@ function ColorPicker({
   setEncouragement: React.Dispatch<React.SetStateAction<number>>;
 }) {
   return (
-    <div className="flex gap-2 flex-wrap justify-center sm:justify-end mb-6 w-full">
+    <div className="flex gap-2 flex-wrap mb-6 w-full">
       {COLORS.map((color, index) => (
         <div
           key={index}
@@ -71,7 +72,7 @@ function ItemPicker({
   setSelectedItem: (item: number) => void;
 }) {
   return (
-    <div className="flex flex-wrap justify-center sm:justify-end gap-2 w-full mb-6">
+    <div className="flex flex-wrap justify-start gap-2 w-full mb-6">
       {ITEMS.map((item, index) => (
         <div
           key={index}
@@ -119,7 +120,8 @@ export default function PlayerSelect() {
   const { selectedItem, selectedSkin, setSelectedItem, setSelectedSkin } =
     useApplicationContext();
   const [encouragement, setEncouragement] = useState(0);
-  const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = parseInt(searchParams.get("page") || "1");
 
   return (
     <div className="overflow-hidden bg-linear-to-b from-[#ACDCFD] via-[#B3E9FC] to-[#B9F2FC] h-[100vh] w-full">
@@ -151,8 +153,13 @@ export default function PlayerSelect() {
 
       <div className="w-full h-full flex items-center justify-center px-4 py-8 overflow-hidden">
         <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center gap-12 sm:gap-[150px] w-full max-w-[1200px]">
-          <div className="flex-col items-center sm:items-end w-full sm:w-[430px] gap-4 sm:flex hidden">
-            <Text textType="heading-lg" textFont="rubik" textColor="primary">
+          <div className="flex-col items-start sm:items-end w-full sm:w-[430px] gap-4 sm:flex hidden">
+            <Text
+              textType="heading-lg"
+              className="w-full"
+              textFont="rubik"
+              textColor="primary"
+            >
               {page === 1 ? "Select your hacker!" : "Select your item!"}
             </Text>
 
@@ -171,13 +178,17 @@ export default function PlayerSelect() {
 
             <div className="flex flex-row gap-3">
               {page === 2 && (
-                <Button variant="back" onClick={() => setPage(page - 1)} />
+                <Button
+                  variant="back"
+                  onClick={() => setSearchParams({ page: `${page - 1}` })}
+                />
               )}
               <Button
                 onClick={() => {
-                  if (page === 1) setPage(2);
-                  else navigate("/apply/about");
+                  if (page === 1) setSearchParams({ page: `${page + 1}` });
+                  else navigate("/apply/about?page=1");
                 }}
+                variant="next"
               />
             </div>
             <ProgressBar numSteps={2} currPage={page} />
@@ -203,7 +214,7 @@ export default function PlayerSelect() {
             />
           </div>
 
-          <div className="flex flex-col items-center w-full gap-4 sm:hidden block mt-2">
+          <div className="flex flex-col items-center w-full gap-4 sm:hidden mt-2">
             <Text textType="display" textFont="rubik" textColor="primary">
               {page === 1 ? "Select your hacker!" : "Select your item!"}
             </Text>
@@ -224,12 +235,15 @@ export default function PlayerSelect() {
             <div className="flex flex-col gap-3 w-full items-end mt-4">
               <Button
                 onClick={() => {
-                  if (page === 1) setPage(2);
+                  if (page === 1) setSearchParams({ page: `${page + 1}` });
                   else navigate("/apply/about");
                 }}
               />
               {page === 2 && (
-                <Button variant="back" onClick={() => setPage(page - 1)} />
+                <Button
+                  variant="back"
+                  onClick={() => setSearchParams({ page: `${page - 1}` })}
+                />
               )}
               <ProgressBar numSteps={2} currPage={page} />
             </div>

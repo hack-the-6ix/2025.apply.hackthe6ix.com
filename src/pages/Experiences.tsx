@@ -20,6 +20,7 @@ import FileUpload from "../components/FileUpload/FileUpload";
 import Checkbox from "../components/Checkbox/Checkbox";
 import { useNavigate } from "react-router-dom";
 import { useApplicationContext } from "../contexts/ApplicationContext";
+import { useSearchParams } from "react-router-dom";
 
 // Placeholder data for dropdowns
 const SCHOOLS = [
@@ -63,7 +64,8 @@ export default function Experiences() {
     formData,
     setFormData
   } = useApplicationContext();
-  const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = parseInt(searchParams.get("page") || "1");
 
   // Initialize state from context
   const [school, setSchool] = useState(formData?.school || "");
@@ -324,7 +326,7 @@ export default function Experiences() {
                 {page > 1 ? (
                   <Button
                     variant="back"
-                    onClick={() => setPage(page - 1)}
+                    onClick={() => setSearchParams({ page: `${page - 1}` })}
                     darkMode={true}
                   />
                 ) : (
@@ -339,12 +341,13 @@ export default function Experiences() {
                     (page == 1 && !school) ||
                     (page == 2 && (!year || !program)) ||
                     (page == 3 && !hackathonCount) ||
-                    (page == 4 && !resume)
+                    (page == 4 && !resume) ||
+                    (page == 5 && (!github || !linkedin || !portfolio))
                   }
                   darkMode={true}
                   onClick={() => {
                     if (page < 5) {
-                      setPage(page + 1);
+                      setSearchParams({ page: `${page + 1}` });
                     } else {
                       updateFormData();
                       const updateCompleted = completedSection.map((val, i) =>

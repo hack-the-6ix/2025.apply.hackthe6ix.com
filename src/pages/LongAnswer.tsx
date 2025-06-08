@@ -15,6 +15,7 @@ import Button from "../components/Button/Button";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import { useNavigate } from "react-router-dom";
 import { useApplicationContext } from "../contexts/ApplicationContext";
+import { useSearchParams } from "react-router-dom";
 
 export default function LongAnswer() {
   const navigate = useNavigate();
@@ -26,7 +27,8 @@ export default function LongAnswer() {
     formData,
     setFormData
   } = useApplicationContext();
-  const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = parseInt(searchParams.get("page") || "1");
 
   // Initialize state from context
   const [accomplish, setAccomplish] = useState(formData?.accomplish || "");
@@ -117,7 +119,7 @@ export default function LongAnswer() {
                 {page > 1 ? (
                   <Button
                     variant="back"
-                    onClick={() => setPage(page - 1)}
+                    onClick={() => setSearchParams({ page: `${page - 1}` })}
                     darkMode={true}
                   />
                 ) : (
@@ -136,7 +138,7 @@ export default function LongAnswer() {
                   darkMode={true}
                   onClick={() => {
                     if (page < 3) {
-                      setPage(page + 1);
+                      setSearchParams({ page: `${page + 1}` });
                     } else {
                       updateFormData();
                       const updateCompleted = completedSection.map((val, i) =>

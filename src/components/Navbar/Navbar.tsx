@@ -6,12 +6,12 @@ import { IoMenu } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 
 const NAV_LINKS = [
-  { label: "Select Player", path: "/apply/player" },
-  { label: "About You", path: "/apply/about" },
-  { label: "Experiences", path: "/apply/experience" },
-  { label: "Long-Answer", path: "/apply/long-answer" },
-  { label: "Survey", path: "/apply/survey" },
-  { label: "Review", path: "/apply/review" }
+  { label: "Select Player", path: "/apply/player?page=1" },
+  { label: "About You", path: "/apply/about?page=1" },
+  { label: "Experiences", path: "/apply/experience?page=1" },
+  { label: "Long-Answer", path: "/apply/long-answer?page=1" },
+  { label: "Survey", path: "/apply/survey?page=1" },
+  { label: "Review", path: "/apply/review?page=1" }
 ];
 
 const LIGHT_MODE: string[] = ["player", "about", "review"];
