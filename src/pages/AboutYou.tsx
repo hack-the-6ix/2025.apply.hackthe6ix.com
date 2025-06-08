@@ -7,8 +7,8 @@ import Text from "../components/Text/Text";
 import Input from "../components/Input/Input";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import { useNavigate } from "react-router-dom";
-import { Context } from "../components/ContextProvider";
-import { useContext, useState } from "react";
+import { useState } from "react";
+import { useApplicationContext } from "../contexts/ApplicationContext";
 import Button from "../components/Button/Button";
 import Checkbox from "../components/Checkbox/Checkbox";
 import Dropdown from "../components/Dropdown/Dropdown";
@@ -26,8 +26,8 @@ export default function AboutYou() {
     selectedItem,
     selectedSkin,
     formData,
-    setFormData,
-  } = useContext(Context);
+    setFormData
+  } = useApplicationContext();
   const [emailPermission, setEmailPermission] = useState(
     formData?.emailPermission || false
   );
@@ -279,7 +279,7 @@ export default function AboutYou() {
                           { label: "Sibling", value: "sibling" },
                           { label: "Spouse", value: "spouse" },
                           { label: "Friend", value: "friend" },
-                          { label: "Other", value: "other" },
+                          { label: "Other", value: "other" }
                         ]}
                         value={emergencyRelationship}
                         onChange={(value) => setEmergencyRelationship(value)}

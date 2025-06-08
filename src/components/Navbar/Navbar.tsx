@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Link, useSearchParams, useLocation } from "react-router-dom";
 import Text from "../Text/Text";
-import { Context } from "../ContextProvider";
-import { useContext } from "react";
+import { useApplicationContext } from "../../contexts/ApplicationContext";
 import { IoMenu } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 
@@ -17,7 +16,7 @@ const NAV_LINKS = [
 const LIGHT_MODE: string[] = ["player", "about", "review"];
 
 const Navbar: React.FC = () => {
-  const { completedSection } = useContext(Context);
+  const { completedSection } = useApplicationContext();
   const [searchParams] = useSearchParams();
   const section = searchParams.get("section");
   const [menuOpen, setMenuOpen] = useState(false);

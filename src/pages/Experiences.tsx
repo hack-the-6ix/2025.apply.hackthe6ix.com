@@ -10,17 +10,16 @@ import corner_rocks from "../assets/corner_rocks.svg";
 import corner_rocks2 from "../assets/corner_rocks2.svg";
 import { PLAYER_IMAGES } from "../constants/images";
 
-import { useState } from 'react';
-import Input from '../components/Input/Input';
-import Text from '../components/Text/Text';
-import Dropdown from '../components/Dropdown/Dropdown';
-import Button from '../components/Button/Button';
-import ProgressBar from '../components/ProgressBar/ProgressBar';
-import FileUpload from '../components/FileUpload/FileUpload';
-import Checkbox from '../components/Checkbox/Checkbox';
-import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import { Context } from '../components/ContextProvider';
+import { useState } from "react";
+import Input from "../components/Input/Input";
+import Text from "../components/Text/Text";
+import Dropdown from "../components/Dropdown/Dropdown";
+import Button from "../components/Button/Button";
+import ProgressBar from "../components/ProgressBar/ProgressBar";
+import FileUpload from "../components/FileUpload/FileUpload";
+import Checkbox from "../components/Checkbox/Checkbox";
+import { useNavigate } from "react-router-dom";
+import { useApplicationContext } from "../contexts/ApplicationContext";
 import { useSearchParams } from "react-router-dom";
 
 // Placeholder data for dropdowns
@@ -29,7 +28,7 @@ const SCHOOLS = [
   { label: "University of Waterloo", value: "uwaterloo" },
   { label: "University of British Columbia", value: "ubc" },
   { label: "McGill University", value: "mcgill" },
-  { label: "Other", value: "other" },
+  { label: "Other", value: "other" }
 ];
 
 const YEARS = [
@@ -37,7 +36,7 @@ const YEARS = [
   { label: "Second Year", value: "2" },
   { label: "Third Year", value: "3" },
   { label: "Fourth Year", value: "4" },
-  { label: "Fifth Year+", value: "5+" },
+  { label: "Fifth Year+", value: "5+" }
 ];
 
 const PROGRAMS = [
@@ -45,38 +44,74 @@ const PROGRAMS = [
   { label: "Computer Engineering", value: "ce" },
   { label: "Software Engineering", value: "se" },
   { label: "Electrical Engineering", value: "ee" },
-  { label: "Other", value: "other" },
+  { label: "Other", value: "other" }
 ];
 
 const HACKATHON_EXPERIENCE = [
   { label: "0", value: "0" },
   { label: "1-2", value: "1-2" },
   { label: "3-5", value: "3-5" },
-  { label: "5+", value: "5+" },
+  { label: "5+", value: "5+" }
 ];
 
 export default function Experiences() {
-    const [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const pageInitial = parseInt(searchParams.get("page") || "1");
   const navigate = useNavigate();
-  const { setCompletedSection, completedSection, selectedItem, selectedSkin, formData, setFormData } =
-    useContext(Context);
+  const {
+    setCompletedSection,
+    completedSection,
+    selectedItem,
+    selectedSkin,
+    formData,
+    setFormData
+  } = useApplicationContext();
   const [page, setPage] = useState(pageInitial);
-  
+
   // Initialize state from context
   const [school, setSchool] = useState(formData?.school || "");
   const [year, setYear] = useState(formData?.year || "");
   const [program, setProgram] = useState(formData?.program || "");
-  const [hackathonCount, setHackathonCount] = useState(formData?.hackathonCount || "");
+  const [hackathonCount, setHackathonCount] = useState(
+    formData?.hackathonCount || ""
+  );
   const [resume, setResume] = useState<File | null>(formData?.resume || null);
-  const [emailPermission, setEmailPermission] = useState(formData?.emailPermission || false);
+  const [emailPermission, setEmailPermission] = useState(
+    formData?.emailPermission || false
+  );
   const [github, setGithub] = useState(formData?.github || "");
   const [linkedin, setLinkedin] = useState(formData?.linkedin || "");
   const [portfolio, setPortfolio] = useState(formData?.portfolio || "");
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      setResume(event.target.files[0]);
+  const handleFileChange = async (file: File | null) => {
+    if (file) {
+      setResume(file);
+
+      try {
+        const formData = new FormData();
+        formData.append("resume", file);
+
+        const token = localStorage.getItem("token");
+        const headers: Record<string, string> = {
+          "X-Access-Token": token || ""
+        };
+
+        const baseUrl =
+          import.meta.env.VITE_API_URL || "https://api.hackthe6ix.com";
+        const response = await fetch(`${baseUrl}/api/action/updateresume`, {
+          method: "PUT",
+          headers,
+          body: formData
+        });
+
+        if (!response.ok) {
+          throw await response.json();
+        }
+      } catch (error) {
+        console.error("Error uploading resume:", error);
+      }
+    } else {
+      setResume(null);
     }
   };
 
@@ -103,7 +138,12 @@ export default function Experiences() {
             <Text textType="heading-lg" textFont="rubik" textColor="white">
               Your School (Most Recently Attended)*
             </Text>
-            <Text textType="paragraph-sm" textFont="rubik" textColor="white" className="ml-[10px]">
+            <Text
+              textType="paragraph-sm"
+              textFont="rubik"
+              textColor="white"
+              className="ml-[10px]"
+            >
               School Name*
             </Text>
             <Dropdown
@@ -112,9 +152,9 @@ export default function Experiences() {
               onChange={setSchool}
               placeholder="Select your school"
               backgroundColor="#475D7B"
-              textColor='white'
-              menuBackgroundColor='#475D7B'
-              menuTextColor='white'
+              textColor="white"
+              menuBackgroundColor="#475D7B"
+              menuTextColor="white"
             />
           </div>
         );
@@ -126,7 +166,12 @@ export default function Experiences() {
             </Text>
             <div className="flex gap-4">
               <div className="w-1/2">
-                <Text textType="paragraph-sm" textFont="rubik" textColor="white" className="ml-[10px]">
+                <Text
+                  textType="paragraph-sm"
+                  textFont="rubik"
+                  textColor="white"
+                  className="ml-[10px]"
+                >
                   Year of Study*
                 </Text>
                 <Dropdown
@@ -135,13 +180,18 @@ export default function Experiences() {
                   onChange={setYear}
                   placeholder="Select year of study"
                   backgroundColor="#475D7B"
-                  textColor='white'
-                  menuBackgroundColor='#475D7B'
-                  menuTextColor='white'
+                  textColor="white"
+                  menuBackgroundColor="#475D7B"
+                  menuTextColor="white"
                 />
               </div>
               <div className="w-1/2">
-                <Text textType="paragraph-sm" textFont="rubik" textColor="white" className="ml-[10px]">
+                <Text
+                  textType="paragraph-sm"
+                  textFont="rubik"
+                  textColor="white"
+                  className="ml-[10px]"
+                >
                   Program*
                 </Text>
                 <Dropdown
@@ -150,9 +200,9 @@ export default function Experiences() {
                   onChange={setProgram}
                   placeholder="Select your program"
                   backgroundColor="#475D7B"
-                  textColor='white'
-                  menuBackgroundColor='#475D7B'
-                  menuTextColor='white'
+                  textColor="white"
+                  menuBackgroundColor="#475D7B"
+                  menuTextColor="white"
                 />
               </div>
             </div>
@@ -170,9 +220,9 @@ export default function Experiences() {
               onChange={setHackathonCount}
               placeholder="Select number of hackathons"
               backgroundColor="#475D7B"
-              textColor='white'
-              menuBackgroundColor='#475D7B'
-              menuTextColor='white'
+              textColor="white"
+              menuBackgroundColor="#475D7B"
+              menuTextColor="white"
             />
           </div>
         );
@@ -184,7 +234,7 @@ export default function Experiences() {
             </Text>
             <FileUpload
               value={resume}
-              onChange={setResume}
+              onChange={handleFileChange}
               accept=".pdf"
               backgroundColor="#475D7B"
               textColor="white"
@@ -208,7 +258,12 @@ export default function Experiences() {
             </Text>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-1">
-                <Text textType="paragraph-sm" textFont="rubik" textColor="white" className="ml-[10px]">
+                <Text
+                  textType="paragraph-sm"
+                  textFont="rubik"
+                  textColor="white"
+                  className="ml-[10px]"
+                >
                   GitHub
                 </Text>
                 <Input
@@ -220,7 +275,12 @@ export default function Experiences() {
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <Text textType="paragraph-sm" textFont="rubik" textColor="white" className="ml-[10px]">
+                <Text
+                  textType="paragraph-sm"
+                  textFont="rubik"
+                  textColor="white"
+                  className="ml-[10px]"
+                >
                   LinkedIn
                 </Text>
                 <Input
@@ -232,7 +292,12 @@ export default function Experiences() {
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <Text textType="paragraph-sm" textFont="rubik" textColor="white" className="ml-[10px]">
+                <Text
+                  textType="paragraph-sm"
+                  textFont="rubik"
+                  textColor="white"
+                  className="ml-[10px]"
+                >
                   Portfolio
                 </Text>
                 <Input
@@ -256,21 +321,30 @@ export default function Experiences() {
       <div className="w-full h-full flex items-center justify-start px-4 py-8 overflow-hidden">
         <div className="flex flex-col items-start justify-center gap-12 w-full max-w-[1200px] sm:ml-[158px] -mt-[100px]">
           <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
-            <div className="flex flex-col gap-4 w-full">
-              {renderPage()}
-            </div>
+            <div className="flex flex-col gap-4 w-full">{renderPage()}</div>
             <div className="flex flex-col gap-4 w-full">
               <div className="flex flex-row justify-end w-full gap-3">
                 {page > 1 ? (
-                  <Button variant="back" onClick={() => setPage(page - 1)} darkMode={true}/>
+                  <Button
+                    variant="back"
+                    onClick={() => setPage(page - 1)}
+                    darkMode={true}
+                  />
                 ) : (
-                  <Button variant="back" onClick={() => navigate("/apply?section=about&page=4")} darkMode={true}/>
+                  <Button
+                    variant="back"
+                    onClick={() => navigate("/apply?section=about&page=4")}
+                    darkMode={true}
+                  />
                 )}
                 <Button
-                                disabled={(page == 1 && !school) || (page == 2 && (!year || !program)) || (page == 3 && (!hackathonCount) )
-                   || (page == 4 && (!resume))
-                }
-                darkMode={true}
+                  disabled={
+                    (page == 1 && !school) ||
+                    (page == 2 && (!year || !program)) ||
+                    (page == 3 && !hackathonCount) ||
+                    (page == 4 && !resume)
+                  }
+                  darkMode={true}
                   onClick={() => {
                     if (page < 5) {
                       setPage(page + 1);
@@ -315,7 +389,7 @@ export default function Experiences() {
         alt="rock3"
         className="sm:block hidden absolute h-[80px] w-[80px] bottom-[70px] left-[150px]"
       />
-      <img 
+      <img
         src={centipedeSVG}
         alt="centipede"
         className="sm:block hidden absolute h-[100px] w-[100px] bottom-[50px] left-[170px]"
@@ -368,4 +442,3 @@ export default function Experiences() {
     </div>
   );
 }
-  

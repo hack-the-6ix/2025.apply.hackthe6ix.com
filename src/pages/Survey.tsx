@@ -1,23 +1,23 @@
-import brickhouse from "../assets/brickhouse.svg"
-import pinetree from "../assets/pine_tree.svg"
-import campfire from "../assets/campfire.svg"
-import apple from "../assets/apple.svg"
+import brickhouse from "../assets/brickhouse.svg";
+import pinetree from "../assets/pine_tree.svg";
+import campfire from "../assets/campfire.svg";
+import apple from "../assets/apple.svg";
 import { PLAYER_IMAGES } from "../constants/images";
-import firefly from "../assets/firefly.svg"
-import cloud from "../assets/cloud.svg"
-import cloudgroup2 from "../assets/cloudgroup2.svg"
+import firefly from "../assets/firefly.svg";
+import cloud from "../assets/cloud.svg";
+import cloudgroup2 from "../assets/cloudgroup2.svg";
 
-import { useState } from 'react';
-import Text from '../components/Text/Text';
-import Dropdown from '../components/Dropdown/Dropdown';
-import Input from '../components/Input/Input';
-import Checkbox from '../components/Checkbox/Checkbox';
-import Button from '../components/Button/Button';
-import ProgressBar from '../components/ProgressBar/ProgressBar';
-import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
+import { useState } from "react";
+import Text from "../components/Text/Text";
+import Dropdown from "../components/Dropdown/Dropdown";
+import Input from "../components/Input/Input";
+import Checkbox from "../components/Checkbox/Checkbox";
+import Button from "../components/Button/Button";
+import ProgressBar from "../components/ProgressBar/ProgressBar";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Context } from '../components/ContextProvider';
+import { useApplicationContext } from "../contexts/ApplicationContext";
 
 const WORKSHOPS = [
   { label: "Basics in Python", value: "python1" },
@@ -31,7 +31,7 @@ const WORKSHOPS = [
   { label: "Basics in Python", value: "python9" },
   { label: "Basics in Python", value: "python10" },
   { label: "Basics in Python", value: "python11" },
-  { label: "Basics in Python", value: "python12" },
+  { label: "Basics in Python", value: "python12" }
 ];
 
 const TSHIRT_SIZES = [
@@ -40,30 +40,44 @@ const TSHIRT_SIZES = [
   { label: "M", value: "m" },
   { label: "L", value: "l" },
   { label: "XL", value: "xl" },
-  { label: "XXL", value: "xxl" },
+  { label: "XXL", value: "xxl" }
 ];
 
 export default function Survey() {
-        const [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const pageInitial = parseInt(searchParams.get("page") || "1");
   const navigate = useNavigate();
-  const { setCompletedSection, completedSection, selectedItem, selectedSkin, formData, setFormData } =
-    useContext(Context);
+  const {
+    setCompletedSection,
+    completedSection,
+    selectedItem,
+    selectedSkin,
+    formData,
+    setFormData
+  } = useApplicationContext();
   const [page, setPage] = useState(pageInitial);
-  
+
   // Initialize state from context
-  const [selectedWorkshops, setSelectedWorkshops] = useState<string[]>(formData?.selectedWorkshops || []);
+  const [selectedWorkshops, setSelectedWorkshops] = useState<string[]>(
+    formData?.selectedWorkshops || []
+  );
   const [tshirtSize, setTshirtSize] = useState(formData?.tshirtSize || "");
-  const [dietaryRestrictions, setDietaryRestrictions] = useState(formData?.dietaryRestrictions || "");
+  const [dietaryRestrictions, setDietaryRestrictions] = useState(
+    formData?.dietaryRestrictions || ""
+  );
   const [allergies, setAllergies] = useState(formData?.allergies || "");
   const [gender, setGender] = useState(formData?.gender || "");
   const [ethnicity, setEthnicity] = useState(formData?.ethnicity || "");
-  const [permission1, setPermission1] = useState(formData?.permission1 || false);
-  const [permission2, setPermission2] = useState(formData?.permission2 || false);
+  const [permission1, setPermission1] = useState(
+    formData?.permission1 || false
+  );
+  const [permission2, setPermission2] = useState(
+    formData?.permission2 || false
+  );
 
   const handleWorkshopToggle = (value: string) => {
     if (selectedWorkshops.includes(value)) {
-      setSelectedWorkshops(selectedWorkshops.filter(v => v !== value));
+      setSelectedWorkshops(selectedWorkshops.filter((v) => v !== value));
     } else if (selectedWorkshops.length < 3) {
       setSelectedWorkshops([...selectedWorkshops, value]);
     }
@@ -212,19 +226,30 @@ export default function Survey() {
       <div className="w-full h-full flex items-center justify-start px-4 py-8 overflow-hidden">
         <div className="flex flex-col items-start justify-center gap-12 w-full max-w-[1200px] sm:ml-[158px] -mt-[100px]">
           <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
-            <div className="flex flex-col gap-4 w-full">
-              {renderPage()}
-            </div>
+            <div className="flex flex-col gap-4 w-full">{renderPage()}</div>
             <div className="flex flex-col gap-4 w-full">
               <div className="flex flex-row justify-end w-full gap-3">
                 {page > 1 ? (
-                  <Button darkMode={true} variant="back" onClick={() => setPage(page - 1)} />
+                  <Button
+                    darkMode={true}
+                    variant="back"
+                    onClick={() => setPage(page - 1)}
+                  />
                 ) : (
-                  <Button darkMode={true} variant="back" onClick={() => navigate("/apply?section=long-answer&page=3")} />
+                  <Button
+                    darkMode={true}
+                    variant="back"
+                    onClick={() =>
+                      navigate("/apply?section=long-answer&page=3")
+                    }
+                  />
                 )}
                 <Button
-                                disabled={(page == 1 && selectedWorkshops.length != 3) || (page == 2 && (!tshirtSize)) || (page == 5 && (!permission1 || !permission2)) 
-                }
+                  disabled={
+                    (page == 1 && selectedWorkshops.length != 3) ||
+                    (page == 2 && !tshirtSize) ||
+                    (page == 5 && (!permission1 || !permission2))
+                  }
                   darkMode={true}
                   onClick={() => {
                     if (page < 5) {

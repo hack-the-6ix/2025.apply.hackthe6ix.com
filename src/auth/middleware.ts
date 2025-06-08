@@ -27,7 +27,7 @@ export async function checkAuth(): Promise<boolean> {
       method: "POST",
       body: {
         callbackURL,
-        redirectTo: window.location.pathname
+        redirectTo: window.location.href
       }
     }
   );

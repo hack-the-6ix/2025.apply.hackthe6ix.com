@@ -1,5 +1,6 @@
 import { type JSX } from "react";
 import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
 import { useSearchParams } from "react-router-dom";
 import AboutYou from "./pages/AboutYou";
 import Experiences from "./pages/Experiences";
@@ -51,6 +52,7 @@ function Application() {
       </div>
       <Navbar />
       {CurrentPage}
+      <Footer />
     </div>
   );
 }

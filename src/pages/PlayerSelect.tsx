@@ -12,7 +12,7 @@ import shrub_flowerSVG from "../assets/bush_flower.svg";
 import birdSVG from "../assets/bird.svg";
 import { useNavigate } from "react-router-dom";
 import { PLAYER_IMAGES } from "../constants/images";
-import { Context } from "../components/ContextProvider";
+import { useApplicationContext } from "../contexts/ApplicationContext";
 import appleSVG from "../assets/apple.svg";
 
 const COLORS = [
@@ -117,7 +117,7 @@ function SignDisplay({
 export default function PlayerSelect() {
   const navigate = useNavigate();
   const { selectedItem, selectedSkin, setSelectedItem, setSelectedSkin } =
-    useContext(Context);
+    useApplicationContext();
   const [encouragement, setEncouragement] = useState(0);
   const [page, setPage] = useState(1);
 

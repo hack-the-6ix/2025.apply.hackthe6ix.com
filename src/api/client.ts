@@ -1,3 +1,8 @@
+export interface ApiResponse<Data> {
+  status: number;
+  message: Data;
+}
+
 export async function fetchHt6<T, P = undefined>(
   path: string,
   options: { body?: P; method?: string } = {}

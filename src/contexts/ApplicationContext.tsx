@@ -1,6 +1,7 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useContext } from "react";
+import type { ReactNode } from "react";
 
-interface FormData {
+export interface FormData {
   // About You fields
   fullName?: string;
   email?: string;
@@ -11,7 +12,7 @@ interface FormData {
   emergencyLastName?: string;
   emergencyPhone?: string;
   emergencyRelationship?: string;
-  
+
   // Experience fields
   school?: string;
   year?: string;
@@ -39,7 +40,7 @@ interface FormData {
   permission2?: boolean;
 }
 
-export const Context = createContext<{
+interface ApplicationContextType {
   completedSection: boolean[];
   setCompletedSection: (section: boolean[]) => void;
   selectedSkin: number;
@@ -48,48 +49,52 @@ export const Context = createContext<{
   setSelectedItem: (item: number) => void;
   formData: FormData;
   setFormData: (data: FormData) => void;
-}>({
-  completedSection: [false, false, false, false, false],
-  setCompletedSection: () => {},
-  selectedItem: 0,
-  setSelectedItem: () => {},
-  selectedSkin: 0,
-  setSelectedSkin: () => {},
-  formData: {},
-  setFormData: () => {},
-});
+}
 
-export default function ContextProvider({
-  children,
+const ApplicationContext = createContext<ApplicationContextType | undefined>(
+  undefined
+);
+
+export const ApplicationContextProvider = ({
+  children
 }: {
-  children: React.ReactNode;
-}) {
+  children: ReactNode;
+}) => {
   const [completedSection, setCompletedSection] = useState([
     false,
     false,
     false,
     false,
-    false,
+    false
   ]);
-
   const [selectedSkin, setSelectedSkin] = useState(0);
   const [selectedItem, setSelectedItem] = useState(0);
   const [formData, setFormData] = useState<FormData>({});
 
   return (
-    <Context.Provider 
-      value={{ 
-        completedSection, 
-        setCompletedSection, 
-        selectedItem, 
-        setSelectedItem, 
-        selectedSkin, 
+    <ApplicationContext.Provider
+      value={{
+        completedSection,
+        setCompletedSection,
+        selectedItem,
+        setSelectedItem,
+        selectedSkin,
         setSelectedSkin,
         formData,
         setFormData
       }}
     >
       {children}
-    </Context.Provider>
+    </ApplicationContext.Provider>
   );
-}
+};
+
+export const useApplicationContext = () => {
+  const context = useContext(ApplicationContext);
+  if (context === undefined) {
+    throw new Error(
+      "useApplicationContext must be used within an ApplicationContextProvider"
+    );
+  }
+  return context;
+};

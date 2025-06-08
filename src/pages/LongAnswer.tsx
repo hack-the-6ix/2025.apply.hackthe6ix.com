@@ -15,11 +15,11 @@ import Button from "../components/Button/Button";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { Context } from "../components/ContextProvider";
+import { useApplicationContext } from "../contexts/ApplicationContext";
 import { useSearchParams } from "react-router-dom";
 
 export default function LongAnswer() {
-      const [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const pageInitial = parseInt(searchParams.get("page") || "1");
   const navigate = useNavigate();
   const {
@@ -28,8 +28,8 @@ export default function LongAnswer() {
     selectedItem,
     selectedSkin,
     formData,
-    setFormData,
-  } = useContext(Context);
+    setFormData
+  } = useApplicationContext();
   const [page, setPage] = useState(pageInitial);
 
   // Initialize state from context
@@ -42,7 +42,7 @@ export default function LongAnswer() {
       ...formData,
       accomplish,
       project,
-      funFact,
+      funFact
     });
   };
 
