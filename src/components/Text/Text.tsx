@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import styles from './Text.module.scss';
 
-export type TextColor = 'primary' | 'secondary' | 'accent' | 'white' | 'black' | 'neutral-500' | 'gray';
+export type TextColor = 'primary' | 'secondary' | 'accent' | 'white' | 'black' | 'neutral-500' | 'gray' | 'green' | 'orange';
 
 export type TextType =
   | 'display'

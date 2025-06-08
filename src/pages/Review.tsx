@@ -2,7 +2,9 @@ import { PLAYER_IMAGES } from "../constants/images";
 import apple from "../assets/apple.svg";
 import brickhouse from "../assets/brickhouse_review.svg";
 import bush from "../assets/bush.svg";
-import { CheckCircle, AlertCircle } from "lucide-react";
+import checkCircle from "../assets/check_circle.svg";
+import exclamation from "../assets/Exclamation.svg";
+import { AlertCircle } from "lucide-react";
 import { type IPartialApplication } from "../types/application";
 import { fetchHt6 } from "../api/client";
 import { type ApiResponse } from "../api/client";
@@ -200,25 +202,25 @@ export default function Review() {
 
           <div className="flex items-center gap-2 mb-6">
             {isFormComplete() ? (
-              <div className="flex items-center gap-2 bg-green-100/80 px-4 py-2 rounded-[90px]">
-                <CheckCircle className="w-5 h-5 text-green-600" />
+              <div className="flex items-center gap-2 bg-green-100/80 px-4 py-2 rounded-[90px] border border-[#007A46]">
+                <img src={checkCircle} alt="Check" className="w-5 h-5" />
                 <Text
                   textType="paragraph-sm"
                   textFont="rubik"
-                  textColor="primary"
-                  className="font-medium"
+                  textColor="green"
+                  className="font-medium text-[#007A46]"
                 >
                   Ready to submit
                 </Text>
               </div>
             ) : (
-              <div className="flex items-center gap-2 bg-orange-100/80 px-4 py-2 rounded-[90px]">
-                <AlertCircle className="w-5 h-5 text-orange-500" />
+              <div className="flex items-center gap-2 bg-orange-100/80 px-4 py-2 rounded-[90px] border border-[#F58120]">
+                <img src={exclamation} alt="Exclamation" className="w-5 h-5" />
                 <Text
                   textType="paragraph-sm"
                   textFont="rubik"
-                  textColor="primary"
-                  className="font-medium"
+                  textColor="orange"
+                  className="font-medium text-[#F58120]"
                 >
                   Incomplete application
                 </Text>
