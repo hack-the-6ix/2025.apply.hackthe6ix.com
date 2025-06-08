@@ -227,7 +227,7 @@ export default function Review() {
 
         <div className="max-h-[35vh] overflow-y-auto pr-4 space-y-6">
           {/* About You Section */}
-          <div className="space-y-2">
+          <div className="space-y-5">
             <Text textType="heading-sm" textFont="rubik" textColor="primary">
               About You
             </Text>
@@ -236,15 +236,14 @@ export default function Review() {
                 {/* Full Name */}
                 <div className="flex flex-col">
                   <Text
-                    textType="paragraph-sm"
+                    textType="paragraph-sm-semibold"
                     textFont="rubik"
                     textColor="primary"
-                    className="font-bold"
                   >
                     Full Name
                   </Text>
                   <Text
-                    textType="paragraph-lg"
+                    textType="paragraph-lg-semibold"
                     textFont="rubik"
                     textColor={formData?.fullName ? "primary" : "gray"}
                   >
@@ -255,15 +254,14 @@ export default function Review() {
                 {/* Location */}
                 <div className="flex flex-col">
                   <Text
-                    textType="paragraph-sm"
+                    textType="paragraph-sm-semibold"
                     textFont="rubik"
                     textColor="primary"
-                    className="font-bold"
                   >
                     Location
                   </Text>
                   <Text
-                    textType="paragraph-lg"
+                    textType="paragraph-lg-semibold"
                     textFont="rubik"
                     textColor={formData?.city && formData?.province ? "primary" : "gray"}
                   >
@@ -272,7 +270,7 @@ export default function Review() {
                       : "Not provided"}
                   </Text>
                   <Text
-                    textType="paragraph-lg"
+                    textType="paragraph-lg-semibold"
                     textFont="rubik"
                     textColor={formData?.country ? "primary" : "gray"}
                   >
@@ -283,15 +281,14 @@ export default function Review() {
                 {/* Email */}
                 <div className="flex flex-col">
                   <Text
-                    textType="paragraph-sm"
+                    textType="paragraph-sm-semibold"
                     textFont="rubik"
                     textColor="primary"
-                    className="font-bold"
                   >
                     Email
                   </Text>
                   <Text
-                    textType="paragraph-lg"
+                    textType="paragraph-lg-semibold"
                     textFont="rubik"
                     textColor={formData?.email ? "primary" : "gray"}
                   >
@@ -302,15 +299,14 @@ export default function Review() {
                 {/* Emergency Contact */}
                 <div className="flex flex-col">
                   <Text
-                    textType="paragraph-sm"
+                    textType="paragraph-sm-semibold"
                     textFont="rubik"
                     textColor="primary"
-                    className="font-bold"
                   >
                     Emergency Contact
                   </Text>
                   <Text
-                    textType="paragraph-lg"
+                    textType="paragraph-lg-semibold"
                     textFont="rubik"
                     textColor={formData?.emergencyFirstName ? "primary" : "gray"}
                   >
@@ -319,7 +315,7 @@ export default function Review() {
                       : "Not provided"}
                   </Text>
                   <Text
-                    textType="paragraph-lg"
+                    textType="paragraph-lg-semibold"
                     textFont="rubik"
                     textColor={formData?.emergencyPhone ? "primary" : "gray"}
                   >
@@ -340,15 +336,14 @@ export default function Review() {
                 {/* School */}
                 <div className="flex flex-col">
                   <Text
-                    textType="paragraph-sm"
+                    textType="paragraph-sm-semibold"
                     textFont="rubik"
                     textColor="primary"
-                    className="font-bold"
                   >
                     School (Most Recently Attended)
                   </Text>
                   <Text
-                    textType="paragraph-lg"
+                    textType="paragraph-lg-semibold"
                     textFont="rubik"
                     textColor={formData?.school ? "primary" : "gray"}
                   >
@@ -359,15 +354,14 @@ export default function Review() {
                 {/* Resume */}
                 <div className="flex flex-col">
                   <Text
-                    textType="paragraph-sm"
+                    textType="paragraph-sm-semibold"
                     textFont="rubik"
                     textColor="primary"
-                    className="font-bold"
                   >
                     Resume Uploaded*
                   </Text>
                   <Text
-                    textType="paragraph-lg"
+                    textType="paragraph-lg-semibold"
                     textFont="rubik"
                     textColor={formData?.resume ? "primary" : "gray"}
                   >
@@ -378,15 +372,14 @@ export default function Review() {
                 {/* Program and Year */}
                 <div className="flex flex-col">
                   <Text
-                    textType="paragraph-sm"
+                    textType="paragraph-sm-semibold"
                     textFont="rubik"
                     textColor="primary"
-                    className="font-bold"
                   >
                     Program and Year of Study
                   </Text>
                   <Text
-                    textType="paragraph-lg"
+                    textType="paragraph-lg-semibold"
                     textFont="rubik"
                     textColor={formData?.program && formData?.year ? "primary" : "gray"}
                   >
@@ -399,10 +392,9 @@ export default function Review() {
                 {/* Social Links */}
                 <div className="flex flex-col">
                   <Text
-                    textType="paragraph-sm"
+                    textType="paragraph-sm-semibold"
                     textFont="rubik"
                     textColor="primary"
-                    className="font-bold"
                   >
                     Links to Socials
                   </Text>
@@ -410,7 +402,7 @@ export default function Review() {
                     <div className="space-y-1">
                       {formData?.github && (
                         <Text
-                          textType="paragraph-lg"
+                          textType="paragraph-lg-semibold"
                           textFont="rubik"
                           textColor="primary"
                         >
@@ -419,7 +411,7 @@ export default function Review() {
                       )}
                       {formData?.linkedin && (
                         <Text
-                          textType="paragraph-lg"
+                          textType="paragraph-lg-semibold"
                           textFont="rubik"
                           textColor="primary"
                         >
@@ -428,7 +420,7 @@ export default function Review() {
                       )}
                       {formData?.portfolio && (
                         <Text
-                          textType="paragraph-lg"
+                          textType="paragraph-lg-semibold"
                           textFont="rubik"
                           textColor="primary"
                         >
@@ -438,7 +430,7 @@ export default function Review() {
                     </div>
                   ) : (
                     <Text
-                      textType="paragraph-lg"
+                      textType="paragraph-lg-semibold"
                       textFont="rubik"
                       textColor="gray"
                     >
@@ -450,15 +442,14 @@ export default function Review() {
                 {/* Hackathon Experience */}
                 <div className="flex flex-col">
                   <Text
-                    textType="paragraph-sm"
+                    textType="paragraph-sm-semibold"
                     textFont="rubik"
                     textColor="primary"
-                    className="font-bold"
                   >
                     Number of Previous Hackathons Attended*
                   </Text>
                   <Text
-                    textType="paragraph-lg"
+                    textType="paragraph-lg-semibold"
                     textFont="rubik"
                     textColor={formData?.hackathonCount ? "primary" : "gray"}
                   >
@@ -476,55 +467,51 @@ export default function Review() {
             <div className="bg-white/50 p-4 rounded-md space-y-4">
               <div className="flex flex-col">
                 <Text
-                  textType="paragraph-sm"
+                  textType="paragraph-sm-semibold"
                   textFont="rubik"
                   textColor="primary"
-                  className="font-bold"
                 >
                   What would you like to accomplish at Hack the 6ix?
                 </Text>
                 <Text
-                  textType="paragraph-lg"
+                  textType="paragraph-lg-semibold"
                   textFont="rubik"
                   textColor={formData?.accomplish ? "primary" : "gray"}
-                  className="whitespace-pre-wrap font-bold"
+                  className="whitespace-pre-wrap"
                 >
                   {formData?.accomplish || "Not filled"}
                 </Text>
               </div>
               <div className="flex flex-col">
                 <Text
-                  textType="paragraph-sm"
+                  textType="paragraph-sm-semibold"
                   textFont="rubik"
                   textColor="primary"
-                  className="font-bold"
                 >
                   What is one project you were proud of? What tools and methods
                   did you use to complete it?
                 </Text>
                 <Text
-                  textType="paragraph-lg"
+                  textType="paragraph-lg-semibold"
                   textFont="rubik"
                   textColor={formData?.project ? "primary" : "gray"}
-                  className="whitespace-pre-wrap font-bold"
+                  className="whitespace-pre-wrap"
                 >
                   {formData?.project || "Not filled"}
                 </Text>
               </div>
               <div className="flex flex-col">
                 <Text
-                  textType="paragraph-sm"
+                  textType="paragraph-sm-semibold"
                   textFont="rubik"
                   textColor="primary"
-                  className="font-bold"
                 >
                   Fun Fact
                 </Text>
                 <Text
-                  textType="paragraph-lg"
+                  textType="paragraph-lg-semibold"
                   textFont="rubik"
                   textColor={formData?.funFact ? "primary" : "gray"}
-                  className="font-bold"
                 >
                   {formData?.funFact || "Not filled"}
                 </Text>
@@ -542,16 +529,15 @@ export default function Review() {
                 {/* Workshops */}
                 <div className="flex flex-col">
                   <Text
-                    textType="paragraph-sm"
+                    textType="paragraph-sm-semibold"
                     textFont="rubik"
                     textColor="primary"
-                    className="font-bold"
                   >
                     3 Workshops You Are Interested In
                   </Text>
                   {formData?.selectedWorkshops && formData.selectedWorkshops.length > 0 ? (
                     <Text
-                      textType="paragraph-lg"
+                      textType="paragraph-lg-semibold"
                       textFont="rubik"
                       textColor="primary"
                     >
@@ -562,7 +548,7 @@ export default function Review() {
                     </Text>
                   ) : (
                     <Text
-                      textType="paragraph-lg"
+                      textType="paragraph-lg-semibold"
                       textFont="rubik"
                       textColor="gray"
                     >
@@ -574,16 +560,15 @@ export default function Review() {
                 {/* Dietary Restrictions */}
                 <div className="flex flex-col">
                   <Text
-                    textType="paragraph-sm"
+                    textType="paragraph-sm-semibold"
                     textFont="rubik"
                     textColor="primary"
-                    className="font-bold"
                   >
                     Dietary Restrictions
                   </Text>
                   {formData?.dietaryRestrictions || formData?.allergies ? (
                     <Text
-                      textType="paragraph-lg"
+                      textType="paragraph-lg-semibold"
                       textFont="rubik"
                       textColor="primary"
                     >
@@ -594,7 +579,7 @@ export default function Review() {
                     </Text>
                   ) : (
                     <Text
-                      textType="paragraph-lg"
+                      textType="paragraph-lg-semibold"
                       textFont="rubik"
                       textColor="gray"
                     >
@@ -606,15 +591,14 @@ export default function Review() {
                 {/* T-shirt Size */}
                 <div className="flex flex-col">
                   <Text
-                    textType="paragraph-sm"
+                    textType="paragraph-sm-semibold"
                     textFont="rubik"
                     textColor="primary"
-                    className="font-bold"
                   >
                     T-shirt Size
                   </Text>
                   <Text
-                    textType="paragraph-lg"
+                    textType="paragraph-lg-semibold"
                     textFont="rubik"
                     textColor={formData?.tshirtSize ? "primary" : "gray"}
                   >
@@ -627,16 +611,15 @@ export default function Review() {
                 {/* Gender and Background */}
                 <div className="flex flex-col">
                   <Text
-                    textType="paragraph-sm"
+                    textType="paragraph-sm-semibold"
                     textFont="rubik"
                     textColor="primary"
-                    className="font-bold"
                   >
                     Gender and Background
                   </Text>
                   {formData?.gender || formData?.ethnicity ? (
                     <Text
-                      textType="paragraph-lg"
+                      textType="paragraph-lg-semibold"
                       textFont="rubik"
                       textColor="primary"
                     >
@@ -644,7 +627,7 @@ export default function Review() {
                     </Text>
                   ) : (
                     <Text
-                      textType="paragraph-lg"
+                      textType="paragraph-lg-semibold"
                       textFont="rubik"
                       textColor="gray"
                     >

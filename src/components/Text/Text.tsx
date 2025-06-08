@@ -13,6 +13,7 @@ export type TextType =
   | 'subtitle-sm'
   | 'paragraph-lg'
   | 'paragraph-lg-semibold'
+  | 'paragraph-sm-semibold'
   | 'paragraph-sm'
   | 'label';
 
