@@ -123,7 +123,7 @@
 
 .type--paragraph-lg-semibold {
   font-family: 'Rubik', sans-serif;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 20px;
   line-height: 24px;
   letter-spacing: -0.017em;
@@ -132,6 +132,15 @@
 .type--paragraph-sm {
   font-family: 'Rubik', sans-serif;
   font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: -0.011em;
+}
+
+
+.type--paragraph-sm-semibold{
+  font-family: 'Rubik', sans-serif;
+  font-weight: 500;
   font-size: 16px;
   line-height: 20px;
   letter-spacing: -0.011em;
