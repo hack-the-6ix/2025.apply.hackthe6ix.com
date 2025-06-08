@@ -232,9 +232,16 @@ export default function Review() {
         <div className="max-h-[35vh] overflow-y-auto px-8 space-y-6">
           {/* About You Section */}
           <div className="space-y-7">
-            <Text textType="heading-sm" textFont="rubik" textColor="primary">
-              About You
-            </Text>
+            <div className="flex items-center gap-2">
+              <Text textType="heading-sm" textFont="rubik" textColor="primary">
+                About You
+              </Text>
+              {formData?.fullName && formData?.email && formData?.city && formData?.province && formData?.country && formData?.emergencyFirstName && formData?.emergencyLastName && formData?.emergencyPhone ? (
+                <img src={checkCircle} alt="Complete" className="w-3 h-3" />
+              ) : (
+                <img src={exclamation} alt="Incomplete" className="w-3 h-3" />
+              )}
+            </div>
             <div className="rounded-md">
               <div className="grid grid-cols-2 gap-y-4">
                 {/* Full Name */}
@@ -352,9 +359,16 @@ export default function Review() {
 
           {/* Experience Information */}
           <div className="space-y-7">
-            <Text textType="heading-sm" textFont="rubik" textColor="primary">
-              Your Experience
-            </Text>
+            <div className="flex items-center gap-2">
+              <Text textType="heading-sm" textFont="rubik" textColor="primary">
+                Your Experience
+              </Text>
+              {formData?.school && formData?.resume && formData?.program && formData?.year && formData?.hackathonCount ? (
+                <img src={checkCircle} alt="Complete" className="w-3 h-3" />
+              ) : (
+                <img src={exclamation} alt="Incomplete" className="w-3 h-3" />
+              )}
+            </div>
             <div className="rounded-md">
               <div className="grid grid-cols-2 gap-y-4">
                 {/* School */}
@@ -486,9 +500,16 @@ export default function Review() {
 
           {/* Long Answer Responses */}
           <div className="space-y-7">
-            <Text textType="heading-sm" textFont="rubik" textColor="primary">
-              Long Answer Responses
-            </Text>
+            <div className="flex items-center gap-2">
+              <Text textType="heading-sm" textFont="rubik" textColor="primary">
+                Long Answer Responses
+              </Text>
+              {formData?.accomplish && formData?.project && formData?.funFact ? (
+                <img src={checkCircle} alt="Complete" className="w-3 h-3" />
+              ) : (
+                <img src={exclamation} alt="Incomplete" className="w-3 h-3" />
+              )}
+            </div>
             <div className="rounded-md space-y-4">
               <div className="flex flex-col gap-1.5">
                 <Text
@@ -546,9 +567,16 @@ export default function Review() {
 
           {/* Survey Information */}
           <div className="space-y-7">
-            <Text textType="heading-sm" textFont="rubik" textColor="primary">
-              Survey
-            </Text>
+            <div className="flex items-center gap-2">
+              <Text textType="heading-sm" textFont="rubik" textColor="primary">
+                Survey
+              </Text>
+              {formData?.selectedWorkshops && formData.selectedWorkshops.length > 0 && formData?.tshirtSize && (formData?.gender || formData?.ethnicity) ? (
+                <img src={checkCircle} alt="Complete" className="w-3 h-3" />
+              ) : (
+                <img src={exclamation} alt="Incomplete" className="w-3 h-3" />
+              )}
+            </div>
             <div className="rounded-md">
               <div className="grid grid-cols-2 gap-y-4">
                 {/* Workshops */}
