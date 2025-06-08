@@ -20,7 +20,6 @@ import FileUpload from "../components/FileUpload/FileUpload";
 import Checkbox from "../components/Checkbox/Checkbox";
 import { useNavigate } from "react-router-dom";
 import { useApplicationContext } from "../contexts/ApplicationContext";
-import { useSearchParams } from "react-router-dom";
 
 // Placeholder data for dropdowns
 const SCHOOLS = [
@@ -55,8 +54,6 @@ const HACKATHON_EXPERIENCE = [
 ];
 
 export default function Experiences() {
-  const [searchParams] = useSearchParams();
-  const pageInitial = parseInt(searchParams.get("page") || "1");
   const navigate = useNavigate();
   const {
     setCompletedSection,
@@ -66,7 +63,7 @@ export default function Experiences() {
     formData,
     setFormData
   } = useApplicationContext();
-  const [page, setPage] = useState(pageInitial);
+  const [page, setPage] = useState(1);
 
   // Initialize state from context
   const [school, setSchool] = useState(formData?.school || "");
@@ -333,7 +330,7 @@ export default function Experiences() {
                 ) : (
                   <Button
                     variant="back"
-                    onClick={() => navigate("/apply?section=about&page=4")}
+                    onClick={() => navigate("/apply/about")}
                     darkMode={true}
                   />
                 )}
@@ -354,7 +351,7 @@ export default function Experiences() {
                         i === 1 ? true : val
                       );
                       setCompletedSection(updateCompleted);
-                      navigate("/apply?section=long-answer");
+                      navigate("/apply/long-answer");
                     }
                   }}
                 >

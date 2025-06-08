@@ -1,7 +1,7 @@
 import { type JSX } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-import { useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import AboutYou from "./pages/AboutYou";
 import Experiences from "./pages/Experiences";
 import LongAnswer from "./pages/LongAnswer";
@@ -23,8 +23,9 @@ const pageBackgrounds: { [key: string]: string } = {
 };
 
 function Application() {
-  const [searchParams] = useSearchParams();
-  const section = searchParams.get("section") || "about";
+  const { section } = useParams();
+
+  const currentPageKey = section || "player";
 
   const pageComponents: { [key: string]: JSX.Element } = {
     player: <PlayerSelect />,
@@ -35,8 +36,8 @@ function Application() {
     review: <Review />
   };
 
-  const CurrentPage = pageComponents[section] || <PlayerSelect />;
-  const currentBackground = pageBackgrounds[section] || grassSVG;
+  const CurrentPage = pageComponents[currentPageKey] || <PlayerSelect />;
+  const currentBackground = pageBackgrounds[currentPageKey] || grassSVG;
 
   return (
     <div className="w-full">

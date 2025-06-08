@@ -17,7 +17,12 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
     const authenticate = async () => {
       const profile: Profile | null = await checkAuth();
       setProfile(profile);
-      setIsAuthenticated(!!profile);
+      if (profile?.status?.applied) {
+        setIsAuthenticated(false);
+        window.location.href = "/applied";
+      } else {
+        setIsAuthenticated(!!profile);
+      }
     };
     authenticate();
   }, [location.pathname, setProfile]);

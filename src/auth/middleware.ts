@@ -1,7 +1,7 @@
 import { fetchHt6 } from "../api/client";
 import type { AuthResponse, LoginPayload, Profile } from "./types";
 
-export async function checkAuth(): Promise<boolean> {
+export async function checkAuth(): Promise<Profile | null> {
   const token = localStorage.getItem("token");
   const refreshToken = localStorage.getItem("refreshToken");
 
@@ -11,7 +11,7 @@ export async function checkAuth(): Promise<boolean> {
         "/api/action/profile"
       );
       if (response.status === 200) {
-        return true;
+        return response.message;
       }
     } catch (error) {
       console.error(error);
@@ -27,7 +27,7 @@ export async function checkAuth(): Promise<boolean> {
       method: "POST",
       body: {
         callbackURL,
-        redirectTo: "/apply?section=player"
+        redirectTo: "/apply/player"
       }
     }
   );
@@ -36,5 +36,5 @@ export async function checkAuth(): Promise<boolean> {
     window.location.href = response.message.url;
   }
 
-  return false;
+  return null;
 }

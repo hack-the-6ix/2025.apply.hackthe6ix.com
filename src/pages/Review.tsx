@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useApplicationContext } from "../contexts/ApplicationContext";
 import Button from "../components/Button/Button";
 import { useNavigate } from "react-router-dom";
+import { useSaveStatus } from "../contexts/SaveStatusContext";
 
 interface UserResponse {
   computedApplicationOpen: number;
@@ -50,6 +51,7 @@ export default function Review() {
   const { formData, selectedSkin, selectedItem } = useApplicationContext();
   const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false);
   const [missingFields, setMissingFields] = useState<string[]>([]);
+  const { setSaving, setSaved, setError } = useSaveStatus();
 
   const isFormComplete = () => {
     return (
@@ -84,6 +86,7 @@ export default function Review() {
       return;
     }
 
+    setSaving();
     try {
       const application: IPartialApplication = {
         phoneNumber: formData.emergencyPhone || "1234567890",
@@ -122,16 +125,9 @@ export default function Review() {
         resumeSharePermission: true
       };
 
-      console.log(application);
-
       const user = await fetchHt6<ApiResponse<UserResponse>>(
         "/api/action/profile"
       );
-      console.log("User deadlines:", {
-        computedApplicationOpen: user.message.computedApplicationOpen,
-        computedApplicationDeadline: user.message.computedApplicationDeadline,
-        now: new Date().getTime()
-      });
 
       if (!user.message.hackerApplication?.resumeFileName) {
         throw new Error(
@@ -146,7 +142,9 @@ export default function Review() {
         body: { submit: true, application },
         method: "POST"
       });
+      setSaved();
     } catch (error: unknown) {
+      setError();
       if (
         error &&
         typeof error === "object" &&
@@ -909,10 +907,7 @@ export default function Review() {
         <div
           className={`flex justify-end gap-4 mt-6 transition-opacity duration-300 z-20`}
         >
-          <Button
-            variant="back"
-            onClick={() => navigate("/apply?section=survey&page=5")}
-          >
+          <Button variant="back" onClick={() => navigate("/apply/survey")}>
             Back
           </Button>
           <Button onClick={() => setShowSubmitModal(true)}>Submit</Button>

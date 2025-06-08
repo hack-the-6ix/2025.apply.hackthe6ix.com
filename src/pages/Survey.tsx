@@ -15,8 +15,6 @@ import Checkbox from "../components/Checkbox/Checkbox";
 import Button from "../components/Button/Button";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { useSearchParams } from "react-router-dom";
 import { useApplicationContext } from "../contexts/ApplicationContext";
 
 const WORKSHOPS = [
@@ -44,8 +42,6 @@ const TSHIRT_SIZES = [
 ];
 
 export default function Survey() {
-  const [searchParams] = useSearchParams();
-  const pageInitial = parseInt(searchParams.get("page") || "1");
   const navigate = useNavigate();
   const {
     setCompletedSection,
@@ -55,7 +51,7 @@ export default function Survey() {
     formData,
     setFormData
   } = useApplicationContext();
-  const [page, setPage] = useState(pageInitial);
+  const [page, setPage] = useState(1);
 
   // Initialize state from context
   const [selectedWorkshops, setSelectedWorkshops] = useState<string[]>(
@@ -231,23 +227,23 @@ export default function Survey() {
               <div className="flex flex-row justify-end w-full gap-3">
                 {page > 1 ? (
                   <Button
-                    darkMode={true}
                     variant="back"
                     onClick={() => setPage(page - 1)}
+                    darkMode={true}
                   />
                 ) : (
                   <Button
-                    darkMode={true}
                     variant="back"
-                    onClick={() =>
-                      navigate("/apply?section=long-answer&page=3")
-                    }
+                    onClick={() => navigate("/apply/long-answer")}
+                    darkMode={true}
                   />
                 )}
                 <Button
                   disabled={
-                    (page == 1 && selectedWorkshops.length != 3) ||
+                    (page == 1 && !selectedWorkshops.length) ||
                     (page == 2 && !tshirtSize) ||
+                    (page == 3 && !dietaryRestrictions && !allergies) ||
+                    (page == 4 && (!gender || !ethnicity)) ||
                     (page == 5 && (!permission1 || !permission2))
                   }
                   darkMode={true}
@@ -260,7 +256,7 @@ export default function Survey() {
                         i === 3 ? true : val
                       );
                       setCompletedSection(updateCompleted);
-                      navigate("/apply?section=review");
+                      navigate("/apply/review");
                     }
                   }}
                 >

@@ -126,7 +126,7 @@ export default function Home() {
         </Text>
         <button
           className="hover:bg-[#20b7ac] relative sm:w-[180px] w-full bg-[#00887E] border-black sm:border-[5px] border-[3px] sm:h-[80px] h-[50px] flex justify-center items-center sm:mt-[30px] mt-[140px] transition-colors cursor-pointer"
-          onClick={() => navigate("/apply?section=player")}
+          onClick={() => navigate("/apply/player")}
         >
           <Text
             textType="heading-lg"

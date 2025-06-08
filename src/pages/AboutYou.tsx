@@ -14,11 +14,8 @@ import Checkbox from "../components/Checkbox/Checkbox";
 import Dropdown from "../components/Dropdown/Dropdown";
 import { CANADIAN_PROVINCES } from "../constants/locations";
 import { PLAYER_IMAGES } from "../constants/images";
-import { useSearchParams } from "react-router-dom";
 
 export default function AboutYou() {
-  const [searchParams] = useSearchParams();
-  const pageInitial = parseInt(searchParams.get("page") || "1");
   const navigate = useNavigate();
   const {
     setCompletedSection,
@@ -31,7 +28,7 @@ export default function AboutYou() {
   const [emailPermission, setEmailPermission] = useState(
     formData?.emailPermission || false
   );
-  const [page, setPage] = useState(pageInitial);
+  const [page, setPage] = useState(1);
 
   // Form state
   const [fullName, setFullName] = useState(formData?.fullName || "");
@@ -291,16 +288,7 @@ export default function AboutYou() {
             </div>
 
             <div className="flex flex-row justify-end w-full gap-3">
-              <Button
-                variant="back"
-                onClick={() => {
-                  if (page === 1) {
-                    navigate("/apply?section=player");
-                  } else {
-                    setPage(page - 1);
-                  }
-                }}
-              >
+              <Button variant="back" onClick={() => navigate("/apply/player")}>
                 Back
               </Button>
               <Button
@@ -323,7 +311,7 @@ export default function AboutYou() {
                       i === 0 ? true : val
                     );
                     setCompletedSection(updateCompleted);
-                    navigate("/apply?section=experience");
+                    navigate("/apply/experience");
                   }
                 }}
               >

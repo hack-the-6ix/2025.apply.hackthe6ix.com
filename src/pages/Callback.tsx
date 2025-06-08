@@ -2,10 +2,13 @@ import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { fetchHt6 } from "../api/client";
 import type { AuthResponse, CallbackPayload } from "../auth/types";
+import { checkAuth } from "../auth/middleware";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Callback() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { setProfile } = useAuth();
 
   useEffect(() => {
     const state = searchParams.get("state");
@@ -18,8 +21,6 @@ export default function Callback() {
 
     async function setSession() {
       try {
-        console.log("state", state);
-        console.log("code", code);
         const response = await fetchHt6<AuthResponse, CallbackPayload>(
           "/auth/apply-backend/callback",
           {
@@ -33,20 +34,26 @@ export default function Callback() {
           response.message.token &&
           response.message.refreshToken
         ) {
-          console.log("response", response);
           localStorage.setItem("token", response.message.token);
           localStorage.setItem("refreshToken", response.message.refreshToken);
-          console.log(response.message.redirectTo);
-          navigate(response.message.redirectTo || "/");
+
+          const profile = await checkAuth();
+          setProfile(profile);
+          if (profile?.status?.applied) {
+            navigate("/applied");
+          } else {
+            navigate(response.message.redirectTo || "/");
+          }
         }
       } catch (error) {
         console.error("Authentication failed:", error);
+        setProfile(null);
         navigate("/");
       }
     }
 
     setSession();
-  }, [searchParams, navigate]);
+  }, [searchParams, navigate, setProfile]);
 
   return (
     <div className="loading">

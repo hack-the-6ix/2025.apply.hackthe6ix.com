@@ -2,7 +2,7 @@ import Text from "../components/Text/Text";
 import Button from "../components/Button/Button";
 import frameSVG from "../assets/frame.svg";
 import signSVG from "../assets/frame-sign.svg";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import cupPNG from "../assets/cup.png";
 import duckPNG from "../assets/duck.png";
@@ -176,7 +176,7 @@ export default function PlayerSelect() {
               <Button
                 onClick={() => {
                   if (page === 1) setPage(2);
-                  else navigate("/apply?section=about");
+                  else navigate("/apply/about");
                 }}
               />
             </div>
@@ -225,7 +225,7 @@ export default function PlayerSelect() {
               <Button
                 onClick={() => {
                   if (page === 1) setPage(2);
-                  else navigate("/apply?section=about");
+                  else navigate("/apply/about");
                 }}
               />
               {page === 2 && (

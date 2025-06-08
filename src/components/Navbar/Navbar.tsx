@@ -1,26 +1,25 @@
 import React, { useState } from "react";
-import { Link, useSearchParams, useLocation } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Text from "../Text/Text";
 import { useApplicationContext } from "../../contexts/ApplicationContext";
 import { IoMenu } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 
 const NAV_LINKS = [
-  { label: "About You", path: "/apply?section=player" },
-  { label: "Experiences", path: "/apply?section=experience" },
-  { label: "Long-Answer", path: "/apply?section=long-answer" },
-  { label: "Survey", path: "/apply?section=survey" },
-  { label: "Review", path: "/apply?section=review" }
+  { label: "Select Player", path: "/apply/player" },
+  { label: "About You", path: "/apply/about" },
+  { label: "Experiences", path: "/apply/experience" },
+  { label: "Long-Answer", path: "/apply/long-answer" },
+  { label: "Survey", path: "/apply/survey" },
+  { label: "Review", path: "/apply/review" }
 ];
 
 const LIGHT_MODE: string[] = ["player", "about", "review"];
 
 const Navbar: React.FC = () => {
   const { completedSection } = useApplicationContext();
-  const [searchParams] = useSearchParams();
-  const section = searchParams.get("section");
+  const { section } = useParams();
   const [menuOpen, setMenuOpen] = useState(false);
-  const location = useLocation();
 
   return (
     <nav className="w-full flex items-center justify-between absolute z-50">
@@ -38,14 +37,14 @@ const Navbar: React.FC = () => {
         </button>
       </div>
 
-      <div className="hidden sm:flex flex-row items-center justify-center gap-16 lg:gap-32 w-full mt-[75px] ">
+      <div className="hidden sm:flex flex-row items-center justify-center gap-12 lg:gap-24 w-full mt-[75px] ">
         {NAV_LINKS.map(({ label, path }, i) => (
           <Link
             to={path}
             key={label}
             className="relative flex items-center gap-1"
           >
-            {location.search.includes(path.split("?")[1]) && (
+            {path.includes(section ?? "null") && (
               <div className="absolute top-[-20px] left-[50%] -translate-x-1/2">
                 <div className="flex flex-row items-center justify-center">
                   <div
@@ -87,7 +86,7 @@ const Navbar: React.FC = () => {
               textType="heading-sm"
               textWeight="bold"
               className={`${
-                location.search.includes(path.split("?")[1])
+                path.includes(section ?? "null")
                   ? LIGHT_MODE.includes(section ?? "null")
                     ? "!text-[#023441]"
                     : "!text-[#FA8D1F]"
