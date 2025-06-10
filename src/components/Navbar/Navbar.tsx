@@ -37,7 +37,7 @@ const Navbar: React.FC = () => {
         </button>
       </div>
 
-      <div className="hidden sm:flex flex-row items-center justify-center gap-12 lg:gap-24 w-full mt-[75px] ">
+      <div className="hidden sm:flex flex-row items-center justify-center gap-12 xl:gap-24 w-full mt-[75px] ">
         {NAV_LINKS.map(({ label, path }, i) => (
           <Link
             to={path}

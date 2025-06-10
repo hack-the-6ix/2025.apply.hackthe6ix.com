@@ -4,7 +4,6 @@ import brickhouse from "../assets/brickhouse_review.svg";
 import bush from "../assets/bush.svg";
 import checkCircle from "../assets/check_circle.svg";
 import exclamation from "../assets/Exclamation.svg";
-import { AlertCircle } from "lucide-react";
 import { type IPartialApplication } from "../types/application";
 import { fetchHt6 } from "../api/client";
 import { type ApiResponse } from "../api/client";
@@ -14,7 +13,6 @@ import { useState } from "react";
 import { useApplicationContext } from "../contexts/ApplicationContext";
 import Button from "../components/Button/Button";
 import { useNavigate } from "react-router-dom";
-import { useSaveStatus } from "../contexts/SaveStatusContext";
 
 interface UserResponse {
   computedApplicationOpen: number;
@@ -53,7 +51,6 @@ export default function Review() {
   const { formData, selectedSkin, selectedItem } = useApplicationContext();
   const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false);
   const [missingFields, setMissingFields] = useState<string[]>([]);
-  const { setSaving, setSaved, setError } = useSaveStatus();
 
   const isFormComplete = () => {
     return (
@@ -88,7 +85,6 @@ export default function Review() {
       return;
     }
 
-    setSaving();
     try {
       const application: IPartialApplication = {
         phoneNumber: formData.emergencyPhone || "1234567890",
@@ -144,9 +140,7 @@ export default function Review() {
         body: { submit: true, application },
         method: "POST"
       });
-      setSaved();
     } catch (error: unknown) {
-      setError();
       if (
         error &&
         typeof error === "object" &&
@@ -236,7 +230,14 @@ export default function Review() {
               <Text textType="heading-sm" textFont="rubik" textColor="primary">
                 About You
               </Text>
-              {formData?.fullName && formData?.email && formData?.city && formData?.province && formData?.country && formData?.emergencyFirstName && formData?.emergencyLastName && formData?.emergencyPhone ? (
+              {formData?.fullName &&
+              formData?.email &&
+              formData?.city &&
+              formData?.province &&
+              formData?.country &&
+              formData?.emergencyFirstName &&
+              formData?.emergencyLastName &&
+              formData?.emergencyPhone ? (
                 <img src={checkCircle} alt="Complete" className="w-3 h-3" />
               ) : (
                 <img src={exclamation} alt="Incomplete" className="w-3 h-3" />
@@ -326,7 +327,9 @@ export default function Review() {
                   >
                     Emergency Contact
                   </Text>
-                  {formData?.emergencyFirstName && formData?.emergencyLastName && formData?.emergencyPhone ? (
+                  {formData?.emergencyFirstName &&
+                  formData?.emergencyLastName &&
+                  formData?.emergencyPhone ? (
                     <>
                       <Text
                         textType="paragraph-lg-semibold"
@@ -363,7 +366,11 @@ export default function Review() {
               <Text textType="heading-sm" textFont="rubik" textColor="primary">
                 Your Experience
               </Text>
-              {formData?.school && formData?.resume && formData?.program && formData?.year && formData?.hackathonCount ? (
+              {formData?.school &&
+              formData?.resume &&
+              formData?.program &&
+              formData?.year &&
+              formData?.hackathonCount ? (
                 <img src={checkCircle} alt="Complete" className="w-3 h-3" />
               ) : (
                 <img src={exclamation} alt="Incomplete" className="w-3 h-3" />
@@ -419,7 +426,9 @@ export default function Review() {
                   <Text
                     textType="paragraph-lg-semibold"
                     textFont="rubik"
-                    textColor={formData?.program && formData?.year ? "primary" : "gray"}
+                    textColor={
+                      formData?.program && formData?.year ? "primary" : "gray"
+                    }
                   >
                     {formData?.program && formData?.year
                       ? `${formData.program} - Year ${formData.year}`
@@ -436,7 +445,9 @@ export default function Review() {
                   >
                     Links to Socials
                   </Text>
-                  {formData?.github || formData?.linkedin || formData?.portfolio ? (
+                  {formData?.github ||
+                  formData?.linkedin ||
+                  formData?.portfolio ? (
                     <div className="space-y-1">
                       {formData?.github && (
                         <Text
@@ -504,7 +515,9 @@ export default function Review() {
               <Text textType="heading-sm" textFont="rubik" textColor="primary">
                 Long Answer Responses
               </Text>
-              {formData?.accomplish && formData?.project && formData?.funFact ? (
+              {formData?.accomplish &&
+              formData?.project &&
+              formData?.funFact ? (
                 <img src={checkCircle} alt="Complete" className="w-3 h-3" />
               ) : (
                 <img src={exclamation} alt="Incomplete" className="w-3 h-3" />
@@ -571,7 +584,10 @@ export default function Review() {
               <Text textType="heading-sm" textFont="rubik" textColor="primary">
                 Survey
               </Text>
-              {formData?.selectedWorkshops && formData.selectedWorkshops.length > 0 && formData?.tshirtSize && (formData?.gender || formData?.ethnicity) ? (
+              {formData?.selectedWorkshops &&
+              formData.selectedWorkshops.length > 0 &&
+              formData?.tshirtSize &&
+              (formData?.gender || formData?.ethnicity) ? (
                 <img src={checkCircle} alt="Complete" className="w-3 h-3" />
               ) : (
                 <img src={exclamation} alt="Incomplete" className="w-3 h-3" />
@@ -588,7 +604,8 @@ export default function Review() {
                   >
                     3 Workshops You Are Interested In
                   </Text>
-                  {formData?.selectedWorkshops && formData.selectedWorkshops.length > 0 ? (
+                  {formData?.selectedWorkshops &&
+                  formData.selectedWorkshops.length > 0 ? (
                     <Text
                       textType="paragraph-lg-semibold"
                       textFont="rubik"
@@ -596,7 +613,11 @@ export default function Review() {
                     >
                       {formData.selectedWorkshops
                         .slice(0, 3)
-                        .map(workshop => WORKSHOPS.find((w) => w.value === workshop)?.label || workshop)
+                        .map(
+                          (workshop) =>
+                            WORKSHOPS.find((w) => w.value === workshop)
+                              ?.label || workshop
+                        )
                         .join(", ")}
                     </Text>
                   ) : (
@@ -625,10 +646,9 @@ export default function Review() {
                       textFont="rubik"
                       textColor="primary"
                     >
-                      {[
-                        formData?.dietaryRestrictions,
-                        formData?.allergies
-                      ].filter(Boolean).join(", ")}
+                      {[formData?.dietaryRestrictions, formData?.allergies]
+                        .filter(Boolean)
+                        .join(", ")}
                     </Text>
                   ) : (
                     <Text
@@ -656,7 +676,9 @@ export default function Review() {
                     textColor={formData?.tshirtSize ? "primary" : "gray"}
                   >
                     {formData?.tshirtSize
-                      ? TSHIRT_SIZES.find((s) => s.value === formData.tshirtSize)?.label
+                      ? TSHIRT_SIZES.find(
+                          (s) => s.value === formData.tshirtSize
+                        )?.label
                       : "Not filled"}
                   </Text>
                 </div>
@@ -676,7 +698,9 @@ export default function Review() {
                       textFont="rubik"
                       textColor="primary"
                     >
-                      {[formData?.gender, formData?.ethnicity].filter(Boolean).join(", ")}
+                      {[formData?.gender, formData?.ethnicity]
+                        .filter(Boolean)
+                        .join(", ")}
                     </Text>
                   ) : (
                     <Text
