@@ -3,16 +3,17 @@ import type { ReactNode } from "react";
 
 export interface FormData {
   // About You fields
-  fullName?: string;
-  email?: string;
-  city?: string;
-  province?: string;
-  country?: string;
-  emergencyFirstName?: string;
-  emergencyLastName?: string;
-  emergencyPhone?: string;
-  emergencyRelationship?: string;
-  lastName?: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  city: string;
+  province: string;
+  country: string;
+  emergencyFirstName: string;
+  emergencyLastName: string;
+  emergencyPhone: string;
+  emergencyRelationship: string;
+  emailPermission: boolean;
 
   // Experience fields
   school?: string;
@@ -20,7 +21,6 @@ export interface FormData {
   program?: string;
   hackathonCount?: string;
   resume?: File | null;
-  emailPermission?: boolean;
   github?: string;
   linkedin?: string;
   portfolio?: string;
@@ -70,7 +70,19 @@ export const ApplicationContextProvider = ({
   ]);
   const [selectedSkin, setSelectedSkin] = useState(0);
   const [selectedItem, setSelectedItem] = useState(0);
-  const [formData, setFormData] = useState<FormData>({});
+  const [formData, setFormData] = useState<FormData>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    city: "",
+    province: "",
+    country: "",
+    emergencyFirstName: "",
+    emergencyLastName: "",
+    emergencyPhone: "",
+    emergencyRelationship: "",
+    emailPermission: false
+  });
 
   return (
     <ApplicationContext.Provider

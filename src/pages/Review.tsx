@@ -62,7 +62,8 @@ export default function Review() {
 
   const getMissingFields = () => {
     const missing: string[] = [];
-    if (!formData?.fullName) missing.push("Full Name");
+    if (!formData?.firstName) missing.push("First Name");
+    if (!formData?.lastName) missing.push("Last Name");
     if (!formData?.email) missing.push("Email");
     if (!formData?.city) missing.push("City");
     if (!formData?.province) missing.push("Province");
@@ -91,7 +92,8 @@ export default function Review() {
 
   const isFormComplete = () => {
     return (
-      formData?.fullName &&
+      formData?.firstName &&
+      formData?.lastName &&
       formData?.email &&
       formData?.city &&
       formData?.province &&
@@ -274,7 +276,8 @@ export default function Review() {
                 >
                   About You
                 </Text>
-                {formData?.fullName &&
+                {formData?.firstName &&
+                formData?.lastName &&
                 formData?.email &&
                 formData?.city &&
                 formData?.province &&
@@ -289,7 +292,14 @@ export default function Review() {
               </div>
               <div className="rounded-md">
                 <div className="grid grid-cols-2 gap-y-4">
-                  <ReviewField label="Full Name" value={formData?.fullName} />
+                  <ReviewField
+                    label="Full Name"
+                    value={
+                      formData?.firstName && formData?.lastName
+                        ? `${formData.firstName} ${formData.lastName}`
+                        : null
+                    }
+                  />
                   <ReviewField
                     label="Location"
                     value={

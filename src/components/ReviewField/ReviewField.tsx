@@ -13,11 +13,7 @@ export default function ReviewField({
 }: ReviewFieldProps) {
   return (
     <div className="flex flex-col gap-1.5">
-      <Text
-        textType="paragraph-sm-semibold"
-        textFont="rubik"
-        textColor="primary"
-      >
+      <Text textType="paragraph-sm" textFont="rubik" textColor="secondary">
         {label}
       </Text>
       {value && (typeof value === "string" || typeof value === "number") ? (

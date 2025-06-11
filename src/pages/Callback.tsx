@@ -5,6 +5,7 @@ import type { AuthResponse, CallbackPayload } from "../auth/types";
 import { checkAuth } from "../auth/middleware";
 import { useAuth } from "../contexts/AuthContext";
 import { useApplicationContext } from "../contexts/ApplicationContext";
+import type { FormData } from "../contexts/ApplicationContext";
 
 export default function Callback() {
   const [searchParams] = useSearchParams();
@@ -42,12 +43,13 @@ export default function Callback() {
           const profile = await checkAuth();
           setProfile(profile);
           if (profile?.firstName && profile?.email && profile?.lastName) {
-            setFormData({
+            const newFormData: FormData = {
               ...formData,
-              fullName: profile.firstName,
-              email: profile.email,
-              lastName: profile.lastName
-            });
+              firstName: formData.firstName || profile.firstName,
+              lastName: formData.lastName || profile.lastName,
+              email: formData.email || profile.email
+            };
+            setFormData(newFormData);
           }
           if (profile?.status?.applied) {
             navigate("/applied");

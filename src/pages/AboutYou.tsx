@@ -7,15 +7,17 @@ import Text from "../components/Text/Text";
 import Input from "../components/Input/Input";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useApplicationContext } from "../contexts/ApplicationContext";
 import Button from "../components/Button/Button";
 import Checkbox from "../components/Checkbox/Checkbox";
 import Dropdown from "../components/Dropdown/Dropdown";
 import { CANADIAN_PROVINCES } from "../constants/locations";
 import { PLAYER_IMAGES } from "../constants/images";
-import { useAuth } from "../contexts/AuthContext";
 import { useSearchParams } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import type { FormData } from "../contexts/ApplicationContext";
+import type { Profile } from "../auth/types";
 
 export default function AboutYou() {
   const navigate = useNavigate();
@@ -27,7 +29,19 @@ export default function AboutYou() {
     formData,
     setFormData
   } = useApplicationContext();
-  const { profile } = useAuth();
+  const { profile, setProfile } = useAuth();
+
+  const formDataRef = useRef<FormData>(formData);
+  const profileRef = useRef<Profile | null>(profile);
+
+  useEffect(() => {
+    formDataRef.current = formData;
+  }, [formData]);
+
+  useEffect(() => {
+    profileRef.current = profile;
+  }, [profile]);
+
   const [emailPermission, setEmailPermission] = useState(
     formData?.emailPermission || false
   );
@@ -35,7 +49,8 @@ export default function AboutYou() {
   const page = parseInt(searchParams.get("page") || "1");
 
   // Form state
-  const [fullName, setFullName] = useState(formData?.fullName || "");
+  const [firstName, setFirstName] = useState(formData?.firstName || "");
+  const [lastName, setLastName] = useState(formData?.lastName || "");
   const [email, setEmail] = useState(formData?.email || "");
   const [city, setCity] = useState(formData?.city || "");
   const [province, setProvince] = useState(formData?.province || "");
@@ -54,44 +69,75 @@ export default function AboutYou() {
   );
 
   useEffect(() => {
-    if (profile) {
-      const newFormData = { ...formData };
-      let changed = false;
+    const currentFormData = formDataRef.current;
+    let shouldUpdateFormData = false;
+    if (
+      currentFormData.firstName !== firstName ||
+      currentFormData.lastName !== lastName ||
+      currentFormData.email !== email ||
+      currentFormData.city !== city ||
+      currentFormData.province !== province ||
+      currentFormData.country !== country ||
+      currentFormData.emergencyFirstName !== emergencyFirstName ||
+      currentFormData.emergencyLastName !== emergencyLastName ||
+      currentFormData.emergencyPhone !== emergencyPhone ||
+      currentFormData.emergencyRelationship !== emergencyRelationship ||
+      currentFormData.emailPermission !== emailPermission
+    ) {
+      shouldUpdateFormData = true;
+    }
 
-      if (!fullName && profile.firstName && profile.lastName) {
-        const generatedFullName = `${profile.firstName} ${profile.lastName}`;
-        setFullName(generatedFullName);
-        newFormData.fullName = generatedFullName;
-        changed = true;
-      }
-      if (!email && profile.email) {
-        const generatedEmail = profile.email;
-        setEmail(generatedEmail);
-        newFormData.email = generatedEmail;
-        changed = true;
-      }
+    if (shouldUpdateFormData) {
+      setFormData({
+        ...currentFormData,
+        firstName,
+        lastName,
+        email,
+        city,
+        province,
+        country,
+        emergencyFirstName,
+        emergencyLastName,
+        emergencyPhone,
+        emergencyRelationship,
+        emailPermission
+      });
+    }
 
-      if (changed) {
-        setFormData(newFormData);
+    const currentProfile = profileRef.current;
+    if (currentProfile) {
+      let shouldUpdateProfile = false;
+      if (
+        currentProfile.firstName !== firstName ||
+        currentProfile.lastName !== lastName ||
+        currentProfile.email !== email
+      ) {
+        shouldUpdateProfile = true;
+      }
+      if (shouldUpdateProfile) {
+        setProfile({
+          ...currentProfile,
+          firstName,
+          lastName,
+          email
+        });
       }
     }
-  }, [profile, fullName, email, formData, setFormData]);
-
-  const updateFormData = () => {
-    setFormData({
-      ...formData,
-      fullName,
-      email,
-      city,
-      province,
-      country,
-      emergencyFirstName,
-      emergencyLastName,
-      emergencyPhone,
-      emergencyRelationship,
-      emailPermission
-    });
-  };
+  }, [
+    firstName,
+    lastName,
+    email,
+    city,
+    province,
+    country,
+    emergencyFirstName,
+    emergencyLastName,
+    emergencyPhone,
+    emergencyRelationship,
+    emailPermission,
+    setFormData,
+    setProfile
+  ]);
 
   return (
     <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#ACDCFD] via-[#B3E9FC] to-[#B9F2FC]  h-[100vh] w-full flex flex-col justify-center items-start">
@@ -162,11 +208,38 @@ export default function AboutYou() {
                   >
                     Your full name*
                   </Text>
-                  <Input
-                    placeholder="John Doe"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                  />
+                  <div className="flex gap-4">
+                    <div className="w-1/2">
+                      <Text
+                        textType="paragraph-sm"
+                        textFont="rubik"
+                        textColor="primary"
+                        className="ml-[10px]"
+                      >
+                        First Name*
+                      </Text>
+                      <Input
+                        placeholder="John"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                      />
+                    </div>
+                    <div className="w-1/2">
+                      <Text
+                        textType="paragraph-sm"
+                        textFont="rubik"
+                        textColor="primary"
+                        className="ml-[10px]"
+                      >
+                        Last Name*
+                      </Text>
+                      <Input
+                        placeholder="Doe"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                      />
+                    </div>
+                  </div>
                 </>
               )}
 
@@ -328,7 +401,7 @@ export default function AboutYou() {
               />
               <Button
                 disabled={
-                  (page == 1 && !fullName) ||
+                  (page == 1 && (!firstName || !lastName)) ||
                   (page == 2 && (!email || !emailPermission)) ||
                   (page == 3 && (!city || !province || !country)) ||
                   (page == 4 &&
@@ -341,7 +414,6 @@ export default function AboutYou() {
                   if (page < 4) {
                     setSearchParams({ page: `${page + 1}` });
                   } else {
-                    updateFormData();
                     const updateCompleted = completedSection.map((val, i) =>
                       i === 0 ? true : val
                     );
