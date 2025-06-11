@@ -75,9 +75,6 @@ export default function Experiences() {
     formData?.hackathonCount || ""
   );
   const [resume, setResume] = useState<File | null>(formData?.resume || null);
-  const [emailPermission, setEmailPermission] = useState(
-    formData?.emailPermission || false
-  );
   const [github, setGithub] = useState(formData?.github || "");
   const [linkedin, setLinkedin] = useState(formData?.linkedin || "");
   const [portfolio, setPortfolio] = useState(formData?.portfolio || "");
@@ -122,7 +119,6 @@ export default function Experiences() {
       program,
       hackathonCount,
       resume,
-      emailPermission,
       github,
       linkedin,
       portfolio
@@ -227,7 +223,7 @@ export default function Experiences() {
         );
       case 4:
         return (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 w-full">
             <Text textType="heading-lg" textFont="rubik" textColor="white">
               Upload Your Resume*
             </Text>
@@ -238,15 +234,6 @@ export default function Experiences() {
               backgroundColor="#475D7B"
               textColor="white"
             />
-            <div className="mt-4">
-              <Checkbox
-                checked={emailPermission}
-                onChange={setEmailPermission}
-                label="I give permission to Hack the 6ix for sending me emails containing information from the event sponsors."
-                backgroundColor="#475D7B"
-                textColor="white"
-              />
-            </div>
           </div>
         );
       case 5:

@@ -2,7 +2,7 @@ import Text from "../components/Text/Text";
 import Button from "../components/Button/Button";
 import frameSVG from "../assets/frame.svg";
 import signSVG from "../assets/frame-sign.svg";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import cupPNG from "../assets/cup.png";
 import duckPNG from "../assets/duck.png";
@@ -15,6 +15,7 @@ import { PLAYER_IMAGES } from "../constants/images";
 import { useApplicationContext } from "../contexts/ApplicationContext";
 import appleSVG from "../assets/apple.svg";
 import { useSearchParams } from "react-router-dom";
+import type { FormData } from "../contexts/ApplicationContext";
 
 const COLORS = [
   "#F2D4B5",
@@ -117,14 +118,45 @@ function SignDisplay({
 
 export default function PlayerSelect() {
   const navigate = useNavigate();
-  const { selectedItem, selectedSkin, setSelectedItem, setSelectedSkin } =
-    useApplicationContext();
+  const {
+    selectedItem,
+    selectedSkin,
+    setSelectedItem,
+    setSelectedSkin,
+    formData,
+    setFormData
+  } = useApplicationContext();
   const [encouragement, setEncouragement] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1");
 
+  const formDataRef = useRef<FormData>(formData);
+
+  useEffect(() => {
+    formDataRef.current = formData;
+  }, [formData]);
+
+  useEffect(() => {
+    const currentFormData = formDataRef.current;
+    let shouldUpdateFormData = false;
+    if (
+      currentFormData.selectedItem !== selectedItem ||
+      currentFormData.selectedSkin !== selectedSkin
+    ) {
+      shouldUpdateFormData = true;
+    }
+
+    if (shouldUpdateFormData) {
+      setFormData({
+        ...currentFormData,
+        selectedItem,
+        selectedSkin
+      });
+    }
+  }, [selectedItem, selectedSkin, setFormData]);
+
   return (
-    <div className="overflow-hidden bg-linear-to-b from-[#ACDCFD] via-[#B3E9FC] to-[#B9F2FC] h-[100vh] w-full">
+    <div className="overflow-hidden bg-linear-to-b from-[#ACDCFD] via-[#B3E9FC] to-[#B9F2FC] h-[100vh] w-full flex flex-col justify-center items-center">
       <img
         src={tree2SVG}
         alt="Tree"
@@ -148,15 +180,15 @@ export default function PlayerSelect() {
       <img
         src={appleSVG}
         alt="Apple"
-        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[55px] right-[70px] w-[35px] h-[35px] bottom-[38px]  animate-bounce-custom"
+        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[55px] right-[70px] w-[35px] h-[35px] bottom-[38px] animate-bounce-custom"
       />
 
       <div className="w-full h-full flex items-center justify-center px-4 py-8 overflow-hidden">
-        <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center gap-12 sm:gap-[150px] w-full max-w-[1200px]">
-          <div className="flex-col items-start sm:items-end w-full sm:w-[430px] gap-4 sm:flex hidden">
+        <div className="flex flex-col sm:flex-row items-center sm:items-center justify-center gap-12 sm:gap-[150px] w-full max-w-[850px] mx-auto">
+          <div className="flex flex-col items-center sm:items-start w-full sm:w-[430px] gap-4">
             <Text
               textType="heading-lg"
-              className="w-full"
+              className="w-full text-center sm:text-left"
               textFont="rubik"
               textColor="primary"
             >
@@ -176,11 +208,12 @@ export default function PlayerSelect() {
               />
             )}
 
-            <div className="flex flex-row gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 w-full">
               {page === 2 && (
                 <Button
                   variant="back"
                   onClick={() => setSearchParams({ page: `${page - 1}` })}
+                  className="w-full sm:w-auto"
                 />
               )}
               <Button
@@ -189,12 +222,15 @@ export default function PlayerSelect() {
                   else navigate("/apply/about?page=1");
                 }}
                 variant="next"
+                className="w-full sm:w-auto"
               />
             </div>
-            <ProgressBar numSteps={2} currPage={page} />
+            <div className="flex justify-center sm:justify-start w-full">
+              <ProgressBar numSteps={2} currPage={page} />
+            </div>
           </div>
 
-          <div className="flex flex-col items-start gap-4">
+          <div className="flex flex-col items-center sm:items-start gap-4">
             <div className="relative">
               <img
                 src={frameSVG}
@@ -204,7 +240,7 @@ export default function PlayerSelect() {
               <img
                 src={PLAYER_IMAGES[selectedSkin][selectedItem]}
                 alt="Character Select"
-                className="h-[280px] w-[270px] sm:h-[362px] sm:w-[362px] sm:top-3 sm:left-8 left-2 top-[-10px] absolute"
+                className="object-cover h-[280px] w-[270px] sm:h-[362px] sm:w-[362px] sm:top-3 sm:left-8 left-2 top-[-10px] absolute"
               />
             </div>
             <SignDisplay
@@ -212,41 +248,6 @@ export default function PlayerSelect() {
               encouragement={encouragement}
               selectedItem={selectedItem}
             />
-          </div>
-
-          <div className="flex flex-col items-center w-full gap-4 sm:hidden mt-2">
-            <Text textType="display" textFont="rubik" textColor="primary">
-              {page === 1 ? "Select your hacker!" : "Select your item!"}
-            </Text>
-
-            {page === 2 ? (
-              <ItemPicker
-                selectedItem={selectedItem}
-                setSelectedItem={setSelectedItem}
-              />
-            ) : (
-              <ColorPicker
-                selectedSkin={selectedSkin}
-                setSelectedSkin={setSelectedSkin}
-                setEncouragement={setEncouragement}
-              />
-            )}
-
-            <div className="flex flex-col gap-3 w-full items-end mt-4">
-              <Button
-                onClick={() => {
-                  if (page === 1) setSearchParams({ page: `${page + 1}` });
-                  else navigate("/apply/about");
-                }}
-              />
-              {page === 2 && (
-                <Button
-                  variant="back"
-                  onClick={() => setSearchParams({ page: `${page - 1}` })}
-                />
-              )}
-              <ProgressBar numSteps={2} currPage={page} />
-            </div>
           </div>
         </div>
       </div>

@@ -68,9 +68,9 @@ export default function Callback() {
   }, [searchParams, navigate, setProfile, setFormData, formData]);
 
   return (
-    <div className="loading">
-      <div className="spinner"></div>
-      <p>Logging in...</p>
+    <div className="flex flex-col items-center justify-center min-h-screen w-full bg-linear-to-b from-[#ACDCFD] via-[#B3E9FC] to-[#B9F2FC]">
+      <div className="spinner mb-4"></div>
+      <p className="text-primary text-xl font-rubik">Logging in...</p>
     </div>
   );
 }

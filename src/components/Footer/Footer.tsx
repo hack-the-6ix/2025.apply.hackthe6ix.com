@@ -11,7 +11,7 @@ const Footer = () => {
             ? `Signed in as ${formData.firstName} ${formData.lastName}`
             : "Not signed in"}
         </div>
-        <div className="bg-[#EBA867] rounded-md p-2 font--jersey-10-regular border border-black flex items-center gap-1">
+        <div className="hidden md:flex bg-[#EBA867] rounded-md p-2 font--jersey-10-regular border border-black  items-center gap-1">
           <div
             className={`w-3 h-3 rounded-sm border border-black mr-2 bg-yellow-300`}
           ></div>

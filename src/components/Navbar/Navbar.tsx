@@ -1,7 +1,6 @@
 import React, { useState, useRef, useLayoutEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Text from "../Text/Text";
-import { useApplicationContext } from "../../contexts/ApplicationContext";
 import { IoMenu } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 
@@ -17,7 +16,6 @@ const NAV_LINKS = [
 const LIGHT_MODE: string[] = ["player", "about", "review"];
 
 const Navbar: React.FC = () => {
-  const { completedSection } = useApplicationContext();
   const { section } = useParams();
   const [menuOpen, setMenuOpen] = useState(false);
   const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
@@ -53,7 +51,7 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className="w-full flex items-center justify-between absolute z-50 transition-all duration-300">
-      <div className="sm:hidden absolute top-[30px] right-[30px]">
+      <div className="lg:hidden absolute top-[30px] right-[30px]">
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle Menu"
@@ -67,7 +65,7 @@ const Navbar: React.FC = () => {
         </button>
       </div>
 
-      <div className="hidden sm:flex flex-row items-center justify-center gap-12 xl:gap-24 w-full mt-[75px] relative">
+      <div className="hidden mx-8 lg:flex flex-row items-center justify-center gap-12 xl:gap-24 w-full mt-[75px] relative">
         <div
           className="absolute top-[-20px] -translate-x-1/2"
           style={tShapeStyle}
@@ -118,16 +116,10 @@ const Navbar: React.FC = () => {
           >
             <Text
               textType="heading-sm"
-              textWeight="bold"
-              className={`${
-                path.includes(section ?? "null")
-                  ? LIGHT_MODE.includes(section ?? "null")
-                    ? "!text-[#023441]"
-                    : "!text-[#FA8D1F]"
-                  : LIGHT_MODE.includes(section ?? "null")
-                  ? "!text-[#07566B]"
-                  : "!text-[#FFF]"
-              }`}
+              textWeight={path.includes(section ?? "null") ? "bold" : undefined}
+              textColor={
+                LIGHT_MODE.includes(section ?? "null") ? "primary" : "white"
+              }
             >
               {label}
             </Text>
@@ -137,7 +129,7 @@ const Navbar: React.FC = () => {
 
       {menuOpen && (
         <div
-          className="absolute top-[65px] left-1/2 -translate-x-1/2 w-[calc(100%-50px)] rounded-xl flex flex-col items-start px-6 py-4 sm:hidden"
+          className="absolute top-[65px] left-1/2 -translate-x-1/2 w-[calc(100%-50px)] rounded-xl flex flex-col items-start px-6 py-4 lg:hidden"
           style={{
             backgroundColor: LIGHT_MODE.includes(section ?? "null")
               ? "#cfedfe"
@@ -154,25 +146,26 @@ const Navbar: React.FC = () => {
               onClick={() => setMenuOpen(false)}
               className="relative py-2 flex items-center gap-2"
             >
-              <Text
-                textType="heading-sm"
-                textWeight="bold"
-                textColor={
-                  section == "player" ||
-                  section == "about" ||
-                  section == "review" ||
-                  section == "player"
-                    ? "primary"
-                    : "white"
-                }
+              <p
+                className={`text-lg
+                  ${
+                    path.includes(section ?? "null")
+                      ? "font-bold"
+                      : "font-normal"
+                  }
+                  ${
+                    path.includes(section ?? "null")
+                      ? LIGHT_MODE.includes(section ?? "null")
+                        ? "!text-[#023441]"
+                        : "!text-[#FA8D1F]"
+                      : LIGHT_MODE.includes(section ?? "null")
+                      ? "!text-[#07566B]"
+                      : "!text-[#FFF]"
+                  }
+                `}
               >
                 {label}
-              </Text>
-              {!completedSection[
-                NAV_LINKS.findIndex((link) => link.label === label)
-              ] && (
-                <span className="ml-1 rounded-full w-[7px] h-[7px] bg-red-600"></span>
-              )}
+              </p>
             </Link>
           ))}
         </div>

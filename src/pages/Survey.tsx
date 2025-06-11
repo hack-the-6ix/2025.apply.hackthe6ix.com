@@ -7,7 +7,7 @@ import firefly from "../assets/firefly.svg";
 import cloud from "../assets/cloud.svg";
 import cloudgroup2 from "../assets/cloudgroup2.svg";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Text from "../components/Text/Text";
 import Dropdown from "../components/Dropdown/Dropdown";
 import Input from "../components/Input/Input";
@@ -17,6 +17,7 @@ import ProgressBar from "../components/ProgressBar/ProgressBar";
 import { useNavigate } from "react-router-dom";
 import { useApplicationContext } from "../contexts/ApplicationContext";
 import { useSearchParams } from "react-router-dom";
+import type { FormData } from "../contexts/ApplicationContext";
 
 const WORKSHOPS = [
   { label: "Basics in Python", value: "python1" },
@@ -55,6 +56,12 @@ export default function Survey() {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1");
 
+  const formDataRef = useRef<FormData>(formData);
+
+  useEffect(() => {
+    formDataRef.current = formData;
+  }, [formData]);
+
   // Initialize state from context
   const [selectedWorkshops, setSelectedWorkshops] = useState<string[]>(
     formData?.selectedWorkshops || []
@@ -73,26 +80,53 @@ export default function Survey() {
     formData?.permission2 || false
   );
 
+  useEffect(() => {
+    const currentFormData = formDataRef.current;
+    let shouldUpdateFormData = false;
+    if (
+      currentFormData.selectedWorkshops !== selectedWorkshops ||
+      currentFormData.tshirtSize !== tshirtSize ||
+      currentFormData.dietaryRestrictions !== dietaryRestrictions ||
+      currentFormData.allergies !== allergies ||
+      currentFormData.gender !== gender ||
+      currentFormData.ethnicity !== ethnicity ||
+      currentFormData.permission1 !== permission1 ||
+      currentFormData.permission2 !== permission2
+    ) {
+      shouldUpdateFormData = true;
+    }
+
+    if (shouldUpdateFormData) {
+      setFormData({
+        ...currentFormData,
+        selectedWorkshops,
+        tshirtSize,
+        dietaryRestrictions,
+        allergies,
+        gender,
+        ethnicity,
+        permission1,
+        permission2
+      });
+    }
+  }, [
+    selectedWorkshops,
+    tshirtSize,
+    dietaryRestrictions,
+    allergies,
+    gender,
+    ethnicity,
+    permission1,
+    permission2,
+    setFormData
+  ]);
+
   const handleWorkshopToggle = (value: string) => {
     if (selectedWorkshops.includes(value)) {
       setSelectedWorkshops(selectedWorkshops.filter((v) => v !== value));
     } else if (selectedWorkshops.length < 3) {
       setSelectedWorkshops([...selectedWorkshops, value]);
     }
-  };
-
-  const updateFormData = () => {
-    setFormData({
-      ...formData,
-      selectedWorkshops,
-      tshirtSize,
-      dietaryRestrictions,
-      allergies,
-      gender,
-      ethnicity,
-      permission1,
-      permission2
-    });
   };
 
   const renderPage = () => {
@@ -103,7 +137,7 @@ export default function Survey() {
             <Text textType="heading-lg" textFont="rubik" textColor="white">
               Please choose 3 workshops that you are interested in.*
             </Text>
-            <div className="grid grid-cols-3 gap-4 z-50">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 z-50">
               {WORKSHOPS.map((workshop) => (
                 <Checkbox
                   key={workshop.value}
@@ -131,6 +165,7 @@ export default function Survey() {
               textColor="white"
               menuBackgroundColor="#646989"
               menuTextColor="white"
+              className="w-full"
             />
           </div>
         );
@@ -140,8 +175,8 @@ export default function Survey() {
             <Text textType="heading-lg" textFont="rubik" textColor="white">
               Please specify any dietary restrictions and/or allergies you have.
             </Text>
-            <div className="flex flex-row gap-4">
-              <div className="w-1/2">
+            <div className="flex flex-col sm:flex-row gap-4 w-full">
+              <div className="w-full sm:w-1/2">
                 <Input
                   value={dietaryRestrictions}
                   onChange={(e) => setDietaryRestrictions(e.target.value)}
@@ -150,7 +185,7 @@ export default function Survey() {
                   textColor="white"
                 />
               </div>
-              <div className="w-1/2">
+              <div className="w-full sm:w-1/2">
                 <Input
                   value={allergies}
                   onChange={(e) => setAllergies(e.target.value)}
@@ -168,8 +203,8 @@ export default function Survey() {
             <Text textType="heading-lg" textFont="rubik" textColor="white">
               Please specify your gender and background:
             </Text>
-            <div className="flex flex-row gap-4">
-              <div className="w-1/2">
+            <div className="flex flex-col sm:flex-row gap-4 w-full">
+              <div className="w-full sm:w-1/2">
                 <Input
                   value={gender}
                   onChange={(e) => setGender(e.target.value)}
@@ -178,7 +213,7 @@ export default function Survey() {
                   textColor="white"
                 />
               </div>
-              <div className="w-1/2">
+              <div className="w-full sm:w-1/2">
                 <Input
                   value={ethnicity}
                   onChange={(e) => setEthnicity(e.target.value)}

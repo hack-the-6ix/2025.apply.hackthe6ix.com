@@ -140,9 +140,9 @@ export default function AboutYou() {
   ]);
 
   return (
-    <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#ACDCFD] via-[#B3E9FC] to-[#B9F2FC]  h-[100vh] w-full flex flex-col justify-center items-start">
-      <div className="w-full h-full flex items-center justify-start px-4 py-8 overflow-hidden">
-        <div className="flex flex-col items-start justify-center gap-12 w-full max-w-[1200px] sm:ml-[158px] -mt-[100px]">
+    <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#ACDCFD] via-[#B3E9FC] to-[#B9F2FC]  h-[100vh] w-full flex flex-col justify-center items-center">
+      <div className="w-full h-full flex items-center justify-center px-4 py-8 overflow-hidden">
+        <div className="flex flex-col items-center sm:items-start justify-center gap-12 w-full max-w-[850px] sm:w-2/3 mx-auto">
           <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
             <div className="flex flex-col gap-4 py-4">
               {page === 1 && (
@@ -200,16 +200,8 @@ export default function AboutYou() {
             <div className="flex flex-col gap-1 w-full">
               {page === 1 && (
                 <>
-                  <Text
-                    textType="paragraph-sm"
-                    textFont="rubik"
-                    textColor="primary"
-                    className="ml-[10px]"
-                  >
-                    Your full name*
-                  </Text>
-                  <div className="flex gap-4">
-                    <div className="w-1/2">
+                  <div className="flex flex-col sm:flex-row gap-4 w-full">
+                    <div className="w-full sm:w-1/2">
                       <Text
                         textType="paragraph-sm"
                         textFont="rubik"
@@ -224,7 +216,7 @@ export default function AboutYou() {
                         onChange={(e) => setFirstName(e.target.value)}
                       />
                     </div>
-                    <div className="w-1/2">
+                    <div className="w-full sm:w-1/2">
                       <Text
                         textType="paragraph-sm"
                         textFont="rubik"
@@ -277,8 +269,8 @@ export default function AboutYou() {
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                   />
-                  <div className="flex gap-4">
-                    <div className="w-1/2">
+                  <div className="flex flex-col sm:flex-row gap-4 w-full">
+                    <div className="w-full sm:w-1/2">
                       <Text
                         textType="paragraph-sm"
                         textFont="rubik"
@@ -293,7 +285,7 @@ export default function AboutYou() {
                         onChange={(value) => setProvince(value)}
                       />
                     </div>
-                    <div className="w-1/2">
+                    <div className="w-full sm:w-1/2">
                       <Text
                         textType="paragraph-sm"
                         textFont="rubik"
@@ -313,8 +305,8 @@ export default function AboutYou() {
               )}
               {page === 4 && (
                 <>
-                  <div className="flex gap-4">
-                    <div className="w-1/2">
+                  <div className="flex flex-col sm:flex-row gap-4 w-full">
+                    <div className="w-full sm:w-1/2">
                       <Text
                         textType="paragraph-sm"
                         textFont="rubik"
@@ -329,7 +321,7 @@ export default function AboutYou() {
                         onChange={(e) => setEmergencyFirstName(e.target.value)}
                       />
                     </div>
-                    <div className="w-1/2">
+                    <div className="w-full sm:w-1/2">
                       <Text
                         textType="paragraph-sm"
                         textFont="rubik"
@@ -345,8 +337,8 @@ export default function AboutYou() {
                       />
                     </div>
                   </div>
-                  <div className="flex gap-4">
-                    <div className="w-1/2">
+                  <div className="flex flex-col sm:flex-row gap-4 w-full">
+                    <div className="w-full sm:w-1/2">
                       <Text
                         textType="paragraph-sm"
                         textFont="rubik"
@@ -361,7 +353,7 @@ export default function AboutYou() {
                         onChange={(e) => setEmergencyPhone(e.target.value)}
                       />
                     </div>
-                    <div className="w-1/2">
+                    <div className="w-full sm:w-1/2">
                       <Text
                         textType="paragraph-sm"
                         textFont="rubik"
@@ -388,7 +380,7 @@ export default function AboutYou() {
               )}
             </div>
 
-            <div className="flex flex-row justify-end w-full gap-3">
+            <div className="flex flex-col sm:flex-row justify-center sm:justify-end w-full gap-3">
               <Button
                 variant="back"
                 onClick={() => {
@@ -398,6 +390,7 @@ export default function AboutYou() {
                     navigate("/apply/player?page=2");
                   }
                 }}
+                className="w-full sm:w-auto"
               />
               <Button
                 disabled={
@@ -422,10 +415,11 @@ export default function AboutYou() {
                   }
                 }}
                 variant="next"
+                className="w-full sm:w-auto"
               />
             </div>
 
-            <div className="flex justify-end w-full">
+            <div className="flex justify-center sm:justify-end w-full">
               <ProgressBar numSteps={4} currPage={page} />
             </div>
           </div>
@@ -453,13 +447,13 @@ export default function AboutYou() {
       <img
         src={PLAYER_IMAGES[selectedSkin][selectedItem]}
         alt="Player"
-        className=" absolute sm:h-[140px] h-[70px] sm:bottom-[85px] sm:right-[200px] right-[100px] bottom-[35px]"
+        className="absolute h-[140px] sm:bottom-[85px] sm:right-[200px] right-[100px] bottom-[35px]"
       />
 
       <img
         src={appleSVG}
         alt="Apple"
-        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[150px] right-[70px] w-[35px] h-[35px] bottom-[38px]  animate-bounce-custom"
+        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[150px] right-[70px] w-[35px] h-[35px] bottom-[38px] animate-bounce-custom"
       />
     </div>
   );

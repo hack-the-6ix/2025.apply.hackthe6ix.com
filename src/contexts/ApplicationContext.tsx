@@ -39,6 +39,10 @@ export interface FormData {
   ethnicity?: string;
   permission1?: boolean;
   permission2?: boolean;
+
+  // Player Select fields
+  selectedSkin?: number;
+  selectedItem?: number;
 }
 
 interface ApplicationContextType {

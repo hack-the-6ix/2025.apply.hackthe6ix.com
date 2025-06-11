@@ -7,7 +7,7 @@ import { PLAYER_IMAGES } from "../constants/images";
 import apple from "../assets/apple.svg";
 import cloud2 from "../assets/cloud2.svg";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Text from "../components/Text/Text";
 import TextArea from "../components/TextArea/TextArea";
 import Input from "../components/Input/Input";
@@ -16,6 +16,7 @@ import ProgressBar from "../components/ProgressBar/ProgressBar";
 import { useNavigate } from "react-router-dom";
 import { useApplicationContext } from "../contexts/ApplicationContext";
 import { useSearchParams } from "react-router-dom";
+import type { FormData } from "../contexts/ApplicationContext";
 
 export default function LongAnswer() {
   const navigate = useNavigate();
@@ -30,19 +31,37 @@ export default function LongAnswer() {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1");
 
+  const formDataRef = useRef<FormData>(formData);
+
+  useEffect(() => {
+    formDataRef.current = formData;
+  }, [formData]);
+
   // Initialize state from context
   const [accomplish, setAccomplish] = useState(formData?.accomplish || "");
   const [project, setProject] = useState(formData?.project || "");
   const [funFact, setFunFact] = useState(formData?.funFact || "");
 
-  const updateFormData = () => {
-    setFormData({
-      ...formData,
-      accomplish,
-      project,
-      funFact
-    });
-  };
+  useEffect(() => {
+    const currentFormData = formDataRef.current;
+    let shouldUpdateFormData = false;
+    if (
+      currentFormData.accomplish !== accomplish ||
+      currentFormData.project !== project ||
+      currentFormData.funFact !== funFact
+    ) {
+      shouldUpdateFormData = true;
+    }
+
+    if (shouldUpdateFormData) {
+      setFormData({
+        ...currentFormData,
+        accomplish,
+        project,
+        funFact
+      });
+    }
+  }, [accomplish, project, funFact, setFormData]);
 
   const renderPage = () => {
     switch (page) {
@@ -109,24 +128,26 @@ export default function LongAnswer() {
   };
 
   return (
-    <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#21293C] to-[#06162F] h-[100vh] w-full flex flex-col justify-center items-start">
-      <div className="w-full h-full flex items-center justify-start px-4 py-8 overflow-hidden relative z-10">
-        <div className="flex flex-col items-start justify-center gap-12 w-full max-w-[1200px] sm:ml-[158px] -mt-[100px]">
+    <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#21293C] to-[#06162F] h-[100vh] w-full flex flex-col justify-center items-center">
+      <div className="w-full h-full flex items-center justify-center px-4 py-8 overflow-hidden relative z-10">
+        <div className="flex flex-col items-center sm:items-start justify-center gap-12 w-full max-w-[850px] sm:w-2/3 mx-auto">
           <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
             <div className="flex flex-col gap-4 w-full">{renderPage()}</div>
             <div className="flex flex-col gap-4 w-full">
-              <div className="flex flex-row justify-end w-full gap-3">
+              <div className="flex flex-col sm:flex-row justify-center sm:justify-end w-full gap-3">
                 {page > 1 ? (
                   <Button
                     variant="back"
                     onClick={() => setSearchParams({ page: `${page - 1}` })}
                     darkMode={true}
+                    className="w-full sm:w-auto"
                   />
                 ) : (
                   <Button
                     variant="back"
                     onClick={() => navigate("/apply/experience?page=5")}
                     darkMode={true}
+                    className="w-full sm:w-auto"
                   />
                 )}
                 <Button
@@ -140,7 +161,6 @@ export default function LongAnswer() {
                     if (page < 3) {
                       setSearchParams({ page: `${page + 1}` });
                     } else {
-                      updateFormData();
                       const updateCompleted = completedSection.map((val, i) =>
                         i === 2 ? true : val
                       );
@@ -148,11 +168,12 @@ export default function LongAnswer() {
                       navigate("/apply/survey");
                     }
                   }}
+                  className="w-full sm:w-auto"
                 >
                   Next
                 </Button>
               </div>
-              <div className="flex justify-end w-full">
+              <div className="flex justify-center sm:justify-end w-full">
                 <ProgressBar darkMode={true} numSteps={3} currPage={page} />
               </div>
             </div>
@@ -160,81 +181,76 @@ export default function LongAnswer() {
         </div>
       </div>
 
-      <div className="absolute inset-0 z-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden">
         <img
           src={corner_rock3}
           alt="corner_rocks"
-          className="sm:block hidden absolute h-[30] w-[30] top-[15px] left-[0px] z-0"
+          className="sm:block hidden absolute h-[150px] w-[150px] top-[15px] left-[-30px]"
         />
         <img
           src={pine_tree}
           alt="corner_rocks"
-          className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] left-[0px] z-0"
+          className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] left-[0px]"
         />
         <img
           src={cloud}
           alt="cloud"
-          className="sm:block hidden absolute bottom-[120px] left-[0px] z-0"
+          className="sm:block hidden absolute bottom-[120px] left-[0px]"
         />
         <img
           src={pine_tree}
           alt="corner_rocks"
-          className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] left-[220px] z-0"
+          className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] left-[220px]"
         />
         <img
           src={cloud}
           alt="cloud"
-          className="sm:block hidden absolute bottom-[120px] left-[240px] z-0"
+          className="sm:block hidden absolute bottom-[120px] left-[240px]"
         />
         <img
           src={firefly}
           alt="firefly"
-          className="sm:block hidden absolute bottom-[140px] left-[100px] animate-float z-0"
+          className="sm:block hidden absolute bottom-[140px] left-[100px] animate-float"
         />
         <img
           src={pine_tree}
           alt="corner_rocks"
-          className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] right-[140px] z-0"
+          className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] right-[140px]"
         />
         <img
           src={pine_tree}
           alt="corner_rocks"
-          className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] right-[0px] z-0"
+          className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] right-[0px]"
         />
         <img
           src={pine_tree}
           alt="corner_rocks"
-          className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] right-[0px] z-0"
+          className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] right-[0px]"
         />
         <img
           src={cloud_group}
           alt="cloud_group"
-          className="sm:block hidden absolute h-[350px] w-[350px] top-[80px] right-[0] z-0"
+          className="sm:block hidden absolute h-[350px] w-[350px] top-[80px] right-[0]"
         />
         <img
           src={PLAYER_IMAGES[selectedSkin][selectedItem]}
           alt="Player"
-          className=" absolute sm:h-[140px] h-[70px] sm:bottom-[85px] sm:right-[200px] right-[100px] bottom-[35px] z-0"
+          className="absolute h-[140px] sm:bottom-[85px] sm:right-[200px] right-[100px] bottom-[35px]"
         />
         <img
           src={apple}
           alt="Apple"
-          className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[150px] right-[70px] w-[35px] h-[35px] bottom-[38px] animate-bounce-custom z-0"
+          className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[150px] right-[70px] w-[35px] h-[35px] bottom-[38px] animate-bounce-custom"
         />
         <img
           src={firefly}
           alt="firefly"
-          className="sm:block hidden absolute bottom-[45px] right-[230px] animate-float z-0"
+          className="sm:block hidden absolute bottom-[45px] right-[230px] animate-float"
         />
         <img
           src={firefly}
           alt="firefly"
-          className="sm:block hidden absolute bottom-[200px] right-[30px] animate-float z-0"
-        />
-        <img
-          src={cloud2}
-          alt="cloud2"
-          className="sm:block hidden absolute bottom-[100px] right-[0] z-0"
+          className="sm:block hidden absolute bottom-[200px] right-[30px] animate-float"
         />
       </div>
     </div>
