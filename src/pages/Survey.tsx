@@ -137,7 +137,7 @@ export default function Survey() {
             <Text textType="heading-lg" textFont="rubik" textColor="white">
               Please choose 3 workshops that you are interested in.*
             </Text>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 z-50">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 z-50">
               {WORKSHOPS.map((workshop) => (
                 <Checkbox
                   key={workshop.value}
@@ -255,9 +255,9 @@ export default function Survey() {
   };
 
   return (
-    <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#21293C] via-[#60639D] to-[#DF6369] h-[100vh] w-full flex flex-col justify-center items-start z-50">
-      <div className="w-full h-full flex items-center justify-start px-4 py-8 overflow-hidden">
-        <div className="flex flex-col items-start justify-center gap-12 w-full max-w-[1200px] sm:ml-[158px] -mt-[100px]">
+    <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#21293C] via-[#60639D] to-[#DF6369] h-[100vh] w-full flex flex-col justify-center items-center z-50">
+      <div className="w-full h-full flex items-center justify-center px-4 py-8 overflow-hidden">
+        <div className="flex flex-col items-center sm:items-start justify-center gap-12 w-full max-w-[850px] sm:w-2/3 mx-auto">
           <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
             <div className="flex flex-col gap-4 w-full">{renderPage()}</div>
             <div className="flex flex-col gap-4 w-full">
@@ -288,7 +288,6 @@ export default function Survey() {
                     if (page < 5) {
                       setSearchParams({ page: `${page + 1}` });
                     } else {
-                      updateFormData();
                       const updateCompleted = completedSection.map((val, i) =>
                         i === 3 ? true : val
                       );
@@ -318,7 +317,7 @@ export default function Survey() {
         <img
           src={PLAYER_IMAGES[selectedSkin][selectedItem]}
           alt="Player"
-          className=" absolute sm:h-[140px] h-[70px] sm:bottom-[85px] sm:right-[120px] right-[100px] bottom-[35px] z-0"
+          className=" absolute h-[140px] sm:bottom-[85px] sm:right-[120px] right-[100px] bottom-[35px] z-0"
         />
         <img
           src={apple}

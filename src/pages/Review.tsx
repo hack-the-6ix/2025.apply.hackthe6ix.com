@@ -729,7 +729,7 @@ export default function Review() {
         <img
           src={PLAYER_IMAGES[selectedSkin][selectedItem]}
           alt="Player"
-          className=" absolute sm:h-[140px] h-[70px] sm:bottom-[100px] sm:right-[200px] right-[100px] bottom-[35px]"
+          className=" absolute h-[140px] sm:bottom-[100px] sm:right-[200px] right-[100px] bottom-[35px]"
         />
         <img
           src={apple}
