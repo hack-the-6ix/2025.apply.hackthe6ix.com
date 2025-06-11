@@ -332,7 +332,7 @@ export default function Experiences() {
                 ) : (
                   <Button
                     variant="back"
-                    onClick={() => navigate("/apply/about")}
+                    onClick={() => navigate("/apply/about?page=4")}
                     darkMode={true}
                   />
                 )}

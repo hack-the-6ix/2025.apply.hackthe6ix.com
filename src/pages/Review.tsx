@@ -693,7 +693,10 @@ export default function Review() {
           <div
             className={`flex justify-end gap-4 mt-6 transition-opacity duration-300 z-20`}
           >
-            <Button variant="back" onClick={() => navigate("/apply/survey")}>
+            <Button
+              variant="back"
+              onClick={() => navigate("/apply/survey?page=5")}
+            >
               Back
             </Button>
             <Button

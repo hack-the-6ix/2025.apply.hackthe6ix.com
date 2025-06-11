@@ -226,7 +226,7 @@ export default function Survey() {
           <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
             <div className="flex flex-col gap-4 w-full">{renderPage()}</div>
             <div className="flex flex-col gap-4 w-full">
-              <div className="flex flex-row justify-end w-full gap-3">
+              <div className="flex flex-row justify-end w-full gap-3 z-50">
                 {page > 1 ? (
                   <Button
                     variant="back"
@@ -236,7 +236,7 @@ export default function Survey() {
                 ) : (
                   <Button
                     variant="back"
-                    onClick={() => navigate("/apply/long-answer")}
+                    onClick={() => navigate("/apply/long-answer?page=3")}
                     darkMode={true}
                   />
                 )}

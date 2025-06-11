@@ -125,7 +125,7 @@ export default function LongAnswer() {
                 ) : (
                   <Button
                     variant="back"
-                    onClick={() => navigate("/apply/experience")}
+                    onClick={() => navigate("/apply/experience?page=5")}
                     darkMode={true}
                   />
                 )}
