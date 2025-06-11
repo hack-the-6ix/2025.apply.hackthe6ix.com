@@ -160,81 +160,83 @@ export default function LongAnswer() {
         </div>
       </div>
 
-      <img
-        src={corner_rock3}
-        alt="corner_rocks"
-        className="sm:block hidden absolute h-[30] w-[30] top-[15px] left-[0px]"
-      />
-      <img
-        src={pine_tree}
-        alt="corner_rocks"
-        className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] left-[0px] z-[1]"
-      />
-      <img
-        src={cloud}
-        alt="cloud"
-        className="sm:block hidden absolute bottom-[120px] left-[-200px]"
-      />
-      <img
-        src={pine_tree}
-        alt="corner_rocks"
-        className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] left-[220px]"
-      />
-      <img
-        src={cloud}
-        alt="cloud"
-        className="sm:block hidden absolute bottom-[120px] left-[240px]"
-      />
-      <img
-        src={firefly}
-        alt="firefly"
-        className="sm:block hidden absolute bottom-[140px] left-[100px] animate-float"
-      />
-      <img
-        src={pine_tree}
-        alt="corner_rocks"
-        className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] right-[140px]"
-      />
-      <img
-        src={pine_tree}
-        alt="corner_rocks"
-        className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] right-[-70px]"
-      />
-      <img
-        src={pine_tree}
-        alt="corner_rocks"
-        className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] right-[-170px]"
-      />
-      <img
-        src={cloud_group}
-        alt="cloud_group"
-        className="sm:block hidden absolute h-[350px] w-[350px] top-[80px] right-[0]"
-      />
-      <img
-        src={PLAYER_IMAGES[selectedSkin][selectedItem]}
-        alt="Player"
-        className=" absolute sm:h-[140px] h-[70px] sm:bottom-[85px] sm:right-[200px] right-[100px] bottom-[35px]"
-      />
-      <img
-        src={apple}
-        alt="Apple"
-        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[150px] right-[70px] w-[35px] h-[35px] bottom-[38px]  animate-bounce-custom"
-      />
-      <img
-        src={firefly}
-        alt="firefly"
-        className="sm:block hidden absolute bottom-[45px] right-[230px] animate-float"
-      />
-      <img
-        src={firefly}
-        alt="firefly"
-        className="sm:block hidden absolute bottom-[200px] right-[30px] animate-float"
-      />
-      <img
-        src={cloud2}
-        alt="cloud2"
-        className="sm:block hidden absolute bottom-[100px] right-[0]"
-      />
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <img
+          src={corner_rock3}
+          alt="corner_rocks"
+          className="sm:block hidden absolute h-[30] w-[30] top-[15px] left-[0px] z-0"
+        />
+        <img
+          src={pine_tree}
+          alt="corner_rocks"
+          className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] left-[0px] z-0"
+        />
+        <img
+          src={cloud}
+          alt="cloud"
+          className="sm:block hidden absolute bottom-[120px] left-[0px] z-0"
+        />
+        <img
+          src={pine_tree}
+          alt="corner_rocks"
+          className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] left-[220px] z-0"
+        />
+        <img
+          src={cloud}
+          alt="cloud"
+          className="sm:block hidden absolute bottom-[120px] left-[240px] z-0"
+        />
+        <img
+          src={firefly}
+          alt="firefly"
+          className="sm:block hidden absolute bottom-[140px] left-[100px] animate-float z-0"
+        />
+        <img
+          src={pine_tree}
+          alt="corner_rocks"
+          className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] right-[140px] z-0"
+        />
+        <img
+          src={pine_tree}
+          alt="corner_rocks"
+          className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] right-[0px] z-0"
+        />
+        <img
+          src={pine_tree}
+          alt="corner_rocks"
+          className="sm:block hidden absolute h-[250px] w-[250px] bottom-[80px] right-[0px] z-0"
+        />
+        <img
+          src={cloud_group}
+          alt="cloud_group"
+          className="sm:block hidden absolute h-[350px] w-[350px] top-[80px] right-[0] z-0"
+        />
+        <img
+          src={PLAYER_IMAGES[selectedSkin][selectedItem]}
+          alt="Player"
+          className=" absolute sm:h-[140px] h-[70px] sm:bottom-[85px] sm:right-[200px] right-[100px] bottom-[35px] z-0"
+        />
+        <img
+          src={apple}
+          alt="Apple"
+          className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[150px] right-[70px] w-[35px] h-[35px] bottom-[38px] animate-bounce-custom z-0"
+        />
+        <img
+          src={firefly}
+          alt="firefly"
+          className="sm:block hidden absolute bottom-[45px] right-[230px] animate-float z-0"
+        />
+        <img
+          src={firefly}
+          alt="firefly"
+          className="sm:block hidden absolute bottom-[200px] right-[30px] animate-float z-0"
+        />
+        <img
+          src={cloud2}
+          alt="cloud2"
+          className="sm:block hidden absolute bottom-[100px] right-[0] z-0"
+        />
+      </div>
     </div>
   );
 }

@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useApplicationContext } from "../contexts/ApplicationContext";
 import Button from "../components/Button/Button";
 import { useNavigate } from "react-router-dom";
+import ReviewField from "../components/ReviewField/ReviewField";
 
 interface UserResponse {
   computedApplicationOpen: number;
@@ -49,8 +50,44 @@ const TSHIRT_SIZES = [
 export default function Review() {
   const navigate = useNavigate();
   const { formData, selectedSkin, selectedItem } = useApplicationContext();
-  const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false);
   const [missingFields, setMissingFields] = useState<string[]>([]);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [modalContentType, setModalContentType] = useState<
+    | "confirmSubmit"
+    | "missingFields"
+    | "resumeMissing"
+    | "submissionFailed"
+    | null
+  >(null);
+
+  const getMissingFields = () => {
+    const missing: string[] = [];
+    if (!formData?.fullName) missing.push("Full Name");
+    if (!formData?.email) missing.push("Email");
+    if (!formData?.city) missing.push("City");
+    if (!formData?.province) missing.push("Province");
+    if (!formData?.country) missing.push("Country");
+    if (!formData?.emergencyFirstName)
+      missing.push("Emergency Contact First Name");
+    if (!formData?.emergencyLastName)
+      missing.push("Emergency Contact Last Name");
+    if (!formData?.emergencyPhone) missing.push("Emergency Contact Phone");
+    if (!formData?.emergencyRelationship)
+      missing.push("Emergency Contact Relationship");
+    if (!formData?.school) missing.push("School");
+    if (!formData?.year) missing.push("Year of Study");
+    if (!formData?.program) missing.push("Program");
+    if (!formData?.hackathonCount) missing.push("Hackathon Count");
+    if (!formData?.resume) missing.push("Resume");
+    if (!formData?.accomplish)
+      missing.push("What would you like to accomplish at Hack the 6ix?");
+    if (!formData?.project) missing.push("One project you were proud of");
+    if (!formData?.funFact) missing.push("Fun Fact");
+    if (!formData?.tshirtSize) missing.push("T-shirt Size");
+    if (!formData?.gender) missing.push("Gender");
+    if (!formData?.ethnicity) missing.push("Ethnicity");
+    return missing;
+  };
 
   const isFormComplete = () => {
     return (
@@ -78,48 +115,46 @@ export default function Review() {
   };
 
   const handleSubmit = async () => {
-    const missing: string[] = [];
-    if (missing.length > 0) {
-      setMissingFields(missing);
-      setShowSubmitModal(false);
+    setShowModal(false); // Close any existing modal
+    const currentMissing = getMissingFields();
+    if (currentMissing.length > 0) {
+      setMissingFields(currentMissing);
+      setModalContentType("missingFields");
+      setShowModal(true);
       return;
     }
 
     try {
       const application: IPartialApplication = {
-        phoneNumber: formData.emergencyPhone || "1234567890",
+        phoneNumber: formData.emergencyPhone,
         age: 20,
-        gender: formData.gender || "Prefer not to say",
-        ethnicity: formData.ethnicity || "Prefer not to answer",
-        school: formData.school || "University of Toronto",
-        program: formData.program || "Computer Science",
+        gender: formData.gender,
+        ethnicity: formData.ethnicity,
+        school: formData.school,
+        program: formData.program,
         levelOfStudy: "Undergraduate Year 1",
         graduationYear: 2025,
         hackathonsAttended: "None",
-        creativeResponseEssay:
-          formData.accomplish ||
-          "I want to learn and build something cool at Hack the 6ix. I am excited to work with new technologies and meet other passionate developers. I hope to create something innovative and meaningful during the hackathon. I want to learn and build something cool at Hack the 6ix. I am excited to work with new technologies and meet other passionate developers. I hope to create something innovative and meaningful during the hackathon. I want to learn and build something cool at Hack the 6ix. I am excited to work with new technologies and meet other passionate developers. I hope to create something innovative and meaningful during the hackathon.",
-        whyHT6Essay:
-          formData.project ||
-          "I recently built a web application using React and Node.js. I implemented user authentication, real-time updates, and a responsive design. The project helped me learn about full-stack development and working with APIs. I recently built a web application using React and Node.js. I implemented user authentication, real-time updates, and a responsive design. The project helped me learn about full-stack development and working with APIs. I recently built a web application using React and Node.js. I implemented user authentication, real-time updates, and a responsive design. The project helped me learn about full-stack development and working with APIs.",
-        mlhCOC: formData.permission1 || true,
-        mlhData: formData.permission2 || true,
-        mlhEmail: formData.emailPermission || true,
-        shirtSize: formData.tshirtSize || "M",
-        city: formData.city || "Toronto",
-        province: formData.province || "Ontario",
-        country: formData.country || "Canada",
+        creativeResponseEssay: formData.accomplish,
+        whyHT6Essay: formData.project,
+        mlhCOC: formData.permission1,
+        mlhData: formData.permission2,
+        mlhEmail: formData.emailPermission,
+        shirtSize: formData.tshirtSize,
+        city: formData.city,
+        province: formData.province,
+        country: formData.country,
         emergencyContact: {
-          firstName: formData.emergencyFirstName || "Emergency",
-          lastName: formData.emergencyLastName || "Contact",
-          phoneNumber: formData.emergencyPhone || "1234567890",
-          relationship: formData.emergencyRelationship || "Other"
+          firstName: formData.emergencyFirstName || "",
+          lastName: formData.emergencyLastName || "",
+          phoneNumber: formData.emergencyPhone || "",
+          relationship: formData.emergencyRelationship || ""
         },
-        githubLink: formData.github || "https://github.com",
-        linkedinLink: formData.linkedin || "https://linkedin.com",
-        portfolioLink: formData.portfolio || "https://portfolio.com",
-        dietaryRestrictions: "Vegetarian",
-        emailConsent: formData.emailPermission || true,
+        githubLink: formData.github,
+        linkedinLink: formData.linkedin,
+        portfolioLink: formData.portfolio,
+        dietaryRestrictions: formData.dietaryRestrictions,
+        emailConsent: formData.emailPermission,
         resumeSharePermission: true
       };
 
@@ -128,9 +163,9 @@ export default function Review() {
       );
 
       if (!user.message.hackerApplication?.resumeFileName) {
-        throw new Error(
-          "Please upload your resume before submitting your application"
-        );
+        setModalContentType("resumeMissing");
+        setShowModal(true);
+        return;
       }
 
       await fetchHt6<
@@ -140,6 +175,7 @@ export default function Review() {
         body: { submit: true, application },
         method: "POST"
       });
+      navigate("/success"); // Navigate on successful submission
     } catch (error: unknown) {
       if (
         error &&
@@ -148,9 +184,14 @@ export default function Review() {
         error.status === 403
       ) {
         const fields =
-          (error as { message?: { fields?: string[] } }).message?.fields || [];
+          (error as { error?: string[][] }).error?.map((field) => field[1]) ||
+          [];
         setMissingFields(fields);
-        setShowSubmitModal(false);
+        setModalContentType("submissionFailed"); // Use submissionFailed for server-side validation too
+        setShowModal(true);
+      } else {
+        setModalContentType("submissionFailed");
+        setShowModal(true);
       }
     }
   };
@@ -186,7 +227,7 @@ export default function Review() {
                       textFont="rubik"
                       textColor="primary"
                     >
-                      {field.replace(/^\//, "").replace(/\//g, " > ")}
+                      {field}
                     </Text>
                   </li>
                 ))}
@@ -221,598 +262,489 @@ export default function Review() {
               </div>
             )}
           </div>
-        </div>
 
-        <div className="max-h-[35vh] overflow-y-auto px-8 space-y-6">
-          {/* About You Section */}
-          <div className="space-y-7">
-            <div className="flex items-center gap-2">
-              <Text textType="heading-sm" textFont="rubik" textColor="primary">
-                About You
-              </Text>
-              {formData?.fullName &&
-              formData?.email &&
-              formData?.city &&
-              formData?.province &&
-              formData?.country &&
-              formData?.emergencyFirstName &&
-              formData?.emergencyLastName &&
-              formData?.emergencyPhone ? (
-                <img src={checkCircle} alt="Complete" className="w-3 h-3" />
-              ) : (
-                <img src={exclamation} alt="Incomplete" className="w-3 h-3" />
-              )}
-            </div>
-            <div className="rounded-md">
-              <div className="grid grid-cols-2 gap-y-4">
-                {/* Full Name */}
-                <div className="flex flex-col gap-1.5">
-                  <Text
-                    textType="paragraph-sm-semibold"
-                    textFont="rubik"
-                    textColor="primary"
-                  >
-                    Full Name
-                  </Text>
-                  <Text
-                    textType="paragraph-lg-semibold"
-                    textFont="rubik"
-                    textColor={formData?.fullName ? "primary" : "gray"}
-                  >
-                    {formData?.fullName || "Not filled"}
-                  </Text>
-                </div>
-
-                {/* Location */}
-                <div className="flex flex-col gap-1.5">
-                  <Text
-                    textType="paragraph-sm-semibold"
-                    textFont="rubik"
-                    textColor="primary"
-                  >
-                    Location
-                  </Text>
-                  {formData?.city && formData?.province && formData?.country ? (
-                    <>
-                      <Text
-                        textType="paragraph-lg-semibold"
-                        textFont="rubik"
-                        textColor="primary"
-                      >
-                        {`${formData.city}, ${formData.province}`}
-                      </Text>
-                      <Text
-                        textType="paragraph-lg-semibold"
-                        textFont="rubik"
-                        textColor="primary"
-                      >
-                        {formData.country}
-                      </Text>
-                    </>
-                  ) : (
-                    <Text
-                      textType="paragraph-lg-semibold"
-                      textFont="rubik"
-                      textColor="gray"
-                    >
-                      Not filled
-                    </Text>
-                  )}
-                </div>
-
-                {/* Email */}
-                <div className="flex flex-col gap-1.5">
-                  <Text
-                    textType="paragraph-sm-semibold"
-                    textFont="rubik"
-                    textColor="primary"
-                  >
-                    Email
-                  </Text>
-                  <Text
-                    textType="paragraph-lg-semibold"
-                    textFont="rubik"
-                    textColor={formData?.email ? "primary" : "gray"}
-                  >
-                    {formData?.email || "Not filled"}
-                  </Text>
-                </div>
-
-                {/* Emergency Contact */}
-                <div className="flex flex-col gap-1.5">
-                  <Text
-                    textType="paragraph-sm-semibold"
-                    textFont="rubik"
-                    textColor="primary"
-                  >
-                    Emergency Contact
-                  </Text>
-                  {formData?.emergencyFirstName &&
-                  formData?.emergencyLastName &&
-                  formData?.emergencyPhone ? (
-                    <>
-                      <Text
-                        textType="paragraph-lg-semibold"
-                        textFont="rubik"
-                        textColor="primary"
-                      >
-                        {`${formData.emergencyFirstName} ${formData.emergencyLastName}`}
-                      </Text>
-                      <Text
-                        textType="paragraph-lg-semibold"
-                        textFont="rubik"
-                        textColor="primary"
-                      >
-                        {formData.emergencyPhone}
-                      </Text>
-                    </>
-                  ) : (
-                    <Text
-                      textType="paragraph-lg-semibold"
-                      textFont="rubik"
-                      textColor="gray"
-                    >
-                      Not filled
-                    </Text>
-                  )}
-                </div>
+          <div className="max-h-[35vh] overflow-y-auto px-8 space-y-6">
+            {/* About You Section */}
+            <div className="space-y-7">
+              <div className="flex items-center gap-2">
+                <Text
+                  textType="heading-sm"
+                  textFont="rubik"
+                  textColor="primary"
+                >
+                  About You
+                </Text>
+                {formData?.fullName &&
+                formData?.email &&
+                formData?.city &&
+                formData?.province &&
+                formData?.country &&
+                formData?.emergencyFirstName &&
+                formData?.emergencyLastName &&
+                formData?.emergencyPhone ? (
+                  <img src={checkCircle} alt="Complete" className="w-3 h-3" />
+                ) : (
+                  <img src={exclamation} alt="Incomplete" className="w-3 h-3" />
+                )}
               </div>
-            </div>
-          </div>
-
-          {/* Experience Information */}
-          <div className="space-y-7">
-            <div className="flex items-center gap-2">
-              <Text textType="heading-sm" textFont="rubik" textColor="primary">
-                Your Experience
-              </Text>
-              {formData?.school &&
-              formData?.resume &&
-              formData?.program &&
-              formData?.year &&
-              formData?.hackathonCount ? (
-                <img src={checkCircle} alt="Complete" className="w-3 h-3" />
-              ) : (
-                <img src={exclamation} alt="Incomplete" className="w-3 h-3" />
-              )}
-            </div>
-            <div className="rounded-md">
-              <div className="grid grid-cols-2 gap-y-4">
-                {/* School */}
-                <div className="flex flex-col gap-1.5">
-                  <Text
-                    textType="paragraph-sm-semibold"
-                    textFont="rubik"
-                    textColor="primary"
-                  >
-                    School (Most Recently Attended)
-                  </Text>
-                  <Text
-                    textType="paragraph-lg-semibold"
-                    textFont="rubik"
-                    textColor={formData?.school ? "primary" : "gray"}
-                  >
-                    {formData?.school || "Not filled"}
-                  </Text>
-                </div>
-
-                {/* Resume */}
-                <div className="flex flex-col gap-1.5">
-                  <Text
-                    textType="paragraph-sm-semibold"
-                    textFont="rubik"
-                    textColor="primary"
-                  >
-                    Resume Uploaded*
-                  </Text>
-                  <Text
-                    textType="paragraph-lg-semibold"
-                    textFont="rubik"
-                    textColor={formData?.resume ? "primary" : "gray"}
-                  >
-                    {formData?.resume ? "Resume uploaded" : "Not filled"}
-                  </Text>
-                </div>
-
-                {/* Program and Year */}
-                <div className="flex flex-col gap-1.5">
-                  <Text
-                    textType="paragraph-sm-semibold"
-                    textFont="rubik"
-                    textColor="primary"
-                  >
-                    Program and Year of Study
-                  </Text>
-                  <Text
-                    textType="paragraph-lg-semibold"
-                    textFont="rubik"
-                    textColor={
-                      formData?.program && formData?.year ? "primary" : "gray"
+              <div className="rounded-md">
+                <div className="grid grid-cols-2 gap-y-4">
+                  <ReviewField label="Full Name" value={formData?.fullName} />
+                  <ReviewField
+                    label="Location"
+                    value={
+                      formData?.city && formData?.province && formData?.country
+                        ? `${formData.city}, ${formData.province}, ${formData.country}`
+                        : null
                     }
-                  >
-                    {formData?.program && formData?.year
-                      ? `${formData.program} - Year ${formData.year}`
-                      : "Not filled"}
-                  </Text>
+                  />
+                  <ReviewField label="Email" value={formData?.email} />
+                  <ReviewField
+                    label="Emergency Contact"
+                    value={
+                      formData?.emergencyFirstName &&
+                      formData?.emergencyLastName &&
+                      formData?.emergencyPhone
+                        ? `${formData.emergencyFirstName} ${formData.emergencyLastName}, ${formData.emergencyPhone}`
+                        : null
+                    }
+                  />
                 </div>
+              </div>
+            </div>
 
-                {/* Social Links */}
-                <div className="flex flex-col gap-1.5">
-                  <Text
-                    textType="paragraph-sm-semibold"
-                    textFont="rubik"
-                    textColor="primary"
-                  >
-                    Links to Socials
-                  </Text>
-                  {formData?.github ||
-                  formData?.linkedin ||
-                  formData?.portfolio ? (
-                    <div className="space-y-1">
-                      {formData?.github && (
-                        <Text
-                          textType="paragraph-lg-semibold"
-                          textFont="rubik"
-                          textColor="primary"
-                        >
-                          GitHub: {formData.github}
-                        </Text>
-                      )}
-                      {formData?.linkedin && (
-                        <Text
-                          textType="paragraph-lg-semibold"
-                          textFont="rubik"
-                          textColor="primary"
-                        >
-                          LinkedIn: {formData.linkedin}
-                        </Text>
-                      )}
-                      {formData?.portfolio && (
-                        <Text
-                          textType="paragraph-lg-semibold"
-                          textFont="rubik"
-                          textColor="primary"
-                        >
-                          Portfolio: {formData.portfolio}
-                        </Text>
-                      )}
-                    </div>
-                  ) : (
-                    <Text
-                      textType="paragraph-lg-semibold"
-                      textFont="rubik"
-                      textColor="gray"
-                    >
-                      Not filled
-                    </Text>
-                  )}
+            {/* Experience Information */}
+            <div className="space-y-7">
+              <div className="flex items-center gap-2">
+                <Text
+                  textType="heading-sm"
+                  textFont="rubik"
+                  textColor="primary"
+                >
+                  Your Experience
+                </Text>
+                {formData?.school &&
+                formData?.resume &&
+                formData?.program &&
+                formData?.year &&
+                formData?.hackathonCount ? (
+                  <img src={checkCircle} alt="Complete" className="w-3 h-3" />
+                ) : (
+                  <img src={exclamation} alt="Incomplete" className="w-3 h-3" />
+                )}
+              </div>
+              <div className="rounded-md">
+                <div className="grid grid-cols-2 gap-y-4">
+                  <ReviewField
+                    label="School (Most Recently Attended)"
+                    value={formData?.school}
+                  />
+                  <ReviewField
+                    label="Resume Uploaded*"
+                    value={formData?.resume ? "Resume uploaded" : null}
+                  />
+                  <ReviewField
+                    label="Program and Year of Study"
+                    value={
+                      formData?.program && formData?.year
+                        ? `${formData.program} - Year ${formData.year}`
+                        : null
+                    }
+                  />
+                  <ReviewField
+                    label="Links to Socials"
+                    value={
+                      formData?.github ||
+                      formData?.linkedin ||
+                      formData?.portfolio
+                        ? "filled"
+                        : null
+                    }
+                    renderValue={() => (
+                      <div className="space-y-1">
+                        {formData?.github && (
+                          <Text
+                            textType="paragraph-lg-semibold"
+                            textFont="rubik"
+                            textColor="primary"
+                          >
+                            GitHub: {formData.github}
+                          </Text>
+                        )}
+                        {formData?.linkedin && (
+                          <Text
+                            textType="paragraph-lg-semibold"
+                            textFont="rubik"
+                            textColor="primary"
+                          >
+                            LinkedIn: {formData.linkedin}
+                          </Text>
+                        )}
+                        {formData?.portfolio && (
+                          <Text
+                            textType="paragraph-lg-semibold"
+                            textFont="rubik"
+                            textColor="primary"
+                          >
+                            Portfolio: {formData.portfolio}
+                          </Text>
+                        )}
+                      </div>
+                    )}
+                  />
+                  <ReviewField
+                    label="Number of Previous Hackathons Attended*"
+                    value={formData?.hackathonCount}
+                  />
                 </div>
+              </div>
+            </div>
 
-                {/* Hackathon Experience */}
-                <div className="flex flex-col gap-1.5">
-                  <Text
-                    textType="paragraph-sm-semibold"
-                    textFont="rubik"
-                    textColor="primary"
-                  >
-                    Number of Previous Hackathons Attended*
-                  </Text>
-                  <Text
-                    textType="paragraph-lg-semibold"
-                    textFont="rubik"
-                    textColor={formData?.hackathonCount ? "primary" : "gray"}
-                  >
-                    {formData?.hackathonCount || "Not filled"}
-                  </Text>
+            {/* Long Answer Responses */}
+            <div className="space-y-7">
+              <div className="flex items-center gap-2">
+                <Text
+                  textType="heading-sm"
+                  textFont="rubik"
+                  textColor="primary"
+                >
+                  Long Answer Responses
+                </Text>
+                {formData?.accomplish &&
+                formData?.project &&
+                formData?.funFact ? (
+                  <img src={checkCircle} alt="Complete" className="w-3 h-3" />
+                ) : (
+                  <img src={exclamation} alt="Incomplete" className="w-3 h-3" />
+                )}
+              </div>
+              <div className="rounded-md space-y-4">
+                <ReviewField
+                  label="What would you like to accomplish at Hack the 6ix?"
+                  value={formData?.accomplish}
+                />
+                <ReviewField
+                  label="What is one project you were proud of? What tools and methods did you use to complete it?"
+                  value={formData?.project}
+                />
+                <ReviewField label="Fun Fact" value={formData?.funFact} />
+              </div>
+            </div>
+
+            {/* Survey Information */}
+            <div className="space-y-7">
+              <div className="flex items-center gap-2">
+                <Text
+                  textType="heading-sm"
+                  textFont="rubik"
+                  textColor="primary"
+                >
+                  Survey
+                </Text>
+                {formData?.selectedWorkshops &&
+                formData.selectedWorkshops.length > 0 &&
+                formData?.tshirtSize &&
+                (formData?.gender || formData?.ethnicity) ? (
+                  <img src={checkCircle} alt="Complete" className="w-3 h-3" />
+                ) : (
+                  <img src={exclamation} alt="Incomplete" className="w-3 h-3" />
+                )}
+              </div>
+              <div className="rounded-md">
+                <div className="grid grid-cols-2 gap-y-4">
+                  <ReviewField
+                    label="3 Workshops You Are Interested In"
+                    value={
+                      formData?.selectedWorkshops &&
+                      formData.selectedWorkshops.length > 0
+                        ? "filled"
+                        : null
+                    }
+                    renderValue={() => (
+                      <Text
+                        textType="paragraph-lg-semibold"
+                        textFont="rubik"
+                        textColor="primary"
+                      >
+                        {formData?.selectedWorkshops
+                          ?.slice(0, 3)
+                          .map(
+                            (workshop) =>
+                              WORKSHOPS.find((w) => w.value === workshop)
+                                ?.label || workshop
+                          )
+                          .join(", ")}
+                      </Text>
+                    )}
+                  />
+                  <ReviewField
+                    label="Dietary Restrictions"
+                    value={
+                      formData?.dietaryRestrictions || formData?.allergies
+                        ? [formData?.dietaryRestrictions, formData?.allergies]
+                            .filter(Boolean)
+                            .join(", ")
+                        : null
+                    }
+                  />
+                  <ReviewField
+                    label="T-shirt Size"
+                    value={
+                      formData?.tshirtSize
+                        ? TSHIRT_SIZES.find(
+                            (s) => s.value === formData.tshirtSize
+                          )?.label
+                        : null
+                    }
+                  />
+                  <ReviewField
+                    label="Gender and Background"
+                    value={
+                      formData?.gender || formData?.ethnicity
+                        ? [formData?.gender, formData?.ethnicity]
+                            .filter(Boolean)
+                            .join(", ")
+                        : null
+                    }
+                  />
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Long Answer Responses */}
-          <div className="space-y-7">
-            <div className="flex items-center gap-2">
-              <Text textType="heading-sm" textFont="rubik" textColor="primary">
-                Long Answer Responses
-              </Text>
-              {formData?.accomplish &&
-              formData?.project &&
-              formData?.funFact ? (
-                <img src={checkCircle} alt="Complete" className="w-3 h-3" />
-              ) : (
-                <img src={exclamation} alt="Incomplete" className="w-3 h-3" />
+          <div
+            className={`${
+              showModal
+                ? "opacity-100 pointer-events-auto"
+                : "opacity-0 pointer-events-none"
+            } fixed inset-0 flex items-center justify-center bg-black/50 z-50`}
+          >
+            <div className="bg-white p-8 rounded-lg shadow-xl max-w-md text-center">
+              {modalContentType === "confirmSubmit" && (
+                <>
+                  <Text
+                    textType="heading-lg"
+                    textFont="rubik"
+                    textColor="primary"
+                    className="mb-4 text-[#F5AB42]"
+                  >
+                    Submit Application?
+                  </Text>
+                  <Text
+                    textType="paragraph-lg"
+                    textFont="rubik"
+                    textColor="primary"
+                    className="mb-4"
+                  >
+                    Once you submit this application, you{" "}
+                    <span className="text-[#F5AB42] font-bold">
+                      cannot make any changes
+                    </span>
+                    .
+                  </Text>
+                  <Text
+                    textType="paragraph-lg"
+                    textFont="rubik"
+                    textColor="primary"
+                    className="mb-8"
+                  >
+                    Please review your answers to ensure they are accurate.
+                  </Text>
+                  <div className="flex justify-center gap-4">
+                    <Button
+                      variant="secondary"
+                      onClick={() => {
+                        setShowModal(false);
+                        setModalContentType(null);
+                      }}
+                      className="border-[#008F81] text-[#008F81]"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="primary"
+                      onClick={() => handleSubmit()}
+                      className="bg-[#008F81] text-white"
+                    >
+                      Submit
+                    </Button>
+                  </div>
+                </>
+              )}
+
+              {modalContentType === "missingFields" && (
+                <>
+                  <Text
+                    textType="heading-lg"
+                    textFont="rubik"
+                    textColor="primary"
+                    className="mb-4 text-red-600"
+                  >
+                    Incomplete Application
+                  </Text>
+                  <div className="mb-6 p-4 bg-red-100/80 rounded-lg">
+                    <Text
+                      textType="paragraph-lg"
+                      textFont="rubik"
+                      textColor="primary"
+                      className="font-bold mb-2"
+                    >
+                      Please complete the following fields:
+                    </Text>
+                    <ul className="list-disc pl-6">
+                      {missingFields.map((field) => (
+                        <li key={field}>
+                          <Text
+                            textType="paragraph-lg"
+                            textFont="rubik"
+                            textColor="primary"
+                          >
+                            {field}
+                          </Text>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="flex justify-center gap-4">
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        setShowModal(false);
+                        setModalContentType(null);
+                      }}
+                      className="bg-[#008F81] text-white"
+                    >
+                      Okay
+                    </Button>
+                  </div>
+                </>
+              )}
+
+              {modalContentType === "resumeMissing" && (
+                <>
+                  <Text
+                    textType="heading-lg"
+                    textFont="rubik"
+                    textColor="primary"
+                    className="mb-4 text-red-600"
+                  >
+                    Resume Missing
+                  </Text>
+                  <Text
+                    textType="paragraph-lg"
+                    textFont="rubik"
+                    textColor="primary"
+                    className="mb-8"
+                  >
+                    Please upload your resume before submitting your
+                    application.
+                  </Text>
+                  <div className="flex justify-center gap-4">
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        setShowModal(false);
+                        setModalContentType(null);
+                      }}
+                      className="bg-[#008F81] text-white"
+                    >
+                      Okay
+                    </Button>
+                  </div>
+                </>
+              )}
+
+              {modalContentType === "submissionFailed" && (
+                <>
+                  <Text
+                    textType="heading-lg"
+                    textFont="rubik"
+                    textColor="primary"
+                    className="mb-4 text-red-600"
+                  >
+                    Submission Failed
+                  </Text>
+                  <Text
+                    textType="paragraph-lg"
+                    textFont="rubik"
+                    textColor="primary"
+                    className="mb-8"
+                  >
+                    There was an error submitting your application. Please try
+                    again.
+                  </Text>
+                  <div className="flex justify-center gap-4">
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        setShowModal(false);
+                        setModalContentType(null);
+                      }}
+                      className="bg-[#008F81] text-white"
+                    >
+                      Okay
+                    </Button>
+                  </div>
+                </>
               )}
             </div>
-            <div className="rounded-md space-y-4">
-              <div className="flex flex-col gap-1.5">
-                <Text
-                  textType="paragraph-sm-semibold"
-                  textFont="rubik"
-                  textColor="primary"
-                >
-                  What would you like to accomplish at Hack the 6ix?
-                </Text>
-                <Text
-                  textType="paragraph-lg-semibold"
-                  textFont="rubik"
-                  textColor={formData?.accomplish ? "primary" : "gray"}
-                  className="whitespace-pre-wrap"
-                >
-                  {formData?.accomplish || "Not filled"}
-                </Text>
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <Text
-                  textType="paragraph-sm-semibold"
-                  textFont="rubik"
-                  textColor="primary"
-                >
-                  What is one project you were proud of? What tools and methods
-                  did you use to complete it?
-                </Text>
-                <Text
-                  textType="paragraph-lg-semibold"
-                  textFont="rubik"
-                  textColor={formData?.project ? "primary" : "gray"}
-                  className="whitespace-pre-wrap"
-                >
-                  {formData?.project || "Not filled"}
-                </Text>
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <Text
-                  textType="paragraph-sm-semibold"
-                  textFont="rubik"
-                  textColor="primary"
-                >
-                  Fun Fact
-                </Text>
-                <Text
-                  textType="paragraph-lg-semibold"
-                  textFont="rubik"
-                  textColor={formData?.funFact ? "primary" : "gray"}
-                >
-                  {formData?.funFact || "Not filled"}
-                </Text>
-              </div>
-            </div>
           </div>
 
-          {/* Survey Information */}
-          <div className="space-y-7">
-            <div className="flex items-center gap-2">
-              <Text textType="heading-sm" textFont="rubik" textColor="primary">
-                Survey
-              </Text>
-              {formData?.selectedWorkshops &&
-              formData.selectedWorkshops.length > 0 &&
-              formData?.tshirtSize &&
-              (formData?.gender || formData?.ethnicity) ? (
-                <img src={checkCircle} alt="Complete" className="w-3 h-3" />
-              ) : (
-                <img src={exclamation} alt="Incomplete" className="w-3 h-3" />
-              )}
-            </div>
-            <div className="rounded-md">
-              <div className="grid grid-cols-2 gap-y-4">
-                {/* Workshops */}
-                <div className="flex flex-col gap-1.5">
-                  <Text
-                    textType="paragraph-sm-semibold"
-                    textFont="rubik"
-                    textColor="primary"
-                  >
-                    3 Workshops You Are Interested In
-                  </Text>
-                  {formData?.selectedWorkshops &&
-                  formData.selectedWorkshops.length > 0 ? (
-                    <Text
-                      textType="paragraph-lg-semibold"
-                      textFont="rubik"
-                      textColor="primary"
-                    >
-                      {formData.selectedWorkshops
-                        .slice(0, 3)
-                        .map(
-                          (workshop) =>
-                            WORKSHOPS.find((w) => w.value === workshop)
-                              ?.label || workshop
-                        )
-                        .join(", ")}
-                    </Text>
-                  ) : (
-                    <Text
-                      textType="paragraph-lg-semibold"
-                      textFont="rubik"
-                      textColor="gray"
-                    >
-                      Not filled
-                    </Text>
-                  )}
-                </div>
-
-                {/* Dietary Restrictions */}
-                <div className="flex flex-col gap-1.5">
-                  <Text
-                    textType="paragraph-sm-semibold"
-                    textFont="rubik"
-                    textColor="primary"
-                  >
-                    Dietary Restrictions
-                  </Text>
-                  {formData?.dietaryRestrictions || formData?.allergies ? (
-                    <Text
-                      textType="paragraph-lg-semibold"
-                      textFont="rubik"
-                      textColor="primary"
-                    >
-                      {[formData?.dietaryRestrictions, formData?.allergies]
-                        .filter(Boolean)
-                        .join(", ")}
-                    </Text>
-                  ) : (
-                    <Text
-                      textType="paragraph-lg-semibold"
-                      textFont="rubik"
-                      textColor="gray"
-                    >
-                      Not filled
-                    </Text>
-                  )}
-                </div>
-
-                {/* T-shirt Size */}
-                <div className="flex flex-col gap-1.5">
-                  <Text
-                    textType="paragraph-sm-semibold"
-                    textFont="rubik"
-                    textColor="primary"
-                  >
-                    T-shirt Size
-                  </Text>
-                  <Text
-                    textType="paragraph-lg-semibold"
-                    textFont="rubik"
-                    textColor={formData?.tshirtSize ? "primary" : "gray"}
-                  >
-                    {formData?.tshirtSize
-                      ? TSHIRT_SIZES.find(
-                          (s) => s.value === formData.tshirtSize
-                        )?.label
-                      : "Not filled"}
-                  </Text>
-                </div>
-
-                {/* Gender and Background */}
-                <div className="flex flex-col gap-1.5">
-                  <Text
-                    textType="paragraph-sm-semibold"
-                    textFont="rubik"
-                    textColor="primary"
-                  >
-                    Gender and Background
-                  </Text>
-                  {formData?.gender || formData?.ethnicity ? (
-                    <Text
-                      textType="paragraph-lg-semibold"
-                      textFont="rubik"
-                      textColor="primary"
-                    >
-                      {[formData?.gender, formData?.ethnicity]
-                        .filter(Boolean)
-                        .join(", ")}
-                    </Text>
-                  ) : (
-                    <Text
-                      textType="paragraph-lg-semibold"
-                      textFont="rubik"
-                      textColor="gray"
-                    >
-                      Not filled
-                    </Text>
-                  )}
-                </div>
-              </div>
-            </div>
+          <div
+            className={`flex justify-end gap-4 mt-6 transition-opacity duration-300 z-20`}
+          >
+            <Button variant="back" onClick={() => navigate("/apply/survey")}>
+              Back
+            </Button>
+            <Button
+              onClick={() => {
+                const currentMissing = getMissingFields();
+                if (currentMissing.length > 0) {
+                  setMissingFields(currentMissing);
+                  setModalContentType("missingFields");
+                } else {
+                  setModalContentType("confirmSubmit");
+                }
+                setShowModal(true);
+              }}
+            >
+              Submit
+            </Button>
           </div>
         </div>
 
-        <div
-          className={`${
-            showSubmitModal
-              ? "opacity-100 pointer-events-auto"
-              : "opacity-0 pointer-events-none"
-          } fixed inset-0 flex items-center justify-center bg-black/50 z-50`}
-        >
-          <div className="bg-white p-8 rounded-lg shadow-xl max-w-md text-center">
-            <Text
-              textType="heading-lg"
-              textFont="rubik"
-              textColor="primary"
-              className="mb-4 text-[#F5AB42]"
-            >
-              Submit Application?
-            </Text>
-            <Text
-              textType="paragraph-lg"
-              textFont="rubik"
-              textColor="primary"
-              className="mb-4"
-            >
-              Once you submit this application, you{" "}
-              <span className="text-[#F5AB42] font-bold">
-                cannot make any changes
-              </span>
-              .
-            </Text>
-            <Text
-              textType="paragraph-lg"
-              textFont="rubik"
-              textColor="primary"
-              className="mb-8"
-            >
-              Please review your answers to ensure they are accurate.
-            </Text>
-            <div className="flex justify-center gap-4">
-              <Button
-                variant="secondary"
-                onClick={() => setShowSubmitModal(false)}
-                className="border-[#008F81] text-[#008F81]"
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => handleSubmit()}
-                className="bg-[#008F81] text-white"
-              >
-                Submit
-              </Button>
-            </div>
-          </div>
-        </div>
+        <img
+          src={PLAYER_IMAGES[selectedSkin][selectedItem]}
+          alt="Player"
+          className=" absolute sm:h-[140px] h-[70px] sm:bottom-[100px] sm:right-[200px] right-[100px] bottom-[35px]"
+        />
+        <img
+          src={apple}
+          alt="Apple"
+          className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[150px] right-[70px] w-[35px] h-[35px] bottom-[38px]  animate-bounce-custom"
+        />
+        <img
+          src={bush}
+          alt="Brush"
+          className="sm:block hidden absolute sm:bottom-[90px] sm:right-[350px] right-[270px] bottom-[38px]"
+        />
 
-        <div
-          className={`flex justify-end gap-4 mt-6 transition-opacity duration-300 z-20`}
-        >
-          <Button variant="back" onClick={() => navigate("/apply/survey")}>
-            Back
-          </Button>
-          <Button onClick={() => setShowSubmitModal(true)}>Submit</Button>
-        </div>
+        <img
+          src={bush}
+          alt="Brush"
+          className="sm:block hidden absolute right-[350px] bottom-[90px]"
+        />
+        <img
+          src={bush}
+          alt="Brush"
+          className="sm:block hidden absolute left-[10px] bottom-[100px]"
+        />
+        <img
+          src={brickhouse}
+          alt="Brush"
+          className="sm:block hidden absolute left-[0px] bottom-[100px]"
+        />
       </div>
-
-      <img
-        src={PLAYER_IMAGES[selectedSkin][selectedItem]}
-        alt="Player"
-        className=" absolute sm:h-[140px] h-[70px] sm:bottom-[100px] sm:right-[200px] right-[100px] bottom-[35px]"
-      />
-      <img
-        src={apple}
-        alt="Apple"
-        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[150px] right-[70px] w-[35px] h-[35px] bottom-[38px]  animate-bounce-custom"
-      />
-      <img
-        src={bush}
-        alt="Brush"
-        className="sm:block hidden absolute sm:bottom-[90px] sm:right-[350px] right-[270px] bottom-[38px]"
-      />
-
-      <img
-        src={bush}
-        alt="Brush"
-        className="sm:block hidden absolute right-[350px] bottom-[90px]"
-      />
-      <img
-        src={bush}
-        alt="Brush"
-        className="sm:block hidden absolute left-[10px] bottom-[100px]"
-      />
-      <img
-        src={brickhouse}
-        alt="Brush"
-        className="sm:block hidden absolute left-[0px] bottom-[100px]"
-      />
     </div>
   );
 }

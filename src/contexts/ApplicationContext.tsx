@@ -12,6 +12,7 @@ export interface FormData {
   emergencyLastName?: string;
   emergencyPhone?: string;
   emergencyRelationship?: string;
+  lastName?: string;
 
   // Experience fields
   school?: string;

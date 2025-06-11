@@ -103,7 +103,7 @@ export default function Survey() {
             <Text textType="heading-lg" textFont="rubik" textColor="white">
               Please choose 3 workshops that you are interested in.*
             </Text>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-4 z-50">
               {WORKSHOPS.map((workshop) => (
                 <Checkbox
                   key={workshop.value}
@@ -119,7 +119,7 @@ export default function Survey() {
         );
       case 2:
         return (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 z-50">
             <Text textType="heading-lg" textFont="rubik" textColor="white">
               What's your t-shirt size?*
             </Text>
@@ -136,7 +136,7 @@ export default function Survey() {
         );
       case 3:
         return (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 z-50">
             <Text textType="heading-lg" textFont="rubik" textColor="white">
               Please specify any dietary restrictions and/or allergies you have.
             </Text>
@@ -164,7 +164,7 @@ export default function Survey() {
         );
       case 4:
         return (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 z-50">
             <Text textType="heading-lg" textFont="rubik" textColor="white">
               Please specify your gender and background:
             </Text>
@@ -192,7 +192,7 @@ export default function Survey() {
         );
       case 5:
         return (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 z-50">
             <Text textType="heading-lg" textFont="rubik" textColor="white">
               Final step: we need your permission!
             </Text>
@@ -220,7 +220,7 @@ export default function Survey() {
   };
 
   return (
-    <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#21293C] via-[#60639D] to-[#DF6369] h-[100vh] w-full flex flex-col justify-center items-start">
+    <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#21293C] via-[#60639D] to-[#DF6369] h-[100vh] w-full flex flex-col justify-center items-start z-50">
       <div className="w-full h-full flex items-center justify-start px-4 py-8 overflow-hidden">
         <div className="flex flex-col items-start justify-center gap-12 w-full max-w-[1200px] sm:ml-[158px] -mt-[100px]">
           <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
@@ -261,6 +261,7 @@ export default function Survey() {
                       navigate("/apply/review");
                     }
                   }}
+                  className="z-10"
                 >
                   Next
                 </Button>
@@ -273,51 +274,53 @@ export default function Survey() {
         </div>
       </div>
 
-      <img
-        src={brickhouse}
-        alt="brickhouse"
-        className="sm:block hidden absolute h-[140px] w-[140px] bottom-[90px] right-[-32px]"
-      />
-      <img
-        src={PLAYER_IMAGES[selectedSkin][selectedItem]}
-        alt="Player"
-        className=" absolute sm:h-[140px] h-[70px] sm:bottom-[85px] sm:right-[120px] right-[100px] bottom-[35px]"
-      />
-      <img
-        src={apple}
-        alt="Apple"
-        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[80px] right-[70px] w-[35px] h-[35px] bottom-[38px]  animate-bounce-custom"
-      />
-      <img
-        src={campfire}
-        alt="campfire"
-        className="sm:block hidden absolute bottom-[80px] right-[250px]"
-      />
-      <img
-        src={firefly}
-        alt="firefly"
-        className="sm:block hidden absolute bottom-[30px] right-[270px] animate-float"
-      />
-      <img
-        src={firefly}
-        alt="firefly"
-        className="sm:block hidden absolute bottom-[70px] right-[170px] animate-float"
-      />
-      <img
-        src={pinetree}
-        alt="pinetree"
-        className="sm:block hidden absolute h-[250px] w-[250px] bottom-[70px] left-[-60px] z-[1]"
-      />
-      <img
-        src={cloud}
-        alt="cloud"
-        className="sm:block hidden absolute bottom-[140px] left-[-200px]"
-      />
-      <img
-        src={cloudgroup2}
-        alt="cloud"
-        className="sm:block hidden absolute top-[240px] right-[-0px]"
-      />
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <img
+          src={brickhouse}
+          alt="brickhouse"
+          className="sm:block hidden absolute h-[140px] w-[140px] bottom-[90px] right-[-32px] z-0"
+        />
+        <img
+          src={PLAYER_IMAGES[selectedSkin][selectedItem]}
+          alt="Player"
+          className=" absolute sm:h-[140px] h-[70px] sm:bottom-[85px] sm:right-[120px] right-[100px] bottom-[35px] z-0"
+        />
+        <img
+          src={apple}
+          alt="Apple"
+          className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[80px] right-[70px] w-[35px] h-[35px] bottom-[38px] animate-bounce-custom z-0"
+        />
+        <img
+          src={campfire}
+          alt="campfire"
+          className="sm:block hidden absolute bottom-[80px] right-[250px] z-0"
+        />
+        <img
+          src={firefly}
+          alt="firefly"
+          className="sm:block hidden absolute bottom-[30px] right-[270px] animate-float z-0"
+        />
+        <img
+          src={firefly}
+          alt="firefly"
+          className="sm:block hidden absolute bottom-[70px] right-[170px] animate-float z-0"
+        />
+        <img
+          src={pinetree}
+          alt="pinetree"
+          className="sm:block hidden absolute h-[250px] w-[250px] bottom-[70px] left-[-60px] z-0"
+        />
+        <img
+          src={cloud}
+          alt="cloud"
+          className="sm:block hidden absolute bottom-[140px] left-[-200px] z-0"
+        />
+        <img
+          src={cloudgroup2}
+          alt="cloud"
+          className="sm:block hidden absolute top-[240px] right-[-0px] z-0"
+        />
+      </div>
     </div>
   );
 }

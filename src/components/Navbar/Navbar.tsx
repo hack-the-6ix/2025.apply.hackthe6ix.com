@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useLayoutEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Text from "../Text/Text";
 import { useApplicationContext } from "../../contexts/ApplicationContext";
@@ -20,9 +20,39 @@ const Navbar: React.FC = () => {
   const { completedSection } = useApplicationContext();
   const { section } = useParams();
   const [menuOpen, setMenuOpen] = useState(false);
+  const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const [tShapeStyle, setTShapeStyle] = useState({});
+
+  useLayoutEffect(() => {
+    const activeIndex = NAV_LINKS.findIndex((link) =>
+      link.path.includes(section ?? "null")
+    );
+
+    if (activeIndex !== -1 && linkRefs.current[activeIndex]) {
+      const activeLinkElement = linkRefs.current[activeIndex];
+      if (activeLinkElement) {
+        const parentContainer = activeLinkElement.parentElement;
+        if (parentContainer) {
+          const linkRect = activeLinkElement.getBoundingClientRect();
+          const parentRect = parentContainer.getBoundingClientRect();
+
+          const leftPosition =
+            linkRect.left - parentRect.left + linkRect.width / 2;
+
+          setTShapeStyle({
+            left: `${leftPosition}px`,
+            opacity: 1,
+            transition: "left 0.3s ease-in-out, opacity 0.3s ease-in-out"
+          });
+        }
+      }
+    } else {
+      setTShapeStyle({ opacity: 0, transition: "opacity 0.3s ease-in-out" });
+    }
+  }, [section]);
 
   return (
-    <nav className="w-full flex items-center justify-between absolute z-50">
+    <nav className="w-full flex items-center justify-between absolute z-50 transition-all duration-300">
       <div className="sm:hidden absolute top-[30px] right-[30px]">
         <button
           onClick={() => setMenuOpen(!menuOpen)}
@@ -37,51 +67,55 @@ const Navbar: React.FC = () => {
         </button>
       </div>
 
-      <div className="hidden sm:flex flex-row items-center justify-center gap-12 xl:gap-24 w-full mt-[75px] ">
-        {NAV_LINKS.map(({ label, path }, i) => (
+      <div className="hidden sm:flex flex-row items-center justify-center gap-12 xl:gap-24 w-full mt-[75px] relative">
+        <div
+          className="absolute top-[-20px] -translate-x-1/2"
+          style={tShapeStyle}
+        >
+          <div className="flex flex-row items-center justify-center">
+            <div
+              className={`w-[7px] h-[7px] ${
+                LIGHT_MODE.includes(section ?? "null")
+                  ? "bg-[#023441]"
+                  : "bg-[#FA8D1F]"
+              }`}
+            ></div>
+            <div
+              className={`w-[7px] h-[7px] ${
+                LIGHT_MODE.includes(section ?? "null")
+                  ? "bg-[#023441]"
+                  : "bg-[#FA8D1F]"
+              }`}
+            ></div>
+            <div
+              className={`w-[7px] h-[7px] ${
+                LIGHT_MODE.includes(section ?? "null")
+                  ? "bg-[#023441]"
+                  : "bg-[#FA8D1F]"
+              }`}
+            ></div>
+          </div>
+          <div className="flex flex-row items-center justify-center">
+            <div className="w-[7px] h-[7px] bg-transparent"></div>
+            <div
+              className={`w-[7px] h-[7px] ${
+                LIGHT_MODE.includes(section ?? "null")
+                  ? "bg-[#023441]"
+                  : "bg-[#FA8D1F]"
+              }`}
+            ></div>
+            <div className="w-[7px] h-[7px] bg-transparent"></div>
+          </div>
+        </div>
+        {NAV_LINKS.map(({ label, path }, index) => (
           <Link
             to={path}
             key={label}
+            ref={(el) => {
+              linkRefs.current[index] = el;
+            }}
             className="relative flex items-center gap-1"
           >
-            {path.includes(section ?? "null") && (
-              <div className="absolute top-[-20px] left-[50%] -translate-x-1/2">
-                <div className="flex flex-row items-center justify-center">
-                  <div
-                    className={`w-[7px] h-[7px] ${
-                      LIGHT_MODE.includes(section ?? "null")
-                        ? "bg-[#023441]"
-                        : "bg-[#FA8D1F]"
-                    }`}
-                  ></div>
-                  <div
-                    className={`w-[7px] h-[7px] ${
-                      LIGHT_MODE.includes(section ?? "null")
-                        ? "bg-[#023441]"
-                        : "bg-[#FA8D1F]"
-                    }`}
-                  ></div>
-                  <div
-                    className={`w-[7px] h-[7px] ${
-                      LIGHT_MODE.includes(section ?? "null")
-                        ? "bg-[#023441]"
-                        : "bg-[#FA8D1F]"
-                    }`}
-                  ></div>
-                </div>
-                <div className="flex flex-row items-center justify-center">
-                  <div className="w-[7px] h-[7px] bg-transparent"></div>
-                  <div
-                    className={`w-[7px] h-[7px] ${
-                      LIGHT_MODE.includes(section ?? "null")
-                        ? "bg-[#023441]"
-                        : "bg-[#FA8D1F]"
-                    }`}
-                  ></div>
-                  <div className="w-[7px] h-[7px] bg-transparent"></div>
-                </div>
-              </div>
-            )}
             <Text
               textType="heading-sm"
               textWeight="bold"
@@ -97,9 +131,6 @@ const Navbar: React.FC = () => {
             >
               {label}
             </Text>
-            {!completedSection[i] && (
-              <span className="absolute top-[8px] right-[-14px] rounded-full w-[7px] h-[7px] bg-red-600"></span>
-            )}
           </Link>
         ))}
       </div>
@@ -116,7 +147,7 @@ const Navbar: React.FC = () => {
               : "2px solid rgba(255, 255, 255, 0.4)"
           }}
         >
-          {NAV_LINKS.map(({ label, path }, i) => (
+          {NAV_LINKS.map(({ label, path }) => (
             <Link
               to={path}
               key={label}
@@ -137,7 +168,9 @@ const Navbar: React.FC = () => {
               >
                 {label}
               </Text>
-              {!completedSection[i] && (
+              {!completedSection[
+                NAV_LINKS.findIndex((link) => link.label === label)
+              ] && (
                 <span className="ml-1 rounded-full w-[7px] h-[7px] bg-red-600"></span>
               )}
             </Link>

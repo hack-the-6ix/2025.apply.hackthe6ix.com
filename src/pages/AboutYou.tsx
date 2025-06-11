@@ -55,14 +55,27 @@ export default function AboutYou() {
 
   useEffect(() => {
     if (profile) {
+      const newFormData = { ...formData };
+      let changed = false;
+
       if (!fullName && profile.firstName && profile.lastName) {
-        setFullName(`${profile.firstName} ${profile.lastName}`);
+        const generatedFullName = `${profile.firstName} ${profile.lastName}`;
+        setFullName(generatedFullName);
+        newFormData.fullName = generatedFullName;
+        changed = true;
       }
       if (!email && profile.email) {
-        setEmail(profile.email);
+        const generatedEmail = profile.email;
+        setEmail(generatedEmail);
+        newFormData.email = generatedEmail;
+        changed = true;
+      }
+
+      if (changed) {
+        setFormData(newFormData);
       }
     }
-  }, [profile, fullName, email]);
+  }, [profile, fullName, email, formData, setFormData]);
 
   const updateFormData = () => {
     setFormData({

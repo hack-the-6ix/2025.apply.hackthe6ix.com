@@ -7,6 +7,10 @@
   letter-spacing: 0.08em;
 }
 
+body {
+  background-color: #5a413b;
+}
+
 @keyframes bounce {
   0%,
   100% {
