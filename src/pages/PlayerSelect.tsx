@@ -155,6 +155,12 @@ export default function PlayerSelect() {
     }
   }, [selectedItem, selectedSkin, setFormData]);
 
+  useEffect(() => {
+    if (selectedSkin === undefined) {
+      setSelectedSkin(-1);
+    }
+  }, [selectedSkin, setSelectedSkin]);
+
   return (
     <div className="overflow-hidden bg-linear-to-b from-[#ACDCFD] via-[#B3E9FC] to-[#B9F2FC] h-[100vh] w-full flex flex-col justify-center items-center">
       <img
@@ -223,6 +229,7 @@ export default function PlayerSelect() {
                 }}
                 variant="next"
                 className="w-full sm:w-auto"
+                disabled={page === 1 ? selectedSkin === -1 : selectedItem === 0}
               />
             </div>
             <div className="flex justify-center sm:justify-start w-full">

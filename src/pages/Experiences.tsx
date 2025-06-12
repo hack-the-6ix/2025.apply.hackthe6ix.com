@@ -10,49 +10,46 @@ import corner_rocks from "../assets/corner_rocks.svg";
 import corner_rocks2 from "../assets/corner_rocks2.svg";
 import { PLAYER_IMAGES } from "../constants/images";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Input from "../components/Input/Input";
 import Text from "../components/Text/Text";
 import Dropdown from "../components/Dropdown/Dropdown";
 import Button from "../components/Button/Button";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import FileUpload from "../components/FileUpload/FileUpload";
-import Checkbox from "../components/Checkbox/Checkbox";
 import { useNavigate } from "react-router-dom";
-import { useApplicationContext } from "../contexts/ApplicationContext";
+import {
+  useApplicationContext,
+  type FormData
+} from "../contexts/ApplicationContext";
 import { useSearchParams } from "react-router-dom";
 
 // Placeholder data for dropdowns
 const SCHOOLS = [
-  { label: "University of Toronto", value: "uoft" },
-  { label: "University of Waterloo", value: "uwaterloo" },
-  { label: "University of British Columbia", value: "ubc" },
-  { label: "McGill University", value: "mcgill" },
-  { label: "Other", value: "other" }
+  "University of Toronto",
+  "University of Waterloo",
+  "University of British Columbia",
+  "McGill University",
+  "Other"
 ];
 
 const YEARS = [
-  { label: "First Year", value: "1" },
-  { label: "Second Year", value: "2" },
-  { label: "Third Year", value: "3" },
-  { label: "Fourth Year", value: "4" },
-  { label: "Fifth Year+", value: "5+" }
+  "First Year",
+  "Second Year",
+  "Third Year",
+  "Fourth Year",
+  "Fifth Year+"
 ];
 
 const PROGRAMS = [
-  { label: "Computer Science", value: "cs" },
-  { label: "Computer Engineering", value: "ce" },
-  { label: "Software Engineering", value: "se" },
-  { label: "Electrical Engineering", value: "ee" },
-  { label: "Other", value: "other" }
+  "Computer Science",
+  "Computer Engineering",
+  "Software Engineering",
+  "Electrical Engineering",
+  "Other"
 ];
 
-const HACKATHON_EXPERIENCE = [
-  { label: "0", value: "0" },
-  { label: "1-2", value: "1-2" },
-  { label: "3-5", value: "3-5" },
-  { label: "5+", value: "5+" }
-];
+const HACKATHON_EXPERIENCE = ["0", "1-2", "3-5", "5+"];
 
 export default function Experiences() {
   const navigate = useNavigate();
@@ -78,6 +75,44 @@ export default function Experiences() {
   const [github, setGithub] = useState(formData?.github || "");
   const [linkedin, setLinkedin] = useState(formData?.linkedin || "");
   const [portfolio, setPortfolio] = useState(formData?.portfolio || "");
+
+  const formDataRef = useRef<FormData>(formData);
+
+  useEffect(() => {
+    formDataRef.current = formData;
+  }, [formData]);
+
+  useEffect(() => {
+    const currentFormData = formDataRef.current;
+    setFormData({
+      ...currentFormData,
+      school
+    });
+  }, [school, setFormData]);
+
+  useEffect(() => {
+    const currentFormData = formDataRef.current;
+    setFormData({
+      ...currentFormData,
+      year
+    });
+  }, [year, setFormData]);
+
+  useEffect(() => {
+    const currentFormData = formDataRef.current;
+    setFormData({
+      ...currentFormData,
+      program
+    });
+  }, [program, setFormData]);
+
+  useEffect(() => {
+    const currentFormData = formDataRef.current;
+    setFormData({
+      ...currentFormData,
+      hackathonCount
+    });
+  }, [hackathonCount, setFormData]);
 
   const handleFileChange = async (file: File | null) => {
     if (file) {
@@ -146,10 +181,7 @@ export default function Experiences() {
               value={school}
               onChange={setSchool}
               placeholder="Select your school"
-              backgroundColor="#475D7B"
-              textColor="white"
-              menuBackgroundColor="#475D7B"
-              menuTextColor="white"
+              theme="dark"
             />
           </div>
         );
@@ -174,10 +206,7 @@ export default function Experiences() {
                   value={year}
                   onChange={setYear}
                   placeholder="Select year of study"
-                  backgroundColor="#475D7B"
-                  textColor="white"
-                  menuBackgroundColor="#475D7B"
-                  menuTextColor="white"
+                  theme="dark"
                 />
               </div>
               <div className="w-1/2">
@@ -194,10 +223,7 @@ export default function Experiences() {
                   value={program}
                   onChange={setProgram}
                   placeholder="Select your program"
-                  backgroundColor="#475D7B"
-                  textColor="white"
-                  menuBackgroundColor="#475D7B"
-                  menuTextColor="white"
+                  theme="dark"
                 />
               </div>
             </div>
@@ -214,10 +240,7 @@ export default function Experiences() {
               value={hackathonCount}
               onChange={setHackathonCount}
               placeholder="Select number of hackathons"
-              backgroundColor="#475D7B"
-              textColor="white"
-              menuBackgroundColor="#475D7B"
-              menuTextColor="white"
+              theme="dark"
             />
           </div>
         );
@@ -328,8 +351,7 @@ export default function Experiences() {
                     (page == 1 && !school) ||
                     (page == 2 && (!year || !program)) ||
                     (page == 3 && !hackathonCount) ||
-                    (page == 4 && !resume) ||
-                    (page == 5 && (!github || !linkedin || !portfolio))
+                    (page == 4 && !resume)
                   }
                   darkMode={true}
                   onClick={() => {

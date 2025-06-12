@@ -7,41 +7,37 @@ import firefly from "../assets/firefly.svg";
 import cloud from "../assets/cloud.svg";
 import cloudgroup2 from "../assets/cloudgroup2.svg";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Text from "../components/Text/Text";
 import Dropdown from "../components/Dropdown/Dropdown";
-import Input from "../components/Input/Input";
 import Checkbox from "../components/Checkbox/Checkbox";
 import Button from "../components/Button/Button";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import { useNavigate } from "react-router-dom";
 import { useApplicationContext } from "../contexts/ApplicationContext";
 import { useSearchParams } from "react-router-dom";
-import type { FormData } from "../contexts/ApplicationContext";
+import {
+  DIETARY_RESTRICTIONS,
+  GENDER_OPTIONS,
+  ETHNICITY_OPTIONS,
+  WORKSHOPS
+} from "../constants/survey";
 
-const WORKSHOPS = [
-  { label: "Basics in Python", value: "python1" },
-  { label: "Basics in Python", value: "python2" },
-  { label: "Basics in Python", value: "python3" },
-  { label: "Basics in Python", value: "python4" },
-  { label: "Basics in Python", value: "python5" },
-  { label: "Basics in Python", value: "python6" },
-  { label: "Basics in Python", value: "python7" },
-  { label: "Basics in Python", value: "python8" },
-  { label: "Basics in Python", value: "python9" },
-  { label: "Basics in Python", value: "python10" },
-  { label: "Basics in Python", value: "python11" },
-  { label: "Basics in Python", value: "python12" }
+const HOW_DID_YOU_HEAR = [
+  "Instagram",
+  "Discord",
+  "Website",
+  "Email",
+  "LinkedIn",
+  "Word of mouth",
+  "JamHacks",
+  "GeeseHacks",
+  "UofTHacks",
+  "MasseyHacks",
+  "UW Data Science Club"
 ];
 
-const TSHIRT_SIZES = [
-  { label: "XS", value: "xs" },
-  { label: "S", value: "s" },
-  { label: "M", value: "m" },
-  { label: "L", value: "l" },
-  { label: "XL", value: "xl" },
-  { label: "XXL", value: "xxl" }
-];
+const TSHIRT_SIZES = ["S", "M", "L", "XL", "2XL", "3XL"];
 
 export default function Survey() {
   const navigate = useNavigate();
@@ -56,23 +52,18 @@ export default function Survey() {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1");
 
-  const formDataRef = useRef<FormData>(formData);
-
-  useEffect(() => {
-    formDataRef.current = formData;
-  }, [formData]);
-
-  // Initialize state from context
   const [selectedWorkshops, setSelectedWorkshops] = useState<string[]>(
-    formData?.selectedWorkshops || []
+    formData?.requestedWorkshops || []
   );
   const [tshirtSize, setTshirtSize] = useState(formData?.tshirtSize || "");
   const [dietaryRestrictions, setDietaryRestrictions] = useState(
     formData?.dietaryRestrictions || ""
   );
-  const [allergies, setAllergies] = useState(formData?.allergies || "");
   const [gender, setGender] = useState(formData?.gender || "");
   const [ethnicity, setEthnicity] = useState(formData?.ethnicity || "");
+  const [howDidYouHearAboutHT6, sethowDidYouHearAboutHT6] = useState<string[]>(
+    formData?.howDidYouHearAboutHT6 || []
+  );
   const [permission1, setPermission1] = useState(
     formData?.permission1 || false
   );
@@ -81,41 +72,25 @@ export default function Survey() {
   );
 
   useEffect(() => {
-    const currentFormData = formDataRef.current;
-    let shouldUpdateFormData = false;
-    if (
-      currentFormData.selectedWorkshops !== selectedWorkshops ||
-      currentFormData.tshirtSize !== tshirtSize ||
-      currentFormData.dietaryRestrictions !== dietaryRestrictions ||
-      currentFormData.allergies !== allergies ||
-      currentFormData.gender !== gender ||
-      currentFormData.ethnicity !== ethnicity ||
-      currentFormData.permission1 !== permission1 ||
-      currentFormData.permission2 !== permission2
-    ) {
-      shouldUpdateFormData = true;
-    }
-
-    if (shouldUpdateFormData) {
-      setFormData({
-        ...currentFormData,
-        selectedWorkshops,
-        tshirtSize,
-        dietaryRestrictions,
-        allergies,
-        gender,
-        ethnicity,
-        permission1,
-        permission2
-      });
-    }
+    const updatedFormData = {
+      ...formData,
+      requestedWorkshops: selectedWorkshops,
+      tshirtSize,
+      dietaryRestrictions,
+      gender,
+      ethnicity,
+      howDidYouHearAboutHT6,
+      permission1,
+      permission2
+    };
+    setFormData(updatedFormData);
   }, [
     selectedWorkshops,
     tshirtSize,
     dietaryRestrictions,
-    allergies,
     gender,
     ethnicity,
+    howDidYouHearAboutHT6,
     permission1,
     permission2,
     setFormData
@@ -126,6 +101,16 @@ export default function Survey() {
       setSelectedWorkshops(selectedWorkshops.filter((v) => v !== value));
     } else if (selectedWorkshops.length < 3) {
       setSelectedWorkshops([...selectedWorkshops, value]);
+    }
+  };
+
+  const handlehowDidYouHearAboutHT6Toggle = (value: string) => {
+    if (howDidYouHearAboutHT6.includes(value)) {
+      sethowDidYouHearAboutHT6(
+        howDidYouHearAboutHT6.filter((v) => v !== value)
+      );
+    } else {
+      sethowDidYouHearAboutHT6([...howDidYouHearAboutHT6, value]);
     }
   };
 
@@ -159,13 +144,10 @@ export default function Survey() {
             </Text>
             <Dropdown
               options={TSHIRT_SIZES}
+              value={tshirtSize}
               onChange={setTshirtSize}
               placeholder="Select your t-shirt size"
-              backgroundColor="#646989"
-              textColor="white"
-              menuBackgroundColor="#646989"
-              menuTextColor="white"
-              className="w-full"
+              theme="dark"
             />
           </div>
         );
@@ -173,25 +155,16 @@ export default function Survey() {
         return (
           <div className="flex flex-col gap-4 z-50">
             <Text textType="heading-lg" textFont="rubik" textColor="white">
-              Please specify any dietary restrictions and/or allergies you have.
+              Please specify any dietary restrictions you have.
             </Text>
             <div className="flex flex-col sm:flex-row gap-4 w-full">
-              <div className="w-full sm:w-1/2">
-                <Input
+              <div className="w-full">
+                <Dropdown
+                  options={DIETARY_RESTRICTIONS}
                   value={dietaryRestrictions}
-                  onChange={(e) => setDietaryRestrictions(e.target.value)}
-                  placeholder="Dietary restrictions..."
-                  backgroundColor="#646989"
-                  textColor="white"
-                />
-              </div>
-              <div className="w-full sm:w-1/2">
-                <Input
-                  value={allergies}
-                  onChange={(e) => setAllergies(e.target.value)}
-                  placeholder="Allergies..."
-                  backgroundColor="#646989"
-                  textColor="white"
+                  onChange={setDietaryRestrictions}
+                  placeholder="Select dietary restrictions..."
+                  theme="dark"
                 />
               </div>
             </div>
@@ -205,27 +178,47 @@ export default function Survey() {
             </Text>
             <div className="flex flex-col sm:flex-row gap-4 w-full">
               <div className="w-full sm:w-1/2">
-                <Input
+                <Dropdown
+                  options={GENDER_OPTIONS}
                   value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                  placeholder="Gender..."
-                  backgroundColor="#646989"
-                  textColor="white"
+                  onChange={setGender}
+                  placeholder="Select gender..."
+                  theme="dark"
                 />
               </div>
               <div className="w-full sm:w-1/2">
-                <Input
+                <Dropdown
+                  options={ETHNICITY_OPTIONS}
                   value={ethnicity}
-                  onChange={(e) => setEthnicity(e.target.value)}
-                  placeholder="Ethnicity..."
-                  backgroundColor="#646989"
-                  textColor="white"
+                  onChange={setEthnicity}
+                  placeholder="Select ethnicity..."
+                  theme="dark"
                 />
               </div>
             </div>
           </div>
         );
       case 5:
+        return (
+          <div className="flex flex-col gap-4 z-50">
+            <Text textType="heading-lg" textFont="rubik" textColor="white">
+              How did you hear about Hack the 6ix?*
+            </Text>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              {HOW_DID_YOU_HEAR.map((option) => (
+                <Checkbox
+                  key={option}
+                  checked={howDidYouHearAboutHT6.includes(option)}
+                  onChange={() => handlehowDidYouHearAboutHT6Toggle(option)}
+                  label={option}
+                  backgroundColor="#656B8C"
+                  textColor="white"
+                />
+              ))}
+            </div>
+          </div>
+        );
+      case 6:
         return (
           <div className="flex flex-col gap-4 z-50">
             <Text textType="heading-lg" textFont="rubik" textColor="white">
@@ -261,7 +254,7 @@ export default function Survey() {
           <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
             <div className="flex flex-col gap-4 w-full">{renderPage()}</div>
             <div className="flex flex-col gap-4 w-full">
-              <div className="flex flex-row justify-end w-full gap-3 z-50">
+              <div className="flex flex-row justify-end w-full gap-3 z-10">
                 {page > 1 ? (
                   <Button
                     variant="back"
@@ -277,15 +270,15 @@ export default function Survey() {
                 )}
                 <Button
                   disabled={
-                    (page == 1 && !selectedWorkshops.length) ||
+                    (page == 1 && selectedWorkshops.length !== 3) ||
                     (page == 2 && !tshirtSize) ||
-                    (page == 3 && !dietaryRestrictions && !allergies) ||
                     (page == 4 && (!gender || !ethnicity)) ||
-                    (page == 5 && (!permission1 || !permission2))
+                    (page == 5 && !howDidYouHearAboutHT6.length) ||
+                    (page == 6 && (!permission1 || !permission2))
                   }
                   darkMode={true}
                   onClick={() => {
-                    if (page < 5) {
+                    if (page < 6) {
                       setSearchParams({ page: `${page + 1}` });
                     } else {
                       const updateCompleted = completedSection.map((val, i) =>
@@ -295,13 +288,12 @@ export default function Survey() {
                       navigate("/apply/review");
                     }
                   }}
-                  className="z-10"
                 >
                   Next
                 </Button>
               </div>
               <div className="flex justify-end w-full">
-                <ProgressBar darkMode={true} numSteps={5} currPage={page} />
+                <ProgressBar darkMode={true} numSteps={6} currPage={page} />
               </div>
             </div>
           </div>

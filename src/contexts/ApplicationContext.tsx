@@ -31,12 +31,13 @@ export interface FormData {
   funFact?: string;
 
   // Survey fields
-  selectedWorkshops?: string[];
+  requestedWorkshops?: string[];
   tshirtSize?: string;
   dietaryRestrictions?: string;
   allergies?: string;
   gender?: string;
   ethnicity?: string;
+  howDidYouHearAboutHT6?: string[];
   permission1?: boolean;
   permission2?: boolean;
 

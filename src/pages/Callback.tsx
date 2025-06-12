@@ -2,15 +2,18 @@ import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { fetchHt6 } from "../api/client";
 import type { AuthResponse, CallbackPayload } from "../auth/types";
-import { checkAuth } from "../auth/middleware";
+import { checkAuth, checkEnums } from "../auth/middleware";
 import { useAuth } from "../contexts/AuthContext";
 import { useApplicationContext } from "../contexts/ApplicationContext";
 import type { FormData } from "../contexts/ApplicationContext";
+import { useEnums } from "../contexts/EnumsContext";
+import Loading from "../components/Loading/Loading";
 
 export default function Callback() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { setProfile } = useAuth();
+  const { setEnums } = useEnums();
   const { setFormData, formData } = useApplicationContext();
 
   useEffect(() => {
@@ -42,6 +45,10 @@ export default function Callback() {
 
           const profile = await checkAuth();
           setProfile(profile);
+
+          const enums = await checkEnums();
+          setEnums(enums);
+
           if (profile?.firstName && profile?.email && profile?.lastName) {
             const newFormData: FormData = {
               ...formData,
@@ -52,7 +59,7 @@ export default function Callback() {
             setFormData(newFormData);
           }
           if (profile?.status?.applied) {
-            navigate("/applied");
+            navigate("/submitted");
           } else {
             navigate(response.message.redirectTo || "/");
           }
@@ -65,12 +72,7 @@ export default function Callback() {
     }
 
     setSession();
-  }, [searchParams, navigate, setProfile, setFormData, formData]);
+  }, [searchParams, navigate, setProfile, setFormData, setEnums]);
 
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen w-full bg-linear-to-b from-[#ACDCFD] via-[#B3E9FC] to-[#B9F2FC]">
-      <div className="spinner mb-4"></div>
-      <p className="text-primary text-xl font-rubik">Logging in...</p>
-    </div>
-  );
+  return <Loading />;
 }

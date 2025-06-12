@@ -12,7 +12,7 @@ import { useApplicationContext } from "../contexts/ApplicationContext";
 import Button from "../components/Button/Button";
 import Checkbox from "../components/Checkbox/Checkbox";
 import Dropdown from "../components/Dropdown/Dropdown";
-import { CANADIAN_PROVINCES } from "../constants/locations";
+import { CANADIAN_PROVINCES, COUNTRIES } from "../constants/locations";
 import { PLAYER_IMAGES } from "../constants/images";
 import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
@@ -211,7 +211,7 @@ export default function AboutYou() {
                         First Name*
                       </Text>
                       <Input
-                        placeholder="John"
+                        placeholder="Sir"
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                       />
@@ -226,7 +226,7 @@ export default function AboutYou() {
                         Last Name*
                       </Text>
                       <Input
-                        placeholder="Doe"
+                        placeholder="Hacks"
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                       />
@@ -238,7 +238,7 @@ export default function AboutYou() {
               {page === 2 && (
                 <>
                   <Input
-                    placeholder="john.doe@university.com"
+                    placeholder="hacker@hackthe6ix.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -270,22 +270,11 @@ export default function AboutYou() {
                     onChange={(e) => setCity(e.target.value)}
                   />
                   <div className="flex flex-col sm:flex-row gap-4 w-full">
-                    <div className="w-full sm:w-1/2">
-                      <Text
-                        textType="paragraph-sm"
-                        textFont="rubik"
-                        textColor="primary"
-                        className="ml-[10px]"
-                      >
-                        Province*
-                      </Text>
-                      <Dropdown
-                        options={CANADIAN_PROVINCES}
-                        value={province}
-                        onChange={(value) => setProvince(value)}
-                      />
-                    </div>
-                    <div className="w-full sm:w-1/2">
+                    <div
+                      className={`w-full ${
+                        country === "Canada" ? "sm:w-1/2" : ""
+                      }`}
+                    >
                       <Text
                         textType="paragraph-sm"
                         textFont="rubik"
@@ -295,11 +284,35 @@ export default function AboutYou() {
                         Country*
                       </Text>
                       <Dropdown
-                        options={[{ label: "Canada", value: "CA" }]}
+                        options={COUNTRIES}
                         value={country}
-                        onChange={(value) => setCountry(value)}
+                        onChange={(value) => {
+                          setCountry(value);
+                          if (value !== "CA") {
+                            setProvince("");
+                          }
+                        }}
+                        theme="light"
                       />
                     </div>
+                    {country === "Canada" && (
+                      <div className="w-full sm:w-1/2">
+                        <Text
+                          textType="paragraph-sm"
+                          textFont="rubik"
+                          textColor="primary"
+                          className="ml-[10px]"
+                        >
+                          Province*
+                        </Text>
+                        <Dropdown
+                          options={CANADIAN_PROVINCES}
+                          value={province}
+                          onChange={(value) => setProvince(value)}
+                          theme="light"
+                        />
+                      </div>
+                    )}
                   </div>
                 </>
               )}
@@ -364,15 +377,16 @@ export default function AboutYou() {
                       </Text>
                       <Dropdown
                         options={[
-                          { label: "Parent", value: "parent" },
-                          { label: "Guardian", value: "guardian" },
-                          { label: "Sibling", value: "sibling" },
-                          { label: "Spouse", value: "spouse" },
-                          { label: "Friend", value: "friend" },
-                          { label: "Other", value: "other" }
+                          "Parent",
+                          "Guardian",
+                          "Sibling",
+                          "Spouse",
+                          "Friend",
+                          "Other"
                         ]}
                         value={emergencyRelationship}
                         onChange={(value) => setEmergencyRelationship(value)}
+                        theme="light"
                       />
                     </div>
                   </div>

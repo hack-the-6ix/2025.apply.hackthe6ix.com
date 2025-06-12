@@ -31,10 +31,15 @@ export interface IApplication {
   linkedinLink: string;
   creativeResponseEssay: string;
   whyHT6Essay: string;
+  oneSentenceEssay: string;
   mlhCOC: boolean;
   mlhEmail: boolean;
   mlhData: boolean;
+  howDidYouHearAboutHT6: string[];
+  requestedWorkshops: string[];
   emergencyContact: IEmergencyContact;
+  avatarBase: number;
+  avatarItem: number;
 }
 
 export type IPartialApplication = Partial<IApplication>;

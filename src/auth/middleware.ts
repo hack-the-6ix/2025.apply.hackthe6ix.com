@@ -38,3 +38,35 @@ export async function checkAuth(): Promise<Profile | null> {
 
   return null;
 }
+
+export interface ApplicationEnums {
+  school: string[];
+  programOfStudy: string[];
+  gender: string[];
+  pronouns: string[];
+  ethnicity: string[];
+  shirt: string[];
+  province: string[];
+  countries: string[];
+  levelOfStudy: string[];
+  hackathonsAttended: string[];
+  requestedWorkshops: string[];
+  emergencyContactRelationship: string[];
+  dietaryRestrictions: string[];
+}
+
+export async function checkEnums(): Promise<ApplicationEnums | null> {
+  try {
+    const response = await fetchHt6<{
+      status: number;
+      message: ApplicationEnums;
+    }>("/api/action/applicationEnums");
+    if (response.status === 200) {
+      return response.message;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+
+  return null;
+}

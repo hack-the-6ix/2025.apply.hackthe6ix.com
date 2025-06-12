@@ -7,6 +7,13 @@ import exclamation from "../assets/Exclamation.svg";
 import { type IPartialApplication } from "../types/application";
 import { fetchHt6 } from "../api/client";
 import { type ApiResponse } from "../api/client";
+import {
+  DIETARY_RESTRICTIONS,
+  GENDER_OPTIONS,
+  ETHNICITY_OPTIONS,
+  HOW_DID_YOU_HEAR,
+  WORKSHOPS
+} from "../constants/survey";
 
 import Text from "../components/Text/Text";
 import { useState } from "react";
@@ -23,21 +30,6 @@ interface UserResponse {
   };
 }
 
-const WORKSHOPS = [
-  { label: "Basics in Python", value: "python1" },
-  { label: "Basics in Python", value: "python2" },
-  { label: "Basics in Python", value: "python3" },
-  { label: "Basics in Python", value: "python4" },
-  { label: "Basics in Python", value: "python5" },
-  { label: "Basics in Python", value: "python6" },
-  { label: "Basics in Python", value: "python7" },
-  { label: "Basics in Python", value: "python8" },
-  { label: "Basics in Python", value: "python9" },
-  { label: "Basics in Python", value: "python10" },
-  { label: "Basics in Python", value: "python11" },
-  { label: "Basics in Python", value: "python12" }
-];
-
 const TSHIRT_SIZES = [
   { label: "XS", value: "xs" },
   { label: "S", value: "s" },
@@ -52,11 +44,14 @@ export default function Review() {
   const { formData, selectedSkin, selectedItem } = useApplicationContext();
   const [missingFields, setMissingFields] = useState<string[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [modalContentType, setModalContentType] = useState<
     | "confirmSubmit"
     | "missingFields"
     | "resumeMissing"
     | "submissionFailed"
+    | "alreadyApplied"
+    | "fieldErrors"
     | null
   >(null);
 
@@ -87,6 +82,8 @@ export default function Review() {
     if (!formData?.tshirtSize) missing.push("T-shirt Size");
     if (!formData?.gender) missing.push("Gender");
     if (!formData?.ethnicity) missing.push("Ethnicity");
+    if (!formData?.howDidYouHearAboutHT6)
+      missing.push("How did you hear about us?");
     return missing;
   };
 
@@ -112,17 +109,20 @@ export default function Review() {
       formData?.funFact &&
       formData?.tshirtSize &&
       formData?.gender &&
-      formData?.ethnicity
+      formData?.ethnicity &&
+      formData?.howDidYouHearAboutHT6
     );
   };
 
   const handleSubmit = async () => {
-    setShowModal(false); // Close any existing modal
+    setShowModal(false);
+    setIsSubmitting(true);
     const currentMissing = getMissingFields();
     if (currentMissing.length > 0) {
       setMissingFields(currentMissing);
       setModalContentType("missingFields");
       setShowModal(true);
+      setIsSubmitting(false);
       return;
     }
 
@@ -139,6 +139,7 @@ export default function Review() {
         hackathonsAttended: "None",
         creativeResponseEssay: formData.accomplish,
         whyHT6Essay: formData.project,
+        oneSentenceEssay: formData.funFact,
         mlhCOC: formData.permission1,
         mlhData: formData.permission2,
         mlhEmail: formData.emailPermission,
@@ -155,9 +156,15 @@ export default function Review() {
         githubLink: formData.github,
         linkedinLink: formData.linkedin,
         portfolioLink: formData.portfolio,
-        dietaryRestrictions: formData.dietaryRestrictions,
+        dietaryRestrictions:
+          formData.dietaryRestrictions === "None"
+            ? ""
+            : formData.dietaryRestrictions,
         emailConsent: formData.emailPermission,
-        resumeSharePermission: true
+        resumeSharePermission: true,
+        howDidYouHearAboutHT6: formData.howDidYouHearAboutHT6,
+        avatarBase: selectedSkin,
+        avatarItem: selectedItem
       };
 
       const user = await fetchHt6<ApiResponse<UserResponse>>(
@@ -177,7 +184,7 @@ export default function Review() {
         body: { submit: true, application },
         method: "POST"
       });
-      navigate("/success"); // Navigate on successful submission
+      navigate("/submitted");
     } catch (error: unknown) {
       if (
         error &&
@@ -185,16 +192,27 @@ export default function Review() {
         "status" in error &&
         error.status === 403
       ) {
-        const fields =
-          (error as { error?: string[][] }).error?.map((field) => field[1]) ||
-          [];
-        setMissingFields(fields);
-        setModalContentType("submissionFailed"); // Use submissionFailed for server-side validation too
+        const errorMessage = (error as { message?: string }).message;
+        if (errorMessage === "You have already applied!") {
+          setModalContentType("alreadyApplied");
+        } else {
+          const fieldErrors =
+            (error as { error?: string[][] }).error?.map(
+              ([field, message]) => ({
+                field: field.replace("/", ""),
+                message
+              })
+            ) || [];
+          setMissingFields(fieldErrors.map((err) => err.message));
+          setModalContentType("fieldErrors");
+        }
         setShowModal(true);
       } else {
         setModalContentType("submissionFailed");
         setShowModal(true);
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -202,40 +220,21 @@ export default function Review() {
     <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-[linear-gradient(to_bottom,_#B1E1F9,_#E5DCD9,_#FCD2B3,_#F5AB42)] min-h-screen w-full flex flex-col items-center">
       <div className="w-full max-w-[1000px] bg-[#E6EFF3]/80 rounded-2xl p-8 shadow-lg mt-32 mb-16 z-10">
         <div className="px-8">
-          <Text
-            textType="heading-lg"
-            textFont="rubik"
-            textColor="primary"
-            className="mb-6 pt-6"
-          >
-            Review your application
-          </Text>
-
-          {missingFields.length > 0 && (
-            <div className="mb-6 p-4 bg-red-100/80 rounded-lg">
-              <Text
-                textType="paragraph-lg"
-                textFont="rubik"
-                textColor="primary"
-                className="font-bold mb-2"
-              >
-                Please complete the following fields:
-              </Text>
-              <ul className="list-disc pl-6">
-                {missingFields.map((field) => (
-                  <li key={field}>
-                    <Text
-                      textType="paragraph-lg"
-                      textFont="rubik"
-                      textColor="primary"
-                    >
-                      {field}
-                    </Text>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          <div className="flex justify-between items-center">
+            <Text
+              textType="heading-lg"
+              textFont="rubik"
+              textColor="primary"
+              className="mb-6 pt-6"
+            >
+              Review your application
+            </Text>
+            <img
+              src={PLAYER_IMAGES[selectedSkin][selectedItem]}
+              alt="Player"
+              className="h-[100px] "
+            />
+          </div>
 
           <div className="flex items-center gap-2 mb-6">
             {isFormComplete() ? (
@@ -265,7 +264,7 @@ export default function Review() {
             )}
           </div>
 
-          <div className="max-h-[35vh] overflow-y-auto px-8 space-y-6">
+          <div className="max-h-[35vh] overflow-y-auto space-y-6">
             {/* About You Section */}
             <div className="space-y-7">
               <div className="flex items-center gap-2">
@@ -357,7 +356,7 @@ export default function Review() {
                     label="Program and Year of Study"
                     value={
                       formData?.program && formData?.year
-                        ? `${formData.program} - Year ${formData.year}`
+                        ? `${formData.program} - ${formData.year}`
                         : null
                     }
                   />
@@ -451,8 +450,8 @@ export default function Review() {
                 >
                   Survey
                 </Text>
-                {formData?.selectedWorkshops &&
-                formData.selectedWorkshops.length > 0 &&
+                {formData?.requestedWorkshops &&
+                formData.requestedWorkshops.length > 0 &&
                 formData?.tshirtSize &&
                 (formData?.gender || formData?.ethnicity) ? (
                   <img src={checkCircle} alt="Complete" className="w-3 h-3" />
@@ -463,35 +462,33 @@ export default function Review() {
               <div className="rounded-md">
                 <div className="grid grid-cols-2 gap-y-4">
                   <ReviewField
-                    label="3 Workshops You Are Interested In"
+                    label="Workshop Preferences"
                     value={
-                      formData?.selectedWorkshops &&
-                      formData.selectedWorkshops.length > 0
-                        ? "filled"
+                      formData?.requestedWorkshops
+                        ? formData.requestedWorkshops
+                            .map(
+                              (value) =>
+                                WORKSHOPS.find(
+                                  (option: { value: string; label: string }) =>
+                                    option.value === value
+                                )?.label
+                            )
+                            .filter(Boolean)
+                            .join(", ")
                         : null
                     }
-                    renderValue={() => (
-                      <Text
-                        textType="paragraph-lg-semibold"
-                        textFont="rubik"
-                        textColor="primary"
-                      >
-                        {formData?.selectedWorkshops
-                          ?.slice(0, 3)
-                          .map(
-                            (workshop) =>
-                              WORKSHOPS.find((w) => w.value === workshop)
-                                ?.label || workshop
-                          )
-                          .join(", ")}
-                      </Text>
-                    )}
                   />
                   <ReviewField
                     label="Dietary Restrictions"
                     value={
                       formData?.dietaryRestrictions || formData?.allergies
-                        ? [formData?.dietaryRestrictions, formData?.allergies]
+                        ? [
+                            DIETARY_RESTRICTIONS.find(
+                              (option) =>
+                                option === formData.dietaryRestrictions
+                            ),
+                            formData?.allergies
+                          ]
                             .filter(Boolean)
                             .join(", ")
                         : null
@@ -511,7 +508,29 @@ export default function Review() {
                     label="Gender and Background"
                     value={
                       formData?.gender || formData?.ethnicity
-                        ? [formData?.gender, formData?.ethnicity]
+                        ? [
+                            GENDER_OPTIONS.find(
+                              (option) => option === formData.gender
+                            ),
+                            ETHNICITY_OPTIONS.find(
+                              (option) => option === formData.ethnicity
+                            )
+                          ]
+                            .filter(Boolean)
+                            .join(", ")
+                        : null
+                    }
+                  />
+                  <ReviewField
+                    label="How did you hear about us?"
+                    value={
+                      formData?.howDidYouHearAboutHT6
+                        ? formData.howDidYouHearAboutHT6
+                            .map((value) =>
+                              HOW_DID_YOU_HEAR.find(
+                                (option: string) => option === value
+                              )
+                            )
                             .filter(Boolean)
                             .join(", ")
                         : null
@@ -697,6 +716,87 @@ export default function Review() {
                   </div>
                 </>
               )}
+
+              {modalContentType === "alreadyApplied" && (
+                <>
+                  <Text
+                    textType="heading-lg"
+                    textFont="rubik"
+                    textColor="primary"
+                    className="mb-4 text-red-600"
+                  >
+                    Already Applied
+                  </Text>
+                  <Text
+                    textType="paragraph-lg"
+                    textFont="rubik"
+                    textColor="primary"
+                    className="mb-8"
+                  >
+                    You have already submitted an application for Hack the 6ix.
+                  </Text>
+                  <div className="flex justify-center gap-4">
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        setShowModal(false);
+                        setModalContentType(null);
+                      }}
+                      className="bg-[#008F81] text-white"
+                    >
+                      Okay
+                    </Button>
+                  </div>
+                </>
+              )}
+
+              {modalContentType === "fieldErrors" && (
+                <>
+                  <Text
+                    textType="heading-lg"
+                    textFont="rubik"
+                    textColor="primary"
+                    className="mb-4 text-red-600"
+                  >
+                    Submission Denied
+                  </Text>
+                  <div className="mb-6 p-4 bg-red-100/80 rounded-lg">
+                    <Text
+                      textType="paragraph-lg"
+                      textFont="rubik"
+                      textColor="primary"
+                      className="font-bold mb-2"
+                    >
+                      Please fix the following issues:
+                    </Text>
+                    <ul className="list-disc pl-6">
+                      {missingFields.map((field, index) => (
+                        <li key={index}>
+                          <Text
+                            textType="paragraph-lg"
+                            textFont="rubik"
+                            textColor="primary"
+                          >
+                            {field}
+                          </Text>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="flex justify-center gap-4">
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        setShowModal(false);
+                        setModalContentType(null);
+                      }}
+                      className="bg-[#008F81] text-white"
+                    >
+                      Okay
+                    </Button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
@@ -706,6 +806,7 @@ export default function Review() {
             <Button
               variant="back"
               onClick={() => navigate("/apply/survey?page=5")}
+              disabled={isSubmitting}
             >
               Back
             </Button>
@@ -720,17 +821,13 @@ export default function Review() {
                 }
                 setShowModal(true);
               }}
+              disabled={isSubmitting}
             >
-              Submit
+              {isSubmitting ? "Submitting..." : "Submit"}
             </Button>
           </div>
         </div>
 
-        <img
-          src={PLAYER_IMAGES[selectedSkin][selectedItem]}
-          alt="Player"
-          className=" absolute h-[140px] sm:bottom-[100px] sm:right-[200px] right-[100px] bottom-[35px]"
-        />
         <img
           src={apple}
           alt="Apple"
