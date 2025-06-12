@@ -22,10 +22,11 @@ import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 
-interface UserResponse {
-  computedApplicationOpen: number;
-  computedApplicationDeadline: number;
-  hackerApplication?: IApplication;
+interface Application {
+  firstName: string;
+  lastName: string;
+  email: string;
+  hackerApplication: IApplication;
 }
 
 export default function Home() {
@@ -33,7 +34,7 @@ export default function Home() {
   const { selectedSkin, selectedItem } = useApplicationContext();
   const { setProfile } = useAuth();
   const [showModal, setShowModal] = useState(false);
-  const [application, setApplication] = useState<IApplication | null>(null);
+  const [application, setApplication] = useState<Application | null>(null);
   const GRASSCOUNT = 40;
 
   useEffect(() => {
@@ -42,11 +43,11 @@ export default function Home() {
         if (location.state?.application) {
           setApplication(location.state.application);
         } else {
-          const user = await fetchHt6<ApiResponse<UserResponse>>(
+          const user = await fetchHt6<ApiResponse<Application>>(
             "/api/action/profile"
           );
-          if (user.message.hackerApplication) {
-            setApplication(user.message.hackerApplication);
+          if (user.message) {
+            setApplication(user.message);
           }
         }
       } catch (error) {
@@ -244,20 +245,28 @@ export default function Home() {
                     <div className="grid grid-cols-2 gap-y-4">
                       <ReviewField
                         label="Location"
-                        value={`${application.city}, ${application.province}, ${application.country}`}
+                        value={`${application.hackerApplication.city}, ${application.hackerApplication.province}, ${application.hackerApplication.country}`}
                       />
                       <ReviewField
                         label="Emergency Contact"
-                        value={`${application.emergencyContact.firstName} ${application.emergencyContact.lastName}, ${application.emergencyContact.phoneNumber}`}
+                        value={`${application.hackerApplication.emergencyContact.firstName} ${application.hackerApplication.emergencyContact.lastName}, ${application.hackerApplication.emergencyContact.phoneNumber}`}
                       />
                       <ReviewField
                         label="Emergency Contact Relationship"
-                        value={application.emergencyContact.relationship}
+                        value={
+                          application.hackerApplication.emergencyContact
+                            .relationship
+                        }
                       />
                       <ReviewField
                         label="Age"
-                        value={application.age?.toString()}
+                        value={application.hackerApplication.age?.toString()}
                       />
+                      <ReviewField
+                        label="Full Name"
+                        value={`${application.firstName} ${application.lastName}`}
+                      />
+                      <ReviewField label="Email" value={application.email} />
                     </div>
                   </div>
                 </div>
@@ -275,55 +284,61 @@ export default function Home() {
                   </div>
                   <div className="rounded-md">
                     <div className="grid grid-cols-2 gap-y-4">
-                      <ReviewField label="School" value={application.school} />
+                      <ReviewField
+                        label="School"
+                        value={application.hackerApplication.school}
+                      />
                       <ReviewField
                         label="Program and Year"
-                        value={`${application.program} - ${application.levelOfStudy}`}
+                        value={`${application.hackerApplication.program} - ${application.hackerApplication.levelOfStudy}`}
                       />
                       <ReviewField
                         label="Graduation Year"
-                        value={application.graduationYear?.toString()}
+                        value={application.hackerApplication.graduationYear?.toString()}
                       />
                       <ReviewField
                         label="Hackathon Experience"
-                        value={application.hackathonsAttended}
+                        value={application.hackerApplication.hackathonsAttended}
                       />
                       <ReviewField
                         label="Links"
                         value={
-                          application.githubLink ||
-                          application.linkedinLink ||
-                          application.portfolioLink
+                          application.hackerApplication.githubLink ||
+                          application.hackerApplication.linkedinLink ||
+                          application.hackerApplication.portfolioLink
                             ? "filled"
                             : null
                         }
                         renderValue={() => (
                           <div className="space-y-1 flex flex-col">
-                            {application.githubLink && (
+                            {application.hackerApplication.githubLink && (
                               <Text
                                 textType="paragraph-lg-semibold"
                                 textFont="rubik"
                                 textColor="primary"
                               >
-                                GitHub: {application.githubLink}
+                                GitHub:{" "}
+                                {application.hackerApplication.githubLink}
                               </Text>
                             )}
-                            {application.linkedinLink && (
+                            {application.hackerApplication.linkedinLink && (
                               <Text
                                 textType="paragraph-lg-semibold"
                                 textFont="rubik"
                                 textColor="primary"
                               >
-                                LinkedIn: {application.linkedinLink}
+                                LinkedIn:{" "}
+                                {application.hackerApplication.linkedinLink}
                               </Text>
                             )}
-                            {application.portfolioLink && (
+                            {application.hackerApplication.portfolioLink && (
                               <Text
                                 textType="paragraph-lg-semibold"
                                 textFont="rubik"
                                 textColor="primary"
                               >
-                                Portfolio: {application.portfolioLink}
+                                Portfolio:{" "}
+                                {application.hackerApplication.portfolioLink}
                               </Text>
                             )}
                           </div>
@@ -347,15 +362,17 @@ export default function Home() {
                   <div className="rounded-md space-y-4">
                     <ReviewField
                       label="What would you like to accomplish at Hack the 6ix?"
-                      value={application.creativeResponseEssay}
+                      value={
+                        application.hackerApplication.creativeResponseEssay
+                      }
                     />
                     <ReviewField
                       label="What is one project you were proud of?"
-                      value={application.whyHT6Essay}
+                      value={application.hackerApplication.whyHT6Essay}
                     />
                     <ReviewField
                       label="Fun Fact"
-                      value={application.oneSentenceEssay}
+                      value={application.hackerApplication.oneSentenceEssay}
                     />
                   </div>
                 </div>
@@ -375,39 +392,69 @@ export default function Home() {
                     <div className="grid grid-cols-2 gap-y-4">
                       <ReviewField
                         label="T-shirt Size"
-                        value={application.shirtSize}
+                        value={application.hackerApplication.shirtSize}
                       />
                       <ReviewField
                         label="Dietary Restrictions"
-                        value={application.dietaryRestrictions}
+                        value={
+                          application.hackerApplication.dietaryRestrictions
+                        }
                       />
                       <ReviewField
                         label="Gender and Background"
-                        value={`${application.gender}, ${application.ethnicity}`}
+                        value={`${application.hackerApplication.gender}, ${application.hackerApplication.ethnicity}`}
                       />
                       <ReviewField
                         label="How did you hear about us?"
-                        value={application.howDidYouHearAboutHT6?.join(", ")}
+                        value={application.hackerApplication.howDidYouHearAboutHT6?.join(
+                          ", "
+                        )}
                       />
                       <ReviewField
                         label="MLH Consent"
-                        value={application.mlhCOC ? "Yes" : "No"}
+                        value={
+                          application.hackerApplication.mlhCOC ? "Yes" : "No"
+                        }
                       />
                       <ReviewField
                         label="MLH Data Consent"
-                        value={application.mlhData ? "Yes" : "No"}
+                        value={
+                          application.hackerApplication.mlhData ? "Yes" : "No"
+                        }
                       />
                       <ReviewField
                         label="MLH Email Consent"
-                        value={application.mlhEmail ? "Yes" : "No"}
+                        value={
+                          application.hackerApplication.mlhEmail ? "Yes" : "No"
+                        }
                       />
                       <ReviewField
                         label="Email Consent"
-                        value={application.emailConsent ? "Yes" : "No"}
+                        value={
+                          application.hackerApplication.emailConsent
+                            ? "Yes"
+                            : "No"
+                        }
                       />
                       <ReviewField
                         label="Resume Share Permission"
-                        value={application.resumeSharePermission ? "Yes" : "No"}
+                        value={
+                          application.hackerApplication.resumeSharePermission
+                            ? "Yes"
+                            : "No"
+                        }
+                      />
+                      <ReviewField
+                        label="Previous Hack the 6ix Experience"
+                        value={application.hackerApplication.previousHT6Experience?.join(
+                          ", "
+                        )}
+                      />
+                      <ReviewField
+                        label="Workshop Preferences"
+                        value={application.hackerApplication.requestedWorkshops?.join(
+                          ", "
+                        )}
                       />
                     </div>
                   </div>

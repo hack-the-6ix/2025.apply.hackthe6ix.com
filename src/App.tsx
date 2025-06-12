@@ -4,6 +4,7 @@ import Application from "./Application";
 import { ApplicationContextProvider } from "./contexts/ApplicationContext";
 import Callback from "./pages/Callback";
 import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
+import { SubmittedRoute } from "./components/SubmittedRoute/SubmittedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
 import { EnumsProvider } from "./contexts/EnumsContext";
 import Submitted from "./pages/Submitted";
@@ -17,7 +18,14 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/callback" element={<Callback />} />
-              <Route path="/submitted" element={<Submitted />} />
+              <Route
+                path="/submitted"
+                element={
+                  <SubmittedRoute>
+                    <Submitted />
+                  </SubmittedRoute>
+                }
+              />
               <Route
                 path="/apply/:section"
                 element={

@@ -5,7 +5,6 @@ import pine_tree from "../assets/pine_tree.svg";
 import corner_rock3 from "../assets/corner_rock3.svg";
 import { PLAYER_IMAGES } from "../constants/images";
 import apple from "../assets/apple.svg";
-import cloud2 from "../assets/cloud2.svg";
 
 import { useState, useRef, useEffect } from "react";
 import Text from "../components/Text/Text";
@@ -68,8 +67,10 @@ export default function LongAnswer() {
       case 1:
         return (
           <div className="flex flex-col gap-4">
-            <Text textType="heading-lg" textFont="rubik" textColor="white">
-              What would you like to accomplish at Hack the 6ix?*
+            <Text textType="heading-md" textFont="rubik" textColor="white">
+              Tell us about a project you’ve enjoyed working on (this can be
+              non-technical!). What made you decide to work on this project?
+              What challenges did you face and how did you overcome them?*
             </Text>
             <TextArea
               value={accomplish}
@@ -87,13 +88,13 @@ export default function LongAnswer() {
         return (
           <div className="flex flex-col gap-4">
             <Text
-              textType="heading-lg"
+              textType="heading-md"
               textFont="rubik"
               textColor="white"
               className="mt-12"
             >
-              What is one project you were proud of? What tools and methods did
-              you use to complete it?*
+              If you could not do anything related to school, work, or coding
+              for 4 months, what would you do and why?*
             </Text>
             <TextArea
               value={project}
@@ -102,7 +103,7 @@ export default function LongAnswer() {
               backgroundColor="#3D4759"
               textColor="white"
               rows={10}
-              maxWords={200}
+              maxWords={50}
               showWordCount={true}
             />
           </div>
@@ -110,8 +111,9 @@ export default function LongAnswer() {
       case 3:
         return (
           <div className="flex flex-col gap-4">
-            <Text textType="heading-lg" textFont="rubik" textColor="white">
-              Fun Fact*
+            <Text textType="heading-md" textFont="rubik" textColor="white">
+              You are given an elephant. You cannot sell or give away the
+              elephant. What do you do with the elephant?*
             </Text>
             <Input
               value={funFact}
