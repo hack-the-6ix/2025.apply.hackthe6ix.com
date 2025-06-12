@@ -53,6 +53,8 @@ export interface ApplicationEnums {
   requestedWorkshops: string[];
   emergencyContactRelationship: string[];
   dietaryRestrictions: string[];
+  howDidYouHearAboutHT6: string[];
+  previousHT6Experience: string[];
 }
 
 export async function checkEnums(): Promise<ApplicationEnums | null> {

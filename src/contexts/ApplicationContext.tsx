@@ -38,6 +38,7 @@ export interface FormData {
   gender?: string;
   ethnicity?: string;
   howDidYouHearAboutHT6?: string[];
+  previousHT6Experience?: string[];
   permission1?: boolean;
   permission2?: boolean;
 

@@ -7,13 +7,6 @@ import exclamation from "../assets/Exclamation.svg";
 import { type IPartialApplication } from "../types/application";
 import { fetchHt6 } from "../api/client";
 import { type ApiResponse } from "../api/client";
-import {
-  DIETARY_RESTRICTIONS,
-  GENDER_OPTIONS,
-  ETHNICITY_OPTIONS,
-  HOW_DID_YOU_HEAR,
-  WORKSHOPS
-} from "../constants/survey";
 
 import Text from "../components/Text/Text";
 import { useState } from "react";
@@ -29,15 +22,6 @@ interface UserResponse {
     resumeFileName?: string;
   };
 }
-
-const TSHIRT_SIZES = [
-  { label: "XS", value: "xs" },
-  { label: "S", value: "s" },
-  { label: "M", value: "m" },
-  { label: "L", value: "l" },
-  { label: "XL", value: "xl" },
-  { label: "XXL", value: "xxl" }
-];
 
 export default function Review() {
   const navigate = useNavigate();
@@ -163,6 +147,7 @@ export default function Review() {
         emailConsent: formData.emailPermission,
         resumeSharePermission: true,
         howDidYouHearAboutHT6: formData.howDidYouHearAboutHT6,
+        previousHT6Experience: formData.previousHT6Experience,
         avatarBase: selectedSkin,
         avatarItem: selectedItem
       };
@@ -455,12 +440,12 @@ export default function Review() {
                   textFont="rubik"
                   textColor="primary"
                 >
-                  Survey
+                  Survey Information
                 </Text>
-                {formData?.requestedWorkshops &&
-                formData.requestedWorkshops.length > 0 &&
-                formData?.tshirtSize &&
-                (formData?.gender || formData?.ethnicity) ? (
+                {formData?.tshirtSize &&
+                formData?.gender &&
+                formData?.ethnicity &&
+                formData?.howDidYouHearAboutHT6 ? (
                   <img src={checkCircle} alt="Complete" className="w-3 h-3" />
                 ) : (
                   <img src={exclamation} alt="Incomplete" className="w-3 h-3" />
@@ -469,79 +454,26 @@ export default function Review() {
               <div className="rounded-md">
                 <div className="grid grid-cols-2 gap-y-4">
                   <ReviewField
-                    label="Workshop Preferences"
-                    value={
-                      formData?.requestedWorkshops
-                        ? formData.requestedWorkshops
-                            .map(
-                              (value) =>
-                                WORKSHOPS.find(
-                                  (option: { value: string; label: string }) =>
-                                    option.value === value
-                                )?.label
-                            )
-                            .filter(Boolean)
-                            .join(", ")
-                        : null
-                    }
+                    label="T-shirt Size"
+                    value={formData?.tshirtSize}
                   />
+                  <ReviewField label="Gender" value={formData?.gender} />
+                  <ReviewField label="Ethnicity" value={formData?.ethnicity} />
                   <ReviewField
                     label="Dietary Restrictions"
-                    value={
-                      formData?.dietaryRestrictions || formData?.allergies
-                        ? [
-                            DIETARY_RESTRICTIONS.find(
-                              (option) =>
-                                option === formData.dietaryRestrictions
-                            ),
-                            formData?.allergies
-                          ]
-                            .filter(Boolean)
-                            .join(", ")
-                        : null
-                    }
+                    value={formData?.dietaryRestrictions}
                   />
                   <ReviewField
-                    label="T-shirt Size"
-                    value={
-                      formData?.tshirtSize
-                        ? TSHIRT_SIZES.find(
-                            (s) => s.value === formData.tshirtSize
-                          )?.label
-                        : null
-                    }
-                  />
-                  <ReviewField
-                    label="Gender and Background"
-                    value={
-                      formData?.gender || formData?.ethnicity
-                        ? [
-                            GENDER_OPTIONS.find(
-                              (option) => option === formData.gender
-                            ),
-                            ETHNICITY_OPTIONS.find(
-                              (option) => option === formData.ethnicity
-                            )
-                          ]
-                            .filter(Boolean)
-                            .join(", ")
-                        : null
-                    }
+                    label="Previous Hack the 6ix Experience"
+                    value={formData?.previousHT6Experience?.join(", ")}
                   />
                   <ReviewField
                     label="How did you hear about us?"
-                    value={
-                      formData?.howDidYouHearAboutHT6
-                        ? formData.howDidYouHearAboutHT6
-                            .map((value) =>
-                              HOW_DID_YOU_HEAR.find(
-                                (option: string) => option === value
-                              )
-                            )
-                            .filter(Boolean)
-                            .join(", ")
-                        : null
-                    }
+                    value={formData?.howDidYouHearAboutHT6?.join(", ")}
+                  />
+                  <ReviewField
+                    label="Workshop Preferences"
+                    value={formData?.requestedWorkshops?.join(", ")}
                   />
                 </div>
               </div>

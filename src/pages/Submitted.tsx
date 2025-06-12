@@ -18,8 +18,9 @@ import { fetchHt6 } from "../api/client";
 import { type ApiResponse } from "../api/client";
 import { type IApplication } from "../types/application";
 
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useAuth } from "../contexts/AuthContext";
 
 interface UserResponse {
   computedApplicationOpen: number;
@@ -30,6 +31,7 @@ interface UserResponse {
 export default function Home() {
   const location = useLocation();
   const { selectedSkin, selectedItem } = useApplicationContext();
+  const { setProfile } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [application, setApplication] = useState<IApplication | null>(null);
   const GRASSCOUNT = 40;
@@ -175,6 +177,28 @@ export default function Home() {
               textColor="white"
             >
               Review application
+            </Text>
+            <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] top-[-6px] left-[-6px]"></div>
+            <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] top-[-6px] right-[-6px]"></div>
+            <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] bottom-[-6px] left-[-6px]"></div>
+            <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] bottom-[-6px] right-[-6px]"></div>
+          </button>
+          <button
+            className="hover:bg-red-400 relative sm:w-[180px] w-full bg-red-300 border-black sm:border-[5px] border-[3px] sm:h-[80px] h-[50px] flex justify-center items-center transition-colors cursor-pointer"
+            onClick={() => {
+              localStorage.removeItem("token");
+              localStorage.removeItem("refreshToken");
+              setProfile(null);
+              window.location.href = "/";
+            }}
+          >
+            <Text
+              textType="heading-sm"
+              textWeight="regular"
+              textFont="rubik"
+              textColor="black"
+            >
+              Log out
             </Text>
             <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] top-[-6px] left-[-6px]"></div>
             <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] top-[-6px] right-[-6px]"></div>

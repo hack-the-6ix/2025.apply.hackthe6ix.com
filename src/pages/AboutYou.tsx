@@ -1,7 +1,6 @@
 import tree2SVG from "../assets/tree2.svg";
 import birdlogSVG from "../assets/bird_log.svg";
 import appleSVG from "../assets/apple.svg";
-
 import cliffSVG from "../assets/cliff.svg";
 import Text from "../components/Text/Text";
 import Input from "../components/Input/Input";
@@ -12,15 +11,16 @@ import { useApplicationContext } from "../contexts/ApplicationContext";
 import Button from "../components/Button/Button";
 import Checkbox from "../components/Checkbox/Checkbox";
 import Dropdown from "../components/Dropdown/Dropdown";
-import { CANADIAN_PROVINCES, COUNTRIES } from "../constants/locations";
 import { PLAYER_IMAGES } from "../constants/images";
 import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { useEnums } from "../contexts/EnumsContext";
 import type { FormData } from "../contexts/ApplicationContext";
 import type { Profile } from "../auth/types";
 
 export default function AboutYou() {
   const navigate = useNavigate();
+  const { enums } = useEnums();
   const {
     setCompletedSection,
     completedSection,
@@ -284,15 +284,10 @@ export default function AboutYou() {
                         Country*
                       </Text>
                       <Dropdown
-                        options={COUNTRIES}
+                        placeholder="Select Country"
+                        options={enums?.countries || []}
                         value={country}
-                        onChange={(value) => {
-                          setCountry(value);
-                          if (value !== "CA") {
-                            setProvince("");
-                          }
-                        }}
-                        theme="light"
+                        onChange={(value) => setCountry(value)}
                       />
                     </div>
                     {country === "Canada" && (
@@ -306,10 +301,10 @@ export default function AboutYou() {
                           Province*
                         </Text>
                         <Dropdown
-                          options={CANADIAN_PROVINCES}
+                          placeholder="Select Province"
+                          options={enums?.province || []}
                           value={province}
                           onChange={(value) => setProvince(value)}
-                          theme="light"
                         />
                       </div>
                     )}
@@ -366,27 +361,20 @@ export default function AboutYou() {
                         onChange={(e) => setEmergencyPhone(e.target.value)}
                       />
                     </div>
-                    <div className="w-full sm:w-1/2">
+                    <div className="w-full">
                       <Text
                         textType="paragraph-sm"
                         textFont="rubik"
                         textColor="primary"
                         className="ml-[10px]"
                       >
-                        Relationship*
+                        Relationship to Emergency Contact*
                       </Text>
                       <Dropdown
-                        options={[
-                          "Parent",
-                          "Guardian",
-                          "Sibling",
-                          "Spouse",
-                          "Friend",
-                          "Other"
-                        ]}
+                        placeholder="Select Relationship"
+                        options={enums?.emergencyContactRelationship || []}
                         value={emergencyRelationship}
                         onChange={(value) => setEmergencyRelationship(value)}
-                        theme="light"
                       />
                     </div>
                   </div>

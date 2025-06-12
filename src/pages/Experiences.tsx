@@ -9,7 +9,6 @@ import bat from "../assets/bat.svg";
 import corner_rocks from "../assets/corner_rocks.svg";
 import corner_rocks2 from "../assets/corner_rocks2.svg";
 import { PLAYER_IMAGES } from "../constants/images";
-
 import { useState, useEffect, useRef } from "react";
 import Input from "../components/Input/Input";
 import Text from "../components/Text/Text";
@@ -23,36 +22,11 @@ import {
   type FormData
 } from "../contexts/ApplicationContext";
 import { useSearchParams } from "react-router-dom";
-
-// Placeholder data for dropdowns
-const SCHOOLS = [
-  "University of Toronto",
-  "University of Waterloo",
-  "University of British Columbia",
-  "McGill University",
-  "Other"
-];
-
-const YEARS = [
-  "First Year",
-  "Second Year",
-  "Third Year",
-  "Fourth Year",
-  "Fifth Year+"
-];
-
-const PROGRAMS = [
-  "Computer Science",
-  "Computer Engineering",
-  "Software Engineering",
-  "Electrical Engineering",
-  "Other"
-];
-
-const HACKATHON_EXPERIENCE = ["0", "1-2", "3-5", "5+"];
+import { useEnums } from "../contexts/EnumsContext";
 
 export default function Experiences() {
   const navigate = useNavigate();
+  const { enums } = useEnums();
   const {
     setCompletedSection,
     completedSection,
@@ -177,7 +151,7 @@ export default function Experiences() {
               School Name*
             </Text>
             <Dropdown
-              options={SCHOOLS}
+              options={enums?.school || []}
               value={school}
               onChange={setSchool}
               placeholder="Select your school"
@@ -202,7 +176,7 @@ export default function Experiences() {
                   Year of Study*
                 </Text>
                 <Dropdown
-                  options={YEARS}
+                  options={enums?.levelOfStudy || []}
                   value={year}
                   onChange={setYear}
                   placeholder="Select year of study"
@@ -219,7 +193,7 @@ export default function Experiences() {
                   Program*
                 </Text>
                 <Dropdown
-                  options={PROGRAMS}
+                  options={enums?.programOfStudy || []}
                   value={program}
                   onChange={setProgram}
                   placeholder="Select your program"
@@ -236,7 +210,7 @@ export default function Experiences() {
               Number of Previous Hackathons*
             </Text>
             <Dropdown
-              options={HACKATHON_EXPERIENCE}
+              options={enums?.hackathonsAttended || []}
               value={hackathonCount}
               onChange={setHackathonCount}
               placeholder="Select number of hackathons"

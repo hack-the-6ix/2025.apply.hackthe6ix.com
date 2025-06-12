@@ -40,6 +40,7 @@ export interface IApplication {
   emergencyContact: IEmergencyContact;
   avatarBase: number;
   avatarItem: number;
+  previousHT6Experience: string[];
 }
 
 export type IPartialApplication = Partial<IApplication>;

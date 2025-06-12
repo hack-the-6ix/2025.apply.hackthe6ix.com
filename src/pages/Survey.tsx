@@ -16,31 +16,11 @@ import ProgressBar from "../components/ProgressBar/ProgressBar";
 import { useNavigate } from "react-router-dom";
 import { useApplicationContext } from "../contexts/ApplicationContext";
 import { useSearchParams } from "react-router-dom";
-import {
-  DIETARY_RESTRICTIONS,
-  GENDER_OPTIONS,
-  ETHNICITY_OPTIONS,
-  WORKSHOPS
-} from "../constants/survey";
-
-const HOW_DID_YOU_HEAR = [
-  "Instagram",
-  "Discord",
-  "Website",
-  "Email",
-  "LinkedIn",
-  "Word of mouth",
-  "JamHacks",
-  "GeeseHacks",
-  "UofTHacks",
-  "MasseyHacks",
-  "UW Data Science Club"
-];
-
-const TSHIRT_SIZES = ["S", "M", "L", "XL", "2XL", "3XL"];
+import { useEnums } from "../contexts/EnumsContext";
 
 export default function Survey() {
   const navigate = useNavigate();
+  const { enums } = useEnums();
   const {
     setCompletedSection,
     completedSection,
@@ -64,6 +44,9 @@ export default function Survey() {
   const [howDidYouHearAboutHT6, sethowDidYouHearAboutHT6] = useState<string[]>(
     formData?.howDidYouHearAboutHT6 || []
   );
+  const [previousHT6Experience, setpreviousHT6Experience] = useState<string[]>(
+    formData?.previousHT6Experience || []
+  );
   const [permission1, setPermission1] = useState(
     formData?.permission1 || false
   );
@@ -80,6 +63,7 @@ export default function Survey() {
       gender,
       ethnicity,
       howDidYouHearAboutHT6,
+      previousHT6Experience,
       permission1,
       permission2
     };
@@ -91,6 +75,7 @@ export default function Survey() {
     gender,
     ethnicity,
     howDidYouHearAboutHT6,
+    previousHT6Experience,
     permission1,
     permission2,
     setFormData
@@ -114,21 +99,32 @@ export default function Survey() {
     }
   };
 
+  const handlepreviousHT6ExperienceToggle = (value: string) => {
+    if (previousHT6Experience.includes(value)) {
+      setpreviousHT6Experience(
+        previousHT6Experience.filter((v) => v !== value)
+      );
+    } else {
+      setpreviousHT6Experience([...previousHT6Experience, value]);
+    }
+  };
+
   const renderPage = () => {
     switch (page) {
       case 1:
         return (
           <div className="flex flex-col gap-4">
             <Text textType="heading-lg" textFont="rubik" textColor="white">
-              Please choose 3 workshops that you are interested in.*
+              Have you previously attended or applied to Hack the 6ix? (select
+              all that apply)
             </Text>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 z-50">
-              {WORKSHOPS.map((workshop) => (
+            <div className="grid grid-cols-1 gap-4 z-50">
+              {enums?.previousHT6Experience?.map((option) => (
                 <Checkbox
-                  key={workshop.value}
-                  checked={selectedWorkshops.includes(workshop.value)}
-                  onChange={() => handleWorkshopToggle(workshop.value)}
-                  label={workshop.label}
+                  key={option}
+                  checked={previousHT6Experience.includes(option)}
+                  onChange={() => handlepreviousHT6ExperienceToggle(option)}
+                  label={option}
                   backgroundColor="#656B8C"
                   textColor="white"
                 />
@@ -138,12 +134,32 @@ export default function Survey() {
         );
       case 2:
         return (
+          <div className="flex flex-col gap-4">
+            <Text textType="heading-lg" textFont="rubik" textColor="white">
+              Please choose 3 workshops that you are interested in.*
+            </Text>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 z-50">
+              {enums?.requestedWorkshops?.map((workshop) => (
+                <Checkbox
+                  key={workshop}
+                  checked={selectedWorkshops.includes(workshop)}
+                  onChange={() => handleWorkshopToggle(workshop)}
+                  label={workshop}
+                  backgroundColor="#656B8C"
+                  textColor="white"
+                />
+              ))}
+            </div>
+          </div>
+        );
+      case 3:
+        return (
           <div className="flex flex-col gap-4 z-50">
             <Text textType="heading-lg" textFont="rubik" textColor="white">
               What's your t-shirt size?*
             </Text>
             <Dropdown
-              options={TSHIRT_SIZES}
+              options={enums?.shirt || []}
               value={tshirtSize}
               onChange={setTshirtSize}
               placeholder="Select your t-shirt size"
@@ -151,7 +167,7 @@ export default function Survey() {
             />
           </div>
         );
-      case 3:
+      case 4:
         return (
           <div className="flex flex-col gap-4 z-50">
             <Text textType="heading-lg" textFont="rubik" textColor="white">
@@ -160,38 +176,10 @@ export default function Survey() {
             <div className="flex flex-col sm:flex-row gap-4 w-full">
               <div className="w-full">
                 <Dropdown
-                  options={DIETARY_RESTRICTIONS}
+                  options={enums?.dietaryRestrictions || []}
                   value={dietaryRestrictions}
                   onChange={setDietaryRestrictions}
                   placeholder="Select dietary restrictions..."
-                  theme="dark"
-                />
-              </div>
-            </div>
-          </div>
-        );
-      case 4:
-        return (
-          <div className="flex flex-col gap-4 z-50">
-            <Text textType="heading-lg" textFont="rubik" textColor="white">
-              Please specify your gender and background:
-            </Text>
-            <div className="flex flex-col sm:flex-row gap-4 w-full">
-              <div className="w-full sm:w-1/2">
-                <Dropdown
-                  options={GENDER_OPTIONS}
-                  value={gender}
-                  onChange={setGender}
-                  placeholder="Select gender..."
-                  theme="dark"
-                />
-              </div>
-              <div className="w-full sm:w-1/2">
-                <Dropdown
-                  options={ETHNICITY_OPTIONS}
-                  value={ethnicity}
-                  onChange={setEthnicity}
-                  placeholder="Select ethnicity..."
                   theme="dark"
                 />
               </div>
@@ -202,10 +190,38 @@ export default function Survey() {
         return (
           <div className="flex flex-col gap-4 z-50">
             <Text textType="heading-lg" textFont="rubik" textColor="white">
+              Please specify your gender and background:
+            </Text>
+            <div className="flex flex-col sm:flex-row gap-4 w-full">
+              <div className="w-full sm:w-1/2">
+                <Dropdown
+                  options={enums?.gender || []}
+                  value={gender}
+                  onChange={setGender}
+                  placeholder="Select gender..."
+                  theme="dark"
+                />
+              </div>
+              <div className="w-full sm:w-1/2">
+                <Dropdown
+                  options={enums?.ethnicity || []}
+                  value={ethnicity}
+                  onChange={setEthnicity}
+                  placeholder="Select ethnicity..."
+                  theme="dark"
+                />
+              </div>
+            </div>
+          </div>
+        );
+      case 6:
+        return (
+          <div className="flex flex-col gap-4 z-50">
+            <Text textType="heading-lg" textFont="rubik" textColor="white">
               How did you hear about Hack the 6ix?*
             </Text>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {HOW_DID_YOU_HEAR.map((option) => (
+              {enums?.howDidYouHearAboutHT6?.map((option: string) => (
                 <Checkbox
                   key={option}
                   checked={howDidYouHearAboutHT6.includes(option)}
@@ -218,7 +234,7 @@ export default function Survey() {
             </div>
           </div>
         );
-      case 6:
+      case 7:
         return (
           <div className="flex flex-col gap-4 z-50">
             <Text textType="heading-lg" textFont="rubik" textColor="white">
@@ -270,15 +286,15 @@ export default function Survey() {
                 )}
                 <Button
                   disabled={
-                    (page == 1 && selectedWorkshops.length !== 3) ||
-                    (page == 2 && !tshirtSize) ||
-                    (page == 4 && (!gender || !ethnicity)) ||
-                    (page == 5 && !howDidYouHearAboutHT6.length) ||
-                    (page == 6 && (!permission1 || !permission2))
+                    (page == 2 && selectedWorkshops.length !== 3) ||
+                    (page == 3 && !tshirtSize) ||
+                    (page == 5 && (!gender || !ethnicity)) ||
+                    (page == 6 && !howDidYouHearAboutHT6.length) ||
+                    (page == 7 && (!permission1 || !permission2))
                   }
                   darkMode={true}
                   onClick={() => {
-                    if (page < 6) {
+                    if (page < 7) {
                       setSearchParams({ page: `${page + 1}` });
                     } else {
                       const updateCompleted = completedSection.map((val, i) =>
@@ -293,7 +309,7 @@ export default function Survey() {
                 </Button>
               </div>
               <div className="flex justify-end w-full">
-                <ProgressBar darkMode={true} numSteps={6} currPage={page} />
+                <ProgressBar darkMode={true} numSteps={7} currPage={page} />
               </div>
             </div>
           </div>
