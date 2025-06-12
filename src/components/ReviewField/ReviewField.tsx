@@ -10,7 +10,7 @@ interface ReviewFieldProps {
 export default function ReviewField({
   label,
   value,
-  renderValue
+  renderValue,
 }: ReviewFieldProps) {
   return (
     <div className="flex flex-col gap-1.5 text-left">

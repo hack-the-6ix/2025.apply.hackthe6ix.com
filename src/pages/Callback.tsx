@@ -72,6 +72,7 @@ export default function Callback() {
     }
 
     setSession();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams, navigate, setProfile, setFormData, setEnums]);
 
   return <Loading />;

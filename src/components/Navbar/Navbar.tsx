@@ -10,7 +10,7 @@ const NAV_LINKS = [
   { label: "Experiences", path: "/apply/experience?page=1" },
   { label: "Long-Answer", path: "/apply/long-answer?page=1" },
   { label: "Survey", path: "/apply/survey?page=1" },
-  { label: "Review", path: "/apply/review?page=1" }
+  { label: "Review", path: "/apply/review?page=1" },
 ];
 
 const LIGHT_MODE: string[] = ["player", "about", "review"];
@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
 
   useLayoutEffect(() => {
     const activeIndex = NAV_LINKS.findIndex((link) =>
-      link.path.includes(section ?? "null")
+      link.path.includes(section ?? "null"),
     );
 
     if (activeIndex !== -1 && linkRefs.current[activeIndex]) {
@@ -40,7 +40,7 @@ const Navbar: React.FC = () => {
           setTShapeStyle({
             left: `${leftPosition}px`,
             opacity: 1,
-            transition: "left 0.3s ease-in-out, opacity 0.3s ease-in-out"
+            transition: "left 0.3s ease-in-out, opacity 0.3s ease-in-out",
           });
         }
       }
@@ -58,7 +58,7 @@ const Navbar: React.FC = () => {
           style={{
             color: LIGHT_MODE.includes(section ?? "null")
               ? "#023441"
-              : "#FA8D1F"
+              : "#FA8D1F",
           }}
         >
           {menuOpen ? <RxCross2 size={24} /> : <IoMenu size={24} />}
@@ -136,7 +136,7 @@ const Navbar: React.FC = () => {
               : "#21293C",
             border: LIGHT_MODE.includes(section ?? "null")
               ? "2px solid rgba(255, 255, 255, 0.7)"
-              : "2px solid rgba(255, 255, 255, 0.4)"
+              : "2px solid rgba(255, 255, 255, 0.4)",
           }}
         >
           {NAV_LINKS.map(({ label, path }) => (
@@ -159,8 +159,8 @@ const Navbar: React.FC = () => {
                         ? "!text-[#023441]"
                         : "!text-[#FA8D1F]"
                       : LIGHT_MODE.includes(section ?? "null")
-                      ? "!text-[#07566B]"
-                      : "!text-[#FFF]"
+                        ? "!text-[#07566B]"
+                        : "!text-[#FFF]"
                   }
                 `}
               >

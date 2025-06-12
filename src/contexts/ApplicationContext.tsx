@@ -108,6 +108,7 @@ export const ApplicationContextProvider = ({
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useApplicationContext = () => {
   const context = useContext(ApplicationContext);
   if (context === undefined) {

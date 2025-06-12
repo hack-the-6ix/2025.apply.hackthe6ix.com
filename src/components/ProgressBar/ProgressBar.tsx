@@ -26,7 +26,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
         textType="paragraph-sm"
         textWeight="bold"
         textFont="rubik"
-        textColor={darkMode? "white" : "primary"}
+        textColor={darkMode ? "white" : "primary"}
       >
         {currPage}/{numSteps}
       </Text>

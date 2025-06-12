@@ -1,6 +1,6 @@
-import React from 'react';
-import Text from '../Text/Text';
-import Input from '../Input/Input';
+import React from "react";
+import Text from "../Text/Text";
+import Input from "../Input/Input";
 
 interface InputFieldProps {
   label: string;
@@ -16,13 +16,19 @@ const InputField: React.FC<InputFieldProps> = ({
   placeholder,
   value,
   onChange,
-  backgroundColor = '#475D7B',
+  backgroundColor = "#475D7B",
   required = false,
 }) => {
   return (
     <div className="flex flex-col gap-2">
-      <Text textType="paragraph-sm" textFont="rubik" textColor="white" className="ml-[10px]">
-        {label}{required && '*'}
+      <Text
+        textType="paragraph-sm"
+        textFont="rubik"
+        textColor="white"
+        className="ml-[10px]"
+      >
+        {label}
+        {required && "*"}
       </Text>
       <Input
         backgroundColor={backgroundColor}
@@ -34,4 +40,4 @@ const InputField: React.FC<InputFieldProps> = ({
   );
 };
 
-export default InputField; 
+export default InputField;

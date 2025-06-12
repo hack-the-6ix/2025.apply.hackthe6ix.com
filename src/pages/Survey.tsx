@@ -68,6 +68,7 @@ export default function Survey() {
       permission2
     };
     setFormData(updatedFormData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     selectedWorkshops,
     tshirtSize,

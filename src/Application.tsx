@@ -19,7 +19,7 @@ const pageBackgrounds: { [key: string]: string } = {
   experience: dirtSVG,
   "long-answer": darkGrassSVG,
   survey: darkGrassSVG,
-  review: grassSVG
+  review: grassSVG,
 };
 
 function Application() {
@@ -33,7 +33,7 @@ function Application() {
     experience: <Experiences />,
     "long-answer": <LongAnswer />,
     survey: <Survey />,
-    review: <Review />
+    review: <Review />,
   };
 
   const CurrentPage = pageComponents[currentPageKey] || <PlayerSelect />;

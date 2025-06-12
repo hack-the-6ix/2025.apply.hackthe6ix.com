@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from './Checkbox.module.scss';
+import React from "react";
+import styles from "./Checkbox.module.scss";
 
 interface CheckboxProps {
   checked: boolean;
@@ -13,8 +13,8 @@ const Checkbox: React.FC<CheckboxProps> = ({
   checked,
   onChange,
   label,
-  backgroundColor = '#475D7B',
-  textColor = 'white',
+  backgroundColor = "#475D7B",
+  textColor = "white",
 }) => {
   return (
     <label className={styles.container} style={{ color: textColor }}>
@@ -24,25 +24,39 @@ const Checkbox: React.FC<CheckboxProps> = ({
         onChange={(e) => onChange(e.target.checked)}
         className={styles.input}
       />
-      <div 
-        className={styles.checkbox} 
-        style={{ 
-          backgroundColor, 
+      <div
+        className={styles.checkbox}
+        style={{
+          backgroundColor,
           border: `1px solid ${textColor}`,
-          aspectRatio: '1/1',
-          minWidth: '20px',
-          minHeight: '20px'
+          aspectRatio: "1/1",
+          minWidth: "20px",
+          minHeight: "20px",
         }}
       >
         {checked && (
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 3L4.5 8.5L2 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 3L4.5 8.5L2 6"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         )}
       </div>
-      <span className={styles.label} style={{color: textColor}}>{label}</span>
+      <span className={styles.label} style={{ color: textColor }}>
+        {label}
+      </span>
     </label>
   );
 };
 
-export default Checkbox; 
+export default Checkbox;

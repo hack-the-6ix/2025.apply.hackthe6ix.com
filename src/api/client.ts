@@ -5,11 +5,11 @@ export interface ApiResponse<Data> {
 
 export async function fetchHt6<T, P = undefined>(
   path: string,
-  options: { body?: P; method?: string } = {}
+  options: { body?: P; method?: string } = {},
 ): Promise<T> {
   const token = localStorage.getItem("token");
   const headers: Record<string, string> = {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
   };
   if (token) {
     headers["X-Access-Token"] = token;
@@ -17,7 +17,7 @@ export async function fetchHt6<T, P = undefined>(
 
   const fetchOptions: RequestInit = {
     method: options.method || "GET",
-    headers
+    headers,
   };
 
   if (options.body) {

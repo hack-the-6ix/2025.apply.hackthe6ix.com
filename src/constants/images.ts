@@ -29,11 +29,10 @@ import F2 from "../assets/players/52.png";
 import F3 from "../assets/players/53.png";
 
 export const PLAYER_IMAGES = [
-  [A0, A1, A2, A3],  // Player 0 images
-  [B0, B1, B2, B3],  // Player 1 images
-  [C0, C1, C2, C3],  // Player 2 images
-  [D0, D1, D2, D3],  // Player 3 images
-  [E0, E1, E2, E3],  // Player 4 images
-  [F0, F1, F2, F3],  // Player 5 images
-
+  [A0, A1, A2, A3], // Player 0 images
+  [B0, B1, B2, B3], // Player 1 images
+  [C0, C1, C2, C3], // Player 2 images
+  [D0, D1, D2, D3], // Player 3 images
+  [E0, E1, E2, E3], // Player 4 images
+  [F0, F1, F2, F3], // Player 5 images
 ];

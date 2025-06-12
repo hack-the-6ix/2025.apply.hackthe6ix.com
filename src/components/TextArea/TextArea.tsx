@@ -1,8 +1,9 @@
-import React from 'react';
-import cn from 'classnames';
-import styles from './TextArea.module.scss';
+import React from "react";
+import cn from "classnames";
+import styles from "./TextArea.module.scss";
 
-export interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface TextAreaProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   error?: string;
   helperText?: string;
   fullWidth?: boolean;
@@ -19,13 +20,13 @@ const TextArea: React.FC<TextAreaProps> = ({
   helperText,
   fullWidth = false,
   className,
-  placeholder = 'Enter text here...',
-  backgroundColor = '#475D7B',
-  textColor = 'white',
+  placeholder = "Enter text here...",
+  backgroundColor = "#475D7B",
+  textColor = "white",
   rows = 10,
   maxWords = 200,
   showWordCount = true,
-  value = '',
+  value = "",
   onChange,
   ...props
 }) => {
@@ -45,7 +46,7 @@ const TextArea: React.FC<TextAreaProps> = ({
       [styles.error]: error || isOverLimit,
       [styles.fullWidth]: fullWidth,
     },
-    className
+    className,
   );
 
   const helperClasses = cn(styles.helperText, {
@@ -55,7 +56,8 @@ const TextArea: React.FC<TextAreaProps> = ({
   const textareaStyle = {
     backgroundColor,
     color: textColor,
-    '--placeholder-color': textColor === 'white' ? 'rgba(255, 255, 255, 0.7)' : '#9E9E9E',
+    "--placeholder-color":
+      textColor === "white" ? "rgba(255, 255, 255, 0.7)" : "#9E9E9E",
   } as React.CSSProperties;
 
   return (
@@ -74,7 +76,9 @@ const TextArea: React.FC<TextAreaProps> = ({
           <span className={helperClasses}>{error || helperText}</span>
         )}
         {showWordCount && (
-          <span className={cn(styles.wordCount, { [styles.error]: isOverLimit })}>
+          <span
+            className={cn(styles.wordCount, { [styles.error]: isOverLimit })}
+          >
             {wordCount}/{maxWords} words
           </span>
         )}
@@ -83,4 +87,4 @@ const TextArea: React.FC<TextAreaProps> = ({
   );
 };
 
-export default TextArea; 
+export default TextArea;

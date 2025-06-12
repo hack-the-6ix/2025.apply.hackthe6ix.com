@@ -46,6 +46,7 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
       }
     };
     authenticate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname, setProfile, setFormData, setEnums]);
 
   if (isAuthenticated === null) {

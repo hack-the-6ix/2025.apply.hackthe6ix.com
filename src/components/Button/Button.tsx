@@ -24,14 +24,14 @@ const Button: React.FC<ButtonProps> = ({
             : "border-[#008F81] hover:bg-[#a0e6fa]"
         }`
       : variant === "primary"
-      ? `bg-[#008F81] border-transparent text-white ${
-          darkMode ? "text-black hover:border-white" : "hover:border-[]"
-        }`
-      : variant === "secondary"
-      ? `bg-transparent text-[#008F81] border-[#008F81] hover:bg-[#a0e6fa]`
-      : `bg-[#008F81] border-transparent text-black ${
-          darkMode ? "text-black hover:border-white" : "hover:border-[]"
-        }`;
+        ? `bg-[#008F81] border-transparent text-white ${
+            darkMode ? "text-black hover:border-white" : "hover:border-[]"
+          }`
+        : variant === "secondary"
+          ? `bg-transparent text-[#008F81] border-[#008F81] hover:bg-[#a0e6fa]`
+          : `bg-[#008F81] border-transparent text-black ${
+              darkMode ? "text-black hover:border-white" : "hover:border-[]"
+            }`;
 
   if (children) {
     return (

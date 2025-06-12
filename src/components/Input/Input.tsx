@@ -1,10 +1,17 @@
-import React from 'react';
-import cn from 'classnames';
-import styles from './Input.module.scss';
+import React from "react";
+import cn from "classnames";
+import styles from "./Input.module.scss";
 
-export type InputType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
+export type InputType =
+  | "text"
+  | "email"
+  | "password"
+  | "number"
+  | "tel"
+  | "url";
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: string;
   helperText?: string;
   fullWidth?: boolean;
@@ -24,12 +31,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       multiline = false,
       rows = 3,
       className,
-      placeholder = 'johndoeuniversity.com',
-      backgroundColor = 'white',
-      textColor = '#111827',
+      placeholder = "johndoeuniversity.com",
+      backgroundColor = "white",
+      textColor = "#111827",
       ...props
     },
-    ref
+    ref,
   ) => {
     const inputClasses = cn(
       styles.input,
@@ -37,7 +44,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         [styles.error]: error,
         [styles.fullWidth]: fullWidth,
       },
-      className
+      className,
     );
 
     const helperClasses = cn(styles.helperText, {
@@ -47,7 +54,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const inputStyle = {
       backgroundColor,
       color: textColor,
-      '--placeholder-color': textColor === 'white' ? 'rgba(255, 255, 255, 0.7)' : '#9E9E9E',
+      "--placeholder-color":
+        textColor === "white" ? "rgba(255, 255, 255, 0.7)" : "#9E9E9E",
     } as React.CSSProperties;
 
     return (
@@ -74,9 +82,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
-Input.displayName = 'Input';
+Input.displayName = "Input";
 
-export default Input; 
+export default Input;

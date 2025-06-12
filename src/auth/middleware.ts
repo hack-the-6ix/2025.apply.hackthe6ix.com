@@ -8,7 +8,7 @@ export async function checkAuth(): Promise<Profile | null> {
   if (token && refreshToken) {
     try {
       const response = await fetchHt6<{ status: number; message: Profile }>(
-        "/api/action/profile"
+        "/api/action/profile",
       );
       if (response.status === 200) {
         return response.message;
@@ -27,9 +27,9 @@ export async function checkAuth(): Promise<Profile | null> {
       method: "POST",
       body: {
         callbackURL,
-        redirectTo: "/apply/player"
-      }
-    }
+        redirectTo: "/apply/player",
+      },
+    },
   );
 
   if (response.status === 200 && response.message.url) {

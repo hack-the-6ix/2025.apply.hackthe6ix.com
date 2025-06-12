@@ -135,7 +135,7 @@ export default function Review() {
           firstName: formData.emergencyFirstName || "",
           lastName: formData.emergencyLastName || "",
           phoneNumber: formData.emergencyPhone || "",
-          relationship: formData.emergencyRelationship || ""
+          relationship: formData.emergencyRelationship || "",
         },
         githubLink: formData.github,
         linkedinLink: formData.linkedin,
@@ -149,11 +149,11 @@ export default function Review() {
         howDidYouHearAboutHT6: formData.howDidYouHearAboutHT6,
         previousHT6Experience: formData.previousHT6Experience,
         avatarBase: selectedSkin,
-        avatarItem: selectedItem
+        avatarItem: selectedItem,
       };
 
       const user = await fetchHt6<ApiResponse<UserResponse>>(
-        "/api/action/profile"
+        "/api/action/profile",
       );
 
       if (!user.message.hackerApplication?.resumeFileName) {
@@ -167,15 +167,15 @@ export default function Review() {
         { submit: boolean; application: IPartialApplication }
       >("/api/action/updateapp", {
         body: { submit: true, application },
-        method: "POST"
+        method: "POST",
       });
 
       const updatedProfile = await fetchHt6<ApiResponse<UserResponse>>(
-        "/api/action/profile"
+        "/api/action/profile",
       );
 
       navigate("/submitted", {
-        state: { application: updatedProfile.message.hackerApplication }
+        state: { application: updatedProfile.message.hackerApplication },
       });
     } catch (error: unknown) {
       if (
@@ -192,8 +192,8 @@ export default function Review() {
             (error as { error?: string[][] }).error?.map(
               ([field, message]) => ({
                 field: field.replace("/", ""),
-                message
-              })
+                message,
+              }),
             ) || [];
           setMissingFields(fieldErrors.map((err) => err.message));
           setModalContentType("fieldErrors");

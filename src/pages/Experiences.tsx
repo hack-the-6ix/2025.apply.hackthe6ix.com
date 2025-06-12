@@ -19,7 +19,7 @@ import FileUpload from "../components/FileUpload/FileUpload";
 import { useNavigate } from "react-router-dom";
 import {
   useApplicationContext,
-  type FormData
+  type FormData,
 } from "../contexts/ApplicationContext";
 import { useSearchParams } from "react-router-dom";
 import { useEnums } from "../contexts/EnumsContext";
@@ -33,7 +33,7 @@ export default function Experiences() {
     selectedItem,
     selectedSkin,
     formData,
-    setFormData
+    setFormData,
   } = useApplicationContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1");
@@ -43,7 +43,7 @@ export default function Experiences() {
   const [year, setYear] = useState(formData?.year || "");
   const [program, setProgram] = useState(formData?.program || "");
   const [hackathonCount, setHackathonCount] = useState(
-    formData?.hackathonCount || ""
+    formData?.hackathonCount || "",
   );
   const [resume, setResume] = useState<File | null>(formData?.resume || null);
   const [github, setGithub] = useState(formData?.github || "");
@@ -60,7 +60,7 @@ export default function Experiences() {
     const currentFormData = formDataRef.current;
     setFormData({
       ...currentFormData,
-      school
+      school,
     });
   }, [school, setFormData]);
 
@@ -68,7 +68,7 @@ export default function Experiences() {
     const currentFormData = formDataRef.current;
     setFormData({
       ...currentFormData,
-      year
+      year,
     });
   }, [year, setFormData]);
 
@@ -76,7 +76,7 @@ export default function Experiences() {
     const currentFormData = formDataRef.current;
     setFormData({
       ...currentFormData,
-      program
+      program,
     });
   }, [program, setFormData]);
 
@@ -84,7 +84,7 @@ export default function Experiences() {
     const currentFormData = formDataRef.current;
     setFormData({
       ...currentFormData,
-      hackathonCount
+      hackathonCount,
     });
   }, [hackathonCount, setFormData]);
 
@@ -98,7 +98,7 @@ export default function Experiences() {
 
         const token = localStorage.getItem("token");
         const headers: Record<string, string> = {
-          "X-Access-Token": token || ""
+          "X-Access-Token": token || "",
         };
 
         const baseUrl =
@@ -106,7 +106,7 @@ export default function Experiences() {
         const response = await fetch(`${baseUrl}/api/action/updateresume`, {
           method: "PUT",
           headers,
-          body: formData
+          body: formData,
         });
 
         if (!response.ok) {
@@ -130,7 +130,7 @@ export default function Experiences() {
       resume,
       github,
       linkedin,
-      portfolio
+      portfolio,
     });
   };
 
@@ -334,7 +334,7 @@ export default function Experiences() {
                     } else {
                       updateFormData();
                       const updateCompleted = completedSection.map((val, i) =>
-                        i === 1 ? true : val
+                        i === 1 ? true : val,
                       );
                       setCompletedSection(updateCompleted);
                       navigate("/apply/long-answer");
