@@ -184,7 +184,14 @@ export default function Review() {
         body: { submit: true, application },
         method: "POST"
       });
-      navigate("/submitted");
+
+      const updatedProfile = await fetchHt6<ApiResponse<UserResponse>>(
+        "/api/action/profile"
+      );
+
+      navigate("/submitted", {
+        state: { application: updatedProfile.message.hackerApplication }
+      });
     } catch (error: unknown) {
       if (
         error &&

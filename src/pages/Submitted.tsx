@@ -9,12 +9,50 @@ import shrubSVG from "../assets/shrub.svg";
 import shrub2SVG from "../assets/shrub2.svg";
 import cloudSVG from "../assets/cloudsLaptop.svg";
 import cloudPhoneSVG from "../assets/cloudsPhone.svg";
+import checkCircle from "../assets/check_circle.svg";
+import { PLAYER_IMAGES } from "../constants/images";
+import { useApplicationContext } from "../contexts/ApplicationContext";
+import ReviewField from "../components/ReviewField/ReviewField";
+import Button from "../components/Button/Button";
+import { fetchHt6 } from "../api/client";
+import { type ApiResponse } from "../api/client";
+import { type IApplication } from "../types/application";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+interface UserResponse {
+  computedApplicationOpen: number;
+  computedApplicationDeadline: number;
+  hackerApplication?: IApplication;
+}
 
 export default function Home() {
-  const navigate = useNavigate();
+  const location = useLocation();
+  const { selectedSkin, selectedItem } = useApplicationContext();
+  const [showModal, setShowModal] = useState(false);
+  const [application, setApplication] = useState<IApplication | null>(null);
   const GRASSCOUNT = 40;
+
+  useEffect(() => {
+    const fetchApplication = async () => {
+      try {
+        if (location.state?.application) {
+          setApplication(location.state.application);
+        } else {
+          const user = await fetchHt6<ApiResponse<UserResponse>>(
+            "/api/action/profile"
+          );
+          if (user.message.hackerApplication) {
+            setApplication(user.message.hackerApplication);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch application:", error);
+      }
+    };
+    fetchApplication();
+  }, [location.state]);
 
   return (
     <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#ACDCFD] via-[#B3E9FC] to-[#B9F2FC] h-[100vh] w-full flex flex-col justify-center items-center text-center">
@@ -117,7 +155,7 @@ export default function Home() {
           Thanks for applying!
         </Text>
         <Text
-          textType="heading-sm"
+          textType="heading-md"
           textWeight="regular"
           textFont="rubik"
           textColor="secondary"
@@ -125,7 +163,246 @@ export default function Home() {
         >
           Application submitted successfully
         </Text>
+        <div className="flex gap-4 mt-8">
+          <button
+            className="hover:bg-[#20b7ac] relative sm:w-[180px] w-full bg-[#00887E] border-black sm:border-[5px] border-[3px] sm:h-[80px] h-[50px] flex justify-center items-center transition-colors cursor-pointer"
+            onClick={() => setShowModal(true)}
+          >
+            <Text
+              textType="heading-sm"
+              textWeight="regular"
+              textFont="rubik"
+              textColor="white"
+            >
+              Review application
+            </Text>
+            <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] top-[-6px] left-[-6px]"></div>
+            <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] top-[-6px] right-[-6px]"></div>
+            <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] bottom-[-6px] left-[-6px]"></div>
+            <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] bottom-[-6px] right-[-6px]"></div>
+          </button>
+        </div>
       </div>
+
+      {showModal && application && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+          <div className="bg-[#E6EFF3]/80 backdrop-blur-lg rounded-2xl p-8 shadow-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="px-8">
+              <div className="flex justify-between items-center">
+                <Text
+                  textType="heading-lg"
+                  textFont="rubik"
+                  textColor="primary"
+                  className="mb-6 pt-6"
+                >
+                  Your Application
+                </Text>
+                <img
+                  src={PLAYER_IMAGES[selectedSkin][selectedItem]}
+                  alt="Player"
+                  className="h-[100px]"
+                />
+              </div>
+
+              <div className="max-h-[35vh] overflow-y-auto space-y-6">
+                <div className="space-y-7">
+                  <div className="flex items-center gap-2">
+                    <Text
+                      textType="heading-sm"
+                      textFont="rubik"
+                      textColor="primary"
+                    >
+                      About You
+                    </Text>
+                    <img src={checkCircle} alt="Complete" className="w-3 h-3" />
+                  </div>
+                  <div className="rounded-md">
+                    <div className="grid grid-cols-2 gap-y-4">
+                      <ReviewField
+                        label="Location"
+                        value={`${application.city}, ${application.province}, ${application.country}`}
+                      />
+                      <ReviewField
+                        label="Emergency Contact"
+                        value={`${application.emergencyContact.firstName} ${application.emergencyContact.lastName}, ${application.emergencyContact.phoneNumber}`}
+                      />
+                      <ReviewField
+                        label="Emergency Contact Relationship"
+                        value={application.emergencyContact.relationship}
+                      />
+                      <ReviewField
+                        label="Age"
+                        value={application.age?.toString()}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-7">
+                  <div className="flex items-center gap-2">
+                    <Text
+                      textType="heading-sm"
+                      textFont="rubik"
+                      textColor="primary"
+                    >
+                      Your Experience
+                    </Text>
+                    <img src={checkCircle} alt="Complete" className="w-3 h-3" />
+                  </div>
+                  <div className="rounded-md">
+                    <div className="grid grid-cols-2 gap-y-4">
+                      <ReviewField label="School" value={application.school} />
+                      <ReviewField
+                        label="Program and Year"
+                        value={`${application.program} - ${application.levelOfStudy}`}
+                      />
+                      <ReviewField
+                        label="Graduation Year"
+                        value={application.graduationYear?.toString()}
+                      />
+                      <ReviewField
+                        label="Hackathon Experience"
+                        value={application.hackathonsAttended}
+                      />
+                      <ReviewField
+                        label="Links"
+                        value={
+                          application.githubLink ||
+                          application.linkedinLink ||
+                          application.portfolioLink
+                            ? "filled"
+                            : null
+                        }
+                        renderValue={() => (
+                          <div className="space-y-1 flex flex-col">
+                            {application.githubLink && (
+                              <Text
+                                textType="paragraph-lg-semibold"
+                                textFont="rubik"
+                                textColor="primary"
+                              >
+                                GitHub: {application.githubLink}
+                              </Text>
+                            )}
+                            {application.linkedinLink && (
+                              <Text
+                                textType="paragraph-lg-semibold"
+                                textFont="rubik"
+                                textColor="primary"
+                              >
+                                LinkedIn: {application.linkedinLink}
+                              </Text>
+                            )}
+                            {application.portfolioLink && (
+                              <Text
+                                textType="paragraph-lg-semibold"
+                                textFont="rubik"
+                                textColor="primary"
+                              >
+                                Portfolio: {application.portfolioLink}
+                              </Text>
+                            )}
+                          </div>
+                        )}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-7">
+                  <div className="flex items-center gap-2">
+                    <Text
+                      textType="heading-sm"
+                      textFont="rubik"
+                      textColor="primary"
+                    >
+                      Long Answer Responses
+                    </Text>
+                    <img src={checkCircle} alt="Complete" className="w-3 h-3" />
+                  </div>
+                  <div className="rounded-md space-y-4">
+                    <ReviewField
+                      label="What would you like to accomplish at Hack the 6ix?"
+                      value={application.creativeResponseEssay}
+                    />
+                    <ReviewField
+                      label="What is one project you were proud of?"
+                      value={application.whyHT6Essay}
+                    />
+                    <ReviewField
+                      label="Fun Fact"
+                      value={application.oneSentenceEssay}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-7">
+                  <div className="flex items-center gap-2">
+                    <Text
+                      textType="heading-sm"
+                      textFont="rubik"
+                      textColor="primary"
+                    >
+                      Survey
+                    </Text>
+                    <img src={checkCircle} alt="Complete" className="w-3 h-3" />
+                  </div>
+                  <div className="rounded-md">
+                    <div className="grid grid-cols-2 gap-y-4">
+                      <ReviewField
+                        label="T-shirt Size"
+                        value={application.shirtSize}
+                      />
+                      <ReviewField
+                        label="Dietary Restrictions"
+                        value={application.dietaryRestrictions}
+                      />
+                      <ReviewField
+                        label="Gender and Background"
+                        value={`${application.gender}, ${application.ethnicity}`}
+                      />
+                      <ReviewField
+                        label="How did you hear about us?"
+                        value={application.howDidYouHearAboutHT6?.join(", ")}
+                      />
+                      <ReviewField
+                        label="MLH Consent"
+                        value={application.mlhCOC ? "Yes" : "No"}
+                      />
+                      <ReviewField
+                        label="MLH Data Consent"
+                        value={application.mlhData ? "Yes" : "No"}
+                      />
+                      <ReviewField
+                        label="MLH Email Consent"
+                        value={application.mlhEmail ? "Yes" : "No"}
+                      />
+                      <ReviewField
+                        label="Email Consent"
+                        value={application.emailConsent ? "Yes" : "No"}
+                      />
+                      <ReviewField
+                        label="Resume Share Permission"
+                        value={application.resumeSharePermission ? "Yes" : "No"}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-end mt-8">
+                <Button
+                  variant="primary"
+                  onClick={() => setShowModal(false)}
+                  className="bg-[#008F81]  text-white"
+                >
+                  Close
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

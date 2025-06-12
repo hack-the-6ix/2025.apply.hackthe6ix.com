@@ -13,7 +13,7 @@ export default function ReviewField({
   renderValue
 }: ReviewFieldProps) {
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex flex-col gap-1.5 text-left">
       <Text textType="paragraph-sm" textFont="rubik" textColor="secondary">
         {label}
       </Text>
