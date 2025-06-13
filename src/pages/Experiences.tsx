@@ -389,7 +389,7 @@ export default function Experiences() {
       <img
         src={appleSVG}
         alt="Apple"
-        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[150px] right-[70px] w-[35px] h-[35px] bottom-[38px]  animate-bounce-custom"
+        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[150px] right-[70px] w-[35px] h-[35px] bottom-[38px] "
       />
       <img
         src={rock3SVG}
@@ -409,7 +409,7 @@ export default function Experiences() {
       <img
         src={bat}
         alt="bat"
-        className="sm:block hidden absolute h-[30] w-[30] top-[180px] right-[180px] z-[1] animate-bounce-custom"
+        className="sm:block hidden absolute h-[30] w-[30] top-[180px] right-[180px] z-[1]"
       />
       <img
         src={corner_rocks}

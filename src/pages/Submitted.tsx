@@ -44,7 +44,7 @@ export default function Home() {
           setApplication(location.state.application);
         } else {
           const user = await fetchHt6<ApiResponse<Application>>(
-            "/api/action/profile",
+            "/api/action/profile"
           );
           if (user.message) {
             setApplication(user.message);
@@ -95,7 +95,7 @@ export default function Home() {
       <img
         src={appleSVG}
         alt="Apple"
-        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[170px] left-[calc(60%+20px)] w-[35px] h-[35px] bottom-[42px] animate-bounce-custom"
+        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[170px] left-[calc(60%+20px)] w-[35px] h-[35px] bottom-[42px]"
       />
 
       <div className="w-full overflow-hidden absolute top-0 left-0 h-full sm:flex hidden">
@@ -407,7 +407,7 @@ export default function Home() {
                       <ReviewField
                         label="How did you hear about us?"
                         value={application.hackerApplication.howDidYouHearAboutHT6?.join(
-                          ", ",
+                          ", "
                         )}
                       />
                       <ReviewField
@@ -447,13 +447,13 @@ export default function Home() {
                       <ReviewField
                         label="Previous Hack the 6ix Experience"
                         value={application.hackerApplication.previousHT6Experience?.join(
-                          ", ",
+                          ", "
                         )}
                       />
                       <ReviewField
                         label="Workshop Preferences"
                         value={application.hackerApplication.requestedWorkshops?.join(
-                          ", ",
+                          ", "
                         )}
                       />
                     </div>

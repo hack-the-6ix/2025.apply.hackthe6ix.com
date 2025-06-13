@@ -330,7 +330,7 @@ export default function Survey() {
         <img
           src={apple}
           alt="Apple"
-          className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[80px] right-[70px] w-[35px] h-[35px] bottom-[38px] animate-bounce-custom z-0"
+          className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[80px] right-[70px] w-[35px] h-[35px] bottom-[38px] z-0"
         />
         <img
           src={campfire}

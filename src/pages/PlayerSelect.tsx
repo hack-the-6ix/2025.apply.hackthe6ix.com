@@ -23,21 +23,21 @@ const COLORS = [
   "#6E3C3C",
   "#79C9D2",
   "#E1E6E7",
-  "#BCBBB5",
+  "#BCBBB5"
 ];
 const ITEMS = [cupPNG, tissuePNG, duckPNG];
 const ENCOURAGEMENTS = [
   "LOOKIN' FINE!",
   "GOOD CHOICE!",
   "NICE PICK!",
-  "LOVE IT!",
+  "LOVE IT!"
 ];
 const STATBONUS = ["NONE", "+3 ENERGY", "+3 MORALE", "+3 VIBES"];
 
 function ColorPicker({
   selectedSkin,
   setSelectedSkin,
-  setEncouragement,
+  setEncouragement
 }: {
   selectedSkin: number;
   setSelectedSkin: (skin: number) => void;
@@ -51,7 +51,7 @@ function ColorPicker({
           className="sm:w-[50px] h-[50px] w-[31%] sm:h-[48px] border-[3px] rounded-[5px] sm:rounded-[10px] cursor-pointer hover:scale-105 transition-all duration-300"
           style={{
             backgroundColor: color,
-            borderColor: selectedSkin === index ? "#00887E" : "#919DAF",
+            borderColor: selectedSkin === index ? "#00887E" : "#919DAF"
           }}
           onClick={() => {
             if (selectedSkin !== index) {
@@ -67,7 +67,7 @@ function ColorPicker({
 
 function ItemPicker({
   selectedItem,
-  setSelectedItem,
+  setSelectedItem
 }: {
   selectedItem: number;
   setSelectedItem: (item: number) => void;
@@ -79,7 +79,7 @@ function ItemPicker({
           key={index}
           className="border-[3px] bg-[#F3FAE0] rounded-[5px] sm:rounded-[10px] flex items-center justify-center w-[31%] sm:w-[70px] h-[70px] hover:scale-105 transition-all duration-300"
           style={{
-            borderColor: selectedItem === index + 1 ? "#00887E" : "#919DAF",
+            borderColor: selectedItem === index + 1 ? "#00887E" : "#919DAF"
           }}
           onClick={() => setSelectedItem(index + 1)}
         >
@@ -93,21 +93,21 @@ function ItemPicker({
 function SignDisplay({
   page,
   encouragement,
-  selectedItem,
+  selectedItem
 }: {
   page: number;
   encouragement: number;
   selectedItem: number;
 }) {
   return (
-    <div className="relative sm:block hidden">
+    <div className="relative sm:block hidden mx-auto">
       <img src={signSVG} alt="Sign" className="sm:h-[70px] sm:w-[180px]" />
       {page === 1 ? (
-        <div className="absolute left-[25px] top-[5px] font--jersey-10-regular text-[24px] text-[#252C37]">
+        <div className="absolute left-[25px] top-[15px] text-center w-3/4 font--jersey-10-regular text-[24px] text-[#252C37]">
           {ENCOURAGEMENTS[encouragement]}
         </div>
       ) : (
-        <div className="absolute left-[25px] top-[10px] font--jersey-10-regular text-[24px] leading-[24px]">
+        <div className="absolute left-[25px] top-[10px] text-center w-3/4 font--jersey-10-regular text-[24px] leading-[24px]">
           <div className="text-[#252C37]">STAT BONUS:</div>
           <div className="text-[#08566B]">{STATBONUS[selectedItem]}</div>
         </div>
@@ -124,7 +124,7 @@ export default function PlayerSelect() {
     setSelectedItem,
     setSelectedSkin,
     formData,
-    setFormData,
+    setFormData
   } = useApplicationContext();
   const [encouragement, setEncouragement] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -150,7 +150,7 @@ export default function PlayerSelect() {
       setFormData({
         ...currentFormData,
         selectedItem,
-        selectedSkin,
+        selectedSkin
       });
     }
   }, [selectedItem, selectedSkin, setFormData]);
@@ -186,7 +186,7 @@ export default function PlayerSelect() {
       <img
         src={appleSVG}
         alt="Apple"
-        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[55px] right-[70px] w-[35px] h-[35px] bottom-[38px] animate-bounce-custom"
+        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[55px] right-[70px] w-[35px] h-[35px] bottom-[38px]"
       />
 
       <div className="w-full h-full flex items-center justify-center px-4 py-8 overflow-hidden">
@@ -214,7 +214,7 @@ export default function PlayerSelect() {
               />
             )}
 
-            <div className="flex flex-col sm:flex-row gap-3 w-full">
+            <div className="flex flex-col sm:flex-row gap-3 w-full justify-end">
               {page === 2 && (
                 <Button
                   variant="back"
@@ -232,7 +232,7 @@ export default function PlayerSelect() {
                 disabled={page === 1 ? selectedSkin === -1 : selectedItem === 0}
               />
             </div>
-            <div className="flex justify-center sm:justify-start w-full">
+            <div className="flex justify-end sm:justify-end w-full">
               <ProgressBar numSteps={2} currPage={page} />
             </div>
           </div>
@@ -242,12 +242,16 @@ export default function PlayerSelect() {
               <img
                 src={frameSVG}
                 alt="Character Frame"
-                className="h-[290px] w-[290px] sm:h-[420px] sm:w-[420px]"
+                className="!h-[290px] !w-[290px] !sm:h-[420px] !sm:w-[420px]"
               />
               <img
                 src={PLAYER_IMAGES[selectedSkin][selectedItem]}
                 alt="Character Select"
-                className="object-cover h-[280px] w-[270px] sm:h-[362px] sm:w-[362px] sm:top-3 sm:left-8 left-2 top-[-10px] absolute"
+                className={`object-cover !h-[280px] !w-[270px] !sm:h-[362px] !sm:w-[362px] absolute ${
+                  selectedSkin === 4 || selectedSkin === 5
+                    ? "sm:top-[-10px] sm:left-12 left-4 top-[-15px]"
+                    : "sm:top-1 sm:left-12 left-4 top-[-10px]"
+                }`}
               />
             </div>
             <SignDisplay

@@ -50,7 +50,7 @@ const Loading = () => {
       <img
         src={appleSVG}
         alt="Apple"
-        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[170px] left-[calc(60%+20px)] w-[35px] h-[35px] bottom-[42px] animate-bounce-custom"
+        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[170px] left-[calc(60%+20px)] w-[35px] h-[35px] bottom-[42px]"
       />
 
       <div className="w-full overflow-hidden absolute top-0 left-0 h-full sm:flex hidden">

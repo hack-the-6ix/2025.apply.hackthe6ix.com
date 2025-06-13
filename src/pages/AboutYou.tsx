@@ -27,7 +27,7 @@ export default function AboutYou() {
     selectedItem,
     selectedSkin,
     formData,
-    setFormData,
+    setFormData
   } = useApplicationContext();
   const { profile, setProfile } = useAuth();
 
@@ -43,7 +43,7 @@ export default function AboutYou() {
   }, [profile]);
 
   const [emailPermission, setEmailPermission] = useState(
-    formData?.emailPermission || false,
+    formData?.emailPermission || false
   );
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1");
@@ -56,16 +56,16 @@ export default function AboutYou() {
   const [province, setProvince] = useState(formData?.province || "");
   const [country, setCountry] = useState(formData?.country || "");
   const [emergencyFirstName, setEmergencyFirstName] = useState(
-    formData?.emergencyFirstName || "",
+    formData?.emergencyFirstName || ""
   );
   const [emergencyLastName, setEmergencyLastName] = useState(
-    formData?.emergencyLastName || "",
+    formData?.emergencyLastName || ""
   );
   const [emergencyPhone, setEmergencyPhone] = useState(
-    formData?.emergencyPhone || "",
+    formData?.emergencyPhone || ""
   );
   const [emergencyRelationship, setEmergencyRelationship] = useState(
-    formData?.emergencyRelationship || "",
+    formData?.emergencyRelationship || ""
   );
 
   useEffect(() => {
@@ -100,7 +100,7 @@ export default function AboutYou() {
         emergencyLastName,
         emergencyPhone,
         emergencyRelationship,
-        emailPermission,
+        emailPermission
       });
     }
 
@@ -119,7 +119,7 @@ export default function AboutYou() {
           ...currentProfile,
           firstName,
           lastName,
-          email,
+          email
         });
       }
     }
@@ -136,7 +136,7 @@ export default function AboutYou() {
     emergencyRelationship,
     emailPermission,
     setFormData,
-    setProfile,
+    setProfile
   ]);
 
   return (
@@ -410,7 +410,7 @@ export default function AboutYou() {
                     setSearchParams({ page: `${page + 1}` });
                   } else {
                     const updateCompleted = completedSection.map((val, i) =>
-                      i === 0 ? true : val,
+                      i === 0 ? true : val
                     );
                     setCompletedSection(updateCompleted);
                     navigate("/apply/experience?page=1");
@@ -455,7 +455,7 @@ export default function AboutYou() {
       <img
         src={appleSVG}
         alt="Apple"
-        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[150px] right-[70px] w-[35px] h-[35px] bottom-[38px] animate-bounce-custom"
+        className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[150px] right-[70px] w-[35px] h-[35px] bottom-[38px]"
       />
     </div>
   );
