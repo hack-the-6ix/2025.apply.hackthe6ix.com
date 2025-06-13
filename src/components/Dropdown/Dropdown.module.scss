@@ -3,6 +3,7 @@
 .container {
   position: relative;
   width: 100%;
+  z-index: 20;
 }
 
 .label {
@@ -20,9 +21,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 16px;
-  border: 2px solid var(--border-color);
-  border-radius: 12px;
+  padding: 12px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   font-size: 16px;
@@ -50,6 +50,10 @@
 
 .value {
   opacity: 0.7;
+  line-height: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   &.selected {
     opacity: 1;
@@ -65,8 +69,9 @@
   margin-top: 4px;
   padding: 8px;
   border: 2px solid var(--border-color);
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+  border-radius: 10px;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   z-index: 10;
   max-height: 300px;
@@ -78,7 +83,7 @@
   padding: 14px 16px;
   margin-bottom: 8px;
   border: 2px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: 10px;
   font-size: 16px;
   line-height: 24px;
   outline: none;
@@ -98,10 +103,10 @@
 .option {
   padding: 14px 16px;
   cursor: pointer;
-  border-radius: 12px;
+  border-radius: 10px;
   transition: background-color 0.2s ease-in-out;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 20px;
 
   &:hover {
     background-color: var(--hover-color);

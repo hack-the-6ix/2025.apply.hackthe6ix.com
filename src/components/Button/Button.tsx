@@ -15,22 +15,26 @@ const Button: React.FC<ButtonProps> = ({
   darkMode = false,
   ...props
 }) => {
-  const baseStyles = `disabled:bg-gray-400 disabled:text-gray-100 disabled:cursor-not-allowed disabled:border-0 rounded-md px-4 py-2 font-semibold transition sm:w-[110px] h-[44px] w-full border flex items-center justify-center cursor-pointer`;
+  const baseStyles = `disabled:bg-gray-400 disabled:text-gray-100 disabled:cursor-not-allowed disabled:border-0 rounded-md px-4 py-2 font-semibold transition sm:w-[110px] h-[44px] w-full border flex items-center justify-center cursor-pointer z-10`;
   const variantStyles =
     variant === "back"
-      ? `bg-transparent text-[#008F81]   ${
+      ? `bg-transparent ${
           darkMode
             ? "border-white text-white hover:bg-[#66799180]"
-            : "border-[#008F81] hover:bg-[#a0e6fa]"
+            : "border-[#008F81] text-[#008F81] hover:bg-[#a0e6fa]"
         }`
       : variant === "primary"
-        ? `bg-[#008F81] border-transparent text-white ${
-            darkMode ? "text-black hover:border-white" : "hover:border-[]"
+        ? `bg-[#008F81] border-transparent ${
+            darkMode
+              ? "text-white hover:bg-[#007A6E]"
+              : "text-white hover:bg-[#007A6E]"
           }`
         : variant === "secondary"
           ? `bg-transparent text-[#008F81] border-[#008F81] hover:bg-[#a0e6fa]`
-          : `bg-[#008F81] border-transparent text-black ${
-              darkMode ? "text-black hover:border-white" : "hover:border-[]"
+          : `bg-[#008F81] border-transparent ${
+              darkMode
+                ? "text-white hover:bg-[#007A6E]"
+                : "text-white hover:bg-[#007A6E]"
             }`;
 
   if (children) {
@@ -49,11 +53,11 @@ const Button: React.FC<ButtonProps> = ({
       className={`${baseStyles} ${variantStyles} ${className}`}
       {...props}
     >
-      {variant == "next" ? (
+      {variant === "next" ? (
         <span className="flex flex-row gap-3 items-center justify-center">
           <FaArrowRight className="text-[12px]" /> Next
         </span>
-      ) : variant == "back" ? (
+      ) : variant === "back" ? (
         <span className="flex flex-row gap-3 items-center justify-center">
           <FaArrowLeft className="text-[12px]" /> Back
         </span>

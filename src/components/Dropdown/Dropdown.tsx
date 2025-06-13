@@ -23,7 +23,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   error,
   helperText,
   disabled = false,
-  theme = "light",
+  theme = "light"
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -41,7 +41,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       hoverColor: "#ffffff",
       borderColor: "#F9FAFB",
       activeBorderColor: "#d1d5db",
-      activeBoxShadow: "0 0 0 2px rgba(107, 114, 128, 0.1)",
+      activeBoxShadow: "0 0 0 2px rgba(107, 114, 128, 0.1)"
     },
     dark: {
       backgroundColor: "#1F2937",
@@ -53,8 +53,8 @@ const Dropdown: React.FC<DropdownProps> = ({
       hoverColor: "#374151",
       borderColor: "#111827",
       activeBorderColor: "#4B5563",
-      activeBoxShadow: "0 0 0 2px rgba(0, 0, 0, 0.3)",
-    },
+      activeBoxShadow: "0 0 0 2px rgba(0, 0, 0, 0.3)"
+    }
   };
 
   const colors = themeColors[theme];
@@ -126,7 +126,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
 
   const filteredOptions = options.filter((option) =>
-    option.toLowerCase().includes(searchQuery.toLowerCase()),
+    option.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -137,7 +137,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         {
           "--border-color": colors.borderColor,
           "--active-border-color": colors.activeBorderColor,
-          "--active-box-shadow": colors.activeBoxShadow,
+          "--active-box-shadow": colors.activeBoxShadow
         } as React.CSSProperties
       }
     >
@@ -150,13 +150,13 @@ const Dropdown: React.FC<DropdownProps> = ({
         className={cn(styles.trigger, {
           [styles.open]: isOpen,
           [styles.error]: error,
-          [styles.disabled]: disabled,
+          [styles.disabled]: disabled
         })}
         style={{
           backgroundColor: value
             ? resolvedSelectedBackgroundColor
             : colors.backgroundColor,
-          color: value ? resolvedSelectedTextColor : colors.textColor,
+          color: value ? resolvedSelectedTextColor : colors.textColor
         }}
         onClick={() => !disabled && setIsOpen(!isOpen)}
         role="button"
@@ -166,14 +166,14 @@ const Dropdown: React.FC<DropdownProps> = ({
           {value || placeholder}
         </span>
         <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           style={{
             transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-            transition: "transform 0.2s ease-in-out",
+            transition: "transform 0.2s ease-in-out"
           }}
         >
           <path
@@ -199,8 +199,8 @@ const Dropdown: React.FC<DropdownProps> = ({
               "--search-input-text": colors.menuTextColor,
               "--search-input-placeholder": darkenColor(
                 colors.menuTextColor,
-                30,
-              ),
+                30
+              )
             } as React.CSSProperties
           }
         >
@@ -218,7 +218,7 @@ const Dropdown: React.FC<DropdownProps> = ({
             <div
               key={option}
               className={cn(styles.option, {
-                [styles.selected]: option === value,
+                [styles.selected]: option === value
               })}
               onClick={() => handleSelect(option)}
               role="button"

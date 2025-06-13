@@ -305,9 +305,8 @@ export default function Survey() {
                       navigate("/apply/review");
                     }
                   }}
-                >
-                  Next
-                </Button>
+                  variant="next"
+                />
               </div>
               <div className="flex justify-end w-full">
                 <ProgressBar darkMode={true} numSteps={7} currPage={page} />

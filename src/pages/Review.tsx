@@ -135,7 +135,7 @@ export default function Review() {
           firstName: formData.emergencyFirstName || "",
           lastName: formData.emergencyLastName || "",
           phoneNumber: formData.emergencyPhone || "",
-          relationship: formData.emergencyRelationship || "",
+          relationship: formData.emergencyRelationship || ""
         },
         githubLink: formData.github,
         linkedinLink: formData.linkedin,
@@ -149,11 +149,11 @@ export default function Review() {
         howDidYouHearAboutHT6: formData.howDidYouHearAboutHT6,
         previousHT6Experience: formData.previousHT6Experience,
         avatarBase: selectedSkin,
-        avatarItem: selectedItem,
+        avatarItem: selectedItem
       };
 
       const user = await fetchHt6<ApiResponse<UserResponse>>(
-        "/api/action/profile",
+        "/api/action/profile"
       );
 
       if (!user.message.hackerApplication?.resumeFileName) {
@@ -167,15 +167,15 @@ export default function Review() {
         { submit: boolean; application: IPartialApplication }
       >("/api/action/updateapp", {
         body: { submit: true, application },
-        method: "POST",
+        method: "POST"
       });
 
       const updatedProfile = await fetchHt6<ApiResponse<UserResponse>>(
-        "/api/action/profile",
+        "/api/action/profile"
       );
 
       navigate("/submitted", {
-        state: { application: updatedProfile.message.hackerApplication },
+        state: { application: updatedProfile.message.hackerApplication }
       });
     } catch (error: unknown) {
       if (
@@ -192,8 +192,8 @@ export default function Review() {
             (error as { error?: string[][] }).error?.map(
               ([field, message]) => ({
                 field: field.replace("/", ""),
-                message,
-              }),
+                message
+              })
             ) || [];
           setMissingFields(fieldErrors.map((err) => err.message));
           setModalContentType("fieldErrors");
@@ -209,9 +209,9 @@ export default function Review() {
   };
 
   return (
-    <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-[linear-gradient(to_bottom,_#B1E1F9,_#E5DCD9,_#FCD2B3,_#F5AB42)] min-h-screen w-full flex flex-col items-center">
-      <div className="w-full max-w-[1000px] bg-[#E6EFF3]/80 rounded-2xl p-8 shadow-lg mt-32 mb-16 z-10">
-        <div className="px-8">
+    <div className="sm:gap-0 gap-4 overflow-hidden bg-[linear-gradient(to_bottom,_#B1E1F9,_#E5DCD9,_#FCD2B3,_#F5AB42)] min-h-screen w-full flex flex-col items-center px-4">
+      <div className="w-full max-w-[1000px] bg-[#E6EFF3]/80 rounded-2xl shadow-lg mt-32 mb-16 z-10 p-4 md:p-8">
+        <div>
           <div className="flex justify-between items-center">
             <Text
               textType="heading-lg"
@@ -282,7 +282,7 @@ export default function Review() {
                 )}
               </div>
               <div className="rounded-md">
-                <div className="grid grid-cols-2 gap-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4">
                   <ReviewField
                     label="Full Name"
                     value={
@@ -335,7 +335,7 @@ export default function Review() {
                 )}
               </div>
               <div className="rounded-md">
-                <div className="grid grid-cols-2 gap-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4">
                   <ReviewField
                     label="School (Most Recently Attended)"
                     value={formData?.school}
@@ -452,7 +452,7 @@ export default function Review() {
                 )}
               </div>
               <div className="rounded-md">
-                <div className="grid grid-cols-2 gap-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4">
                   <ReviewField
                     label="T-shirt Size"
                     value={formData?.tshirtSize}

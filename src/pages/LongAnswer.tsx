@@ -25,7 +25,7 @@ export default function LongAnswer() {
     selectedItem,
     selectedSkin,
     formData,
-    setFormData,
+    setFormData
   } = useApplicationContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1");
@@ -57,7 +57,7 @@ export default function LongAnswer() {
         ...currentFormData,
         accomplish,
         project,
-        funFact,
+        funFact
       });
     }
   }, [accomplish, project, funFact, setFormData]);
@@ -164,16 +164,15 @@ export default function LongAnswer() {
                       setSearchParams({ page: `${page + 1}` });
                     } else {
                       const updateCompleted = completedSection.map((val, i) =>
-                        i === 2 ? true : val,
+                        i === 2 ? true : val
                       );
                       setCompletedSection(updateCompleted);
                       navigate("/apply/survey");
                     }
                   }}
                   className="w-full sm:w-auto"
-                >
-                  Next
-                </Button>
+                  variant="next"
+                />
               </div>
               <div className="flex justify-center sm:justify-end w-full">
                 <ProgressBar darkMode={true} numSteps={3} currPage={page} />
