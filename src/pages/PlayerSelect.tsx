@@ -72,6 +72,7 @@ function ItemPicker({
   selectedItem: number;
   setSelectedItem: (item: number) => void;
 }) {
+  console.log(selectedItem);
   return (
     <div className="flex flex-wrap justify-start gap-2 w-full mb-6">
       {ITEMS.map((item, index) => (
@@ -79,9 +80,9 @@ function ItemPicker({
           key={index}
           className="border-[3px] bg-[#F3FAE0] rounded-[5px] sm:rounded-[10px] flex items-center justify-center w-[31%] sm:w-[70px] h-[70px] hover:scale-105 transition-all duration-300"
           style={{
-            borderColor: selectedItem === index + 1 ? "#00887E" : "#919DAF"
+            borderColor: selectedItem === index ? "#00887E" : "#919DAF"
           }}
-          onClick={() => setSelectedItem(index + 1)}
+          onClick={() => setSelectedItem(index)}
         >
           <img src={item} alt="Item" className="h-[62px] w-[62px]" />
         </div>
@@ -245,7 +246,7 @@ export default function PlayerSelect() {
                 className="!h-[290px] !w-[290px] !sm:h-[420px] !sm:w-[420px]"
               />
               <img
-                src={PLAYER_IMAGES[selectedSkin][selectedItem]}
+                src={PLAYER_IMAGES[selectedSkin][selectedItem + 1]}
                 alt="Character Select"
                 className={`object-cover w-[85%] absolute top-1/2 -translate-y-[55%] left-1/2 -translate-x-1/2`}
               />

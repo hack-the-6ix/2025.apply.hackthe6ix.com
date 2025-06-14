@@ -27,7 +27,7 @@ export default function AboutYou() {
     selectedItem,
     selectedSkin,
     formData,
-    setFormData,
+    setFormData
   } = useApplicationContext();
   const { profile, setProfile } = useAuth();
 
@@ -43,7 +43,7 @@ export default function AboutYou() {
   }, [profile]);
 
   const [emailPermission, setEmailPermission] = useState(
-    formData?.emailPermission || false,
+    formData?.emailPermission || false
   );
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1");
@@ -56,16 +56,16 @@ export default function AboutYou() {
   const [province, setProvince] = useState(formData?.province || "");
   const [country, setCountry] = useState(formData?.country || "");
   const [emergencyFirstName, setEmergencyFirstName] = useState(
-    formData?.emergencyFirstName || "",
+    formData?.emergencyFirstName || ""
   );
   const [emergencyLastName, setEmergencyLastName] = useState(
-    formData?.emergencyLastName || "",
+    formData?.emergencyLastName || ""
   );
   const [emergencyPhone, setEmergencyPhone] = useState(
-    formData?.emergencyPhone || "",
+    formData?.emergencyPhone || ""
   );
   const [emergencyRelationship, setEmergencyRelationship] = useState(
-    formData?.emergencyRelationship || "",
+    formData?.emergencyRelationship || ""
   );
 
   useEffect(() => {
@@ -100,7 +100,7 @@ export default function AboutYou() {
         emergencyLastName,
         emergencyPhone,
         emergencyRelationship,
-        emailPermission,
+        emailPermission
       });
     }
 
@@ -119,7 +119,7 @@ export default function AboutYou() {
           ...currentProfile,
           firstName,
           lastName,
-          email,
+          email
         });
       }
     }
@@ -136,7 +136,7 @@ export default function AboutYou() {
     emergencyRelationship,
     emailPermission,
     setFormData,
-    setProfile,
+    setProfile
   ]);
 
   return (
@@ -237,6 +237,14 @@ export default function AboutYou() {
 
               {page === 2 && (
                 <>
+                  <Text
+                    textType="paragraph-sm"
+                    textFont="rubik"
+                    textColor="primary"
+                    className="ml-[10px]"
+                  >
+                    Email*
+                  </Text>
                   <Input
                     placeholder="hacker@hackthe6ix.com"
                     value={email}
@@ -363,7 +371,7 @@ export default function AboutYou() {
                         value={emergencyPhone}
                         onChange={(e) =>
                           setEmergencyPhone(
-                            e.target.value.replace(/\D/g, "").slice(0, 10),
+                            e.target.value.replace(/\D/g, "").slice(0, 10)
                           )
                         }
                         maxLength={10}
@@ -406,7 +414,10 @@ export default function AboutYou() {
                 disabled={
                   (page == 1 && (!firstName || !lastName)) ||
                   (page == 2 && (!email || !emailPermission)) ||
-                  (page == 3 && (!city || !province || !country)) ||
+                  (page == 3 &&
+                    (!city ||
+                      !country ||
+                      (country === "Canada" && !province))) ||
                   (page == 4 &&
                     (!emergencyFirstName ||
                       !emergencyLastName ||
@@ -418,7 +429,7 @@ export default function AboutYou() {
                     setSearchParams({ page: `${page + 1}` });
                   } else {
                     const updateCompleted = completedSection.map((val, i) =>
-                      i === 0 ? true : val,
+                      i === 0 ? true : val
                     );
                     setCompletedSection(updateCompleted);
                     navigate("/apply/experience?page=1");

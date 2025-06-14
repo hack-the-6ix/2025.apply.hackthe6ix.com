@@ -34,5 +34,5 @@ export const PLAYER_IMAGES = [
   [C0, C1, C2, C3], // Player 2 images
   [D0, D1, D2, D3], // Player 3 images
   [E0, E1, E2, E3], // Player 4 images
-  [F0, F1, F2, F3], // Player 5 images
+  [F0, F1, F2, F3] // Player 5 images
 ];

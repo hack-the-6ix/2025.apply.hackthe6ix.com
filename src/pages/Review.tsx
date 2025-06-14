@@ -45,8 +45,10 @@ export default function Review() {
     if (!formData?.lastName) missing.push("Last Name");
     if (!formData?.email) missing.push("Email");
     if (!formData?.city) missing.push("City");
-    if (!formData?.province) missing.push("Province");
     if (!formData?.country) missing.push("Country");
+    if (!formData?.country || formData?.country === "Canada") {
+      if (!formData?.province) missing.push("Province");
+    }
     if (!formData?.emergencyFirstName)
       missing.push("Emergency Contact First Name");
     if (!formData?.emergencyLastName)
@@ -61,15 +63,15 @@ export default function Review() {
     if (!formData?.resume) missing.push("Resume");
     if (!formData?.accomplish)
       missing.push(
-        "Tell us about a project you’ve enjoyed working on (this can be non-technical!). What made you decide to work on this project? What challenges did you face and how did you overcome them?*",
+        "Tell us about a project you've enjoyed working on (this can be non-technical!). What made you decide to work on this project? What challenges did you face and how did you overcome them?*"
       );
     if (!formData?.project)
       missing.push(
-        "If you could not do anything related to school, work, or coding for 4 months, what would you do and why?*",
+        "If you could not do anything related to school, work, or coding for 4 months, what would you do and why?*"
       );
     if (!formData?.funFact)
       missing.push(
-        "You are given an elephant. You cannot sell or give away the elephant. What do you do with the elephant?*",
+        "You are given an elephant. You cannot sell or give away the elephant. What do you do with the elephant?*"
       );
     if (!formData?.tshirtSize) missing.push("T-shirt Size");
     if (!formData?.gender) missing.push("Gender");
@@ -85,7 +87,7 @@ export default function Review() {
       formData?.lastName &&
       formData?.email &&
       formData?.city &&
-      formData?.province &&
+      (formData?.country !== "Canada" || formData?.province) &&
       formData?.country &&
       formData?.emergencyFirstName &&
       formData?.emergencyLastName &&
@@ -118,6 +120,7 @@ export default function Review() {
       return;
     }
 
+    console.log(selectedItem);
     try {
       const application: IPartialApplication = {
         phoneNumber: formData.emergencyPhone,
@@ -143,7 +146,7 @@ export default function Review() {
           firstName: formData.emergencyFirstName || "",
           lastName: formData.emergencyLastName || "",
           phoneNumber: formData.emergencyPhone || "",
-          relationship: formData.emergencyRelationship || "",
+          relationship: formData.emergencyRelationship || ""
         },
         githubLink: formData.github,
         linkedinLink: formData.linkedin,
@@ -157,33 +160,34 @@ export default function Review() {
         howDidYouHearAboutHT6: formData.howDidYouHearAboutHT6,
         previousHT6Experience: formData.previousHT6Experience,
         avatarBase: selectedSkin,
-        avatarItem: selectedItem,
+        avatarItem: selectedItem
       };
 
-      const user = await fetchHt6<ApiResponse<UserResponse>>(
-        "/api/action/profile",
-      );
+      // const user = await fetchHt6<ApiResponse<UserResponse>>(
+      //   "/api/action/profile",
+      // );
 
-      if (!user.message.hackerApplication?.resumeFileName) {
-        setModalContentType("resumeMissing");
-        setShowModal(true);
-        return;
-      }
+      // This check is now handled by getMissingFields and isFormComplete
+      // if (!user.message.hackerApplication?.resumeFileName) {
+      //   setModalContentType("resumeMissing");
+      //   setShowModal(true);
+      //   return;
+      // }
 
       await fetchHt6<
         ApiResponse<{ status: 200; message: "Success" }>,
         { submit: boolean; application: IPartialApplication }
       >("/api/action/updateapp", {
         body: { submit: true, application },
-        method: "POST",
+        method: "POST"
       });
 
       const updatedProfile = await fetchHt6<ApiResponse<UserResponse>>(
-        "/api/action/profile",
+        "/api/action/profile"
       );
 
       navigate("/submitted", {
-        state: { application: updatedProfile.message.hackerApplication },
+        state: { application: updatedProfile.message.hackerApplication }
       });
     } catch (error: unknown) {
       if (
@@ -200,8 +204,8 @@ export default function Review() {
             (error as { error?: string[][] }).error?.map(
               ([field, message]) => ({
                 field: field.replace("/", ""),
-                message,
-              }),
+                message
+              })
             ) || [];
           setMissingFields(fieldErrors.map((err) => err.message));
           setModalContentType("fieldErrors");
@@ -274,7 +278,6 @@ export default function Review() {
               formData?.lastName &&
               formData?.email &&
               formData?.city &&
-              formData?.province &&
               formData?.country &&
               formData?.emergencyFirstName &&
               formData?.emergencyLastName &&
@@ -416,7 +419,7 @@ export default function Review() {
             </div>
             <div className="rounded-md space-y-4">
               <ReviewField
-                label="Tell us about a project you’ve enjoyed working on (this can be
+                label="Tell us about a project you've enjoyed working on (this can be
               non-technical!). What made you decide to work on this project?
               What challenges did you face and how did you overcome them?*"
                 value={formData?.accomplish}
