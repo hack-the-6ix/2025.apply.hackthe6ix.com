@@ -19,7 +19,7 @@ import FileUpload from "../components/FileUpload/FileUpload";
 import { useNavigate } from "react-router-dom";
 import {
   useApplicationContext,
-  type FormData
+  type FormData,
 } from "../contexts/ApplicationContext";
 import { useSearchParams } from "react-router-dom";
 import { useEnums } from "../contexts/EnumsContext";
@@ -33,7 +33,7 @@ export default function Experiences() {
     selectedItem,
     selectedSkin,
     formData,
-    setFormData
+    setFormData,
   } = useApplicationContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1");
@@ -43,7 +43,7 @@ export default function Experiences() {
   const [year, setYear] = useState(formData?.year || "");
   const [program, setProgram] = useState(formData?.program || "");
   const [hackathonCount, setHackathonCount] = useState(
-    formData?.hackathonCount || ""
+    formData?.hackathonCount || "",
   );
   const [resume, setResume] = useState<File | null>(formData?.resume || null);
   const [github, setGithub] = useState(formData?.github || "");
@@ -73,7 +73,7 @@ export default function Experiences() {
     const currentFormData = formDataRef.current;
     setFormData({
       ...currentFormData,
-      school
+      school,
     });
   }, [school, setFormData]);
 
@@ -81,7 +81,7 @@ export default function Experiences() {
     const currentFormData = formDataRef.current;
     setFormData({
       ...currentFormData,
-      year
+      year,
     });
   }, [year, setFormData]);
 
@@ -89,7 +89,7 @@ export default function Experiences() {
     const currentFormData = formDataRef.current;
     setFormData({
       ...currentFormData,
-      program
+      program,
     });
   }, [program, setFormData]);
 
@@ -97,7 +97,7 @@ export default function Experiences() {
     const currentFormData = formDataRef.current;
     setFormData({
       ...currentFormData,
-      hackathonCount
+      hackathonCount,
     });
   }, [hackathonCount, setFormData]);
 
@@ -111,7 +111,7 @@ export default function Experiences() {
 
         const token = localStorage.getItem("token");
         const headers: Record<string, string> = {
-          "X-Access-Token": token || ""
+          "X-Access-Token": token || "",
         };
 
         const baseUrl =
@@ -119,7 +119,7 @@ export default function Experiences() {
         const response = await fetch(`${baseUrl}/api/action/updateresume`, {
           method: "PUT",
           headers,
-          body: formData
+          body: formData,
         });
 
         if (!response.ok) {
@@ -143,7 +143,7 @@ export default function Experiences() {
       resume,
       github,
       linkedin,
-      portfolio
+      portfolio,
     });
   };
 
@@ -165,7 +165,7 @@ export default function Experiences() {
             >
               School Name*
             </Text>
-            <div className="w-2/3">
+            <div className="w-full sm:w-2/3">
               <Dropdown
                 options={enums?.school || []}
                 value={school}
@@ -182,8 +182,8 @@ export default function Experiences() {
             <Text textType="heading-lg" textFont="rubik" textColor="white">
               Year of Study & Program (as of September 2025)*
             </Text>
-            <div className="flex gap-4">
-              <div className="w-1/2">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="w-full sm:w-1/2 z-40">
                 <Text
                   textType="paragraph-sm"
                   textFont="rubik"
@@ -200,7 +200,7 @@ export default function Experiences() {
                   theme="dark"
                 />
               </div>
-              <div className="w-1/2">
+              <div className="w-full sm:w-1/2 z-30">
                 <Text
                   textType="paragraph-sm"
                   textFont="rubik"
@@ -274,7 +274,7 @@ export default function Experiences() {
             <Text textType="heading-lg" textFont="rubik" textColor="white">
               Link Your Socials
             </Text>
-            <div className="flex flex-col gap-6 w-2/3">
+            <div className="flex flex-col gap-6 w-full sm:w-2/3">
               <div className="flex flex-col gap-1">
                 <Text
                   textType="paragraph-sm"
@@ -292,7 +292,7 @@ export default function Experiences() {
                   onChange={(e) => {
                     setGithub(e.target.value);
                     setGithubError(
-                      e.target.value.length > 0 && !isValidUrl(e.target.value)
+                      e.target.value.length > 0 && !isValidUrl(e.target.value),
                     );
                   }}
                 />
@@ -324,7 +324,7 @@ export default function Experiences() {
                   onChange={(e) => {
                     setLinkedin(e.target.value);
                     setLinkedinError(
-                      e.target.value.length > 0 && !isValidUrl(e.target.value)
+                      e.target.value.length > 0 && !isValidUrl(e.target.value),
                     );
                   }}
                 />
@@ -356,7 +356,7 @@ export default function Experiences() {
                   onChange={(e) => {
                     setPortfolio(e.target.value);
                     setPortfolioError(
-                      e.target.value.length > 0 && !isValidUrl(e.target.value)
+                      e.target.value.length > 0 && !isValidUrl(e.target.value),
                     );
                   }}
                 />
@@ -416,7 +416,7 @@ export default function Experiences() {
                     } else {
                       updateFormData();
                       const updateCompleted = completedSection.map((val, i) =>
-                        i === 1 ? true : val
+                        i === 1 ? true : val,
                       );
                       setCompletedSection(updateCompleted);
                       navigate("/apply/long-answer");
@@ -466,7 +466,7 @@ export default function Experiences() {
       <img
         src={PLAYER_IMAGES[selectedSkin][selectedItem]}
         alt="Player"
-        className=" absolute h-[140px] sm:bottom-[85px] sm:right-[200px] right-[100px] bottom-[35px]"
+        className=" absolute h-[100px] sm:h-[140px] sm:bottom-[85px] sm:right-[200px] right-[100px] bottom-[35px]"
       />
       <img
         src={appleSVG}

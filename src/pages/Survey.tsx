@@ -331,12 +331,12 @@ export default function Survey() {
         <img
           src={brickhouse}
           alt="brickhouse"
-          className="sm:block hidden absolute h-[140px] w-[140px] bottom-[90px] right-[-32px] z-0"
+          className="sm:block hidden absolute h-[100px] sm:h-[140px] w-[140px] bottom-[90px] right-[-32px] z-0"
         />
         <img
           src={PLAYER_IMAGES[selectedSkin][selectedItem]}
           alt="Player"
-          className=" absolute h-[140px] sm:bottom-[85px] sm:right-[120px] right-[100px] bottom-[35px] z-0"
+          className=" absolute h-[100px] sm:h-[140px] sm:bottom-[85px] sm:right-[120px] right-[100px] bottom-[35px] z-0"
         />
         <img
           src={apple}

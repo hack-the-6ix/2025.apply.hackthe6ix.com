@@ -237,7 +237,7 @@ export default function LongAnswer() {
         <img
           src={PLAYER_IMAGES[selectedSkin][selectedItem]}
           alt="Player"
-          className="absolute h-[140px] sm:bottom-[85px] sm:right-[200px] right-[100px] bottom-[35px]"
+          className="absolute h-[100px] sm:h-[140px] sm:bottom-[85px] sm:right-[200px] right-[100px] bottom-[35px]"
         />
         <img
           src={apple}

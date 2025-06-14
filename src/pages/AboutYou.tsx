@@ -27,7 +27,7 @@ export default function AboutYou() {
     selectedItem,
     selectedSkin,
     formData,
-    setFormData
+    setFormData,
   } = useApplicationContext();
   const { profile, setProfile } = useAuth();
 
@@ -43,7 +43,7 @@ export default function AboutYou() {
   }, [profile]);
 
   const [emailPermission, setEmailPermission] = useState(
-    formData?.emailPermission || false
+    formData?.emailPermission || false,
   );
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1");
@@ -56,16 +56,16 @@ export default function AboutYou() {
   const [province, setProvince] = useState(formData?.province || "");
   const [country, setCountry] = useState(formData?.country || "");
   const [emergencyFirstName, setEmergencyFirstName] = useState(
-    formData?.emergencyFirstName || ""
+    formData?.emergencyFirstName || "",
   );
   const [emergencyLastName, setEmergencyLastName] = useState(
-    formData?.emergencyLastName || ""
+    formData?.emergencyLastName || "",
   );
   const [emergencyPhone, setEmergencyPhone] = useState(
-    formData?.emergencyPhone || ""
+    formData?.emergencyPhone || "",
   );
   const [emergencyRelationship, setEmergencyRelationship] = useState(
-    formData?.emergencyRelationship || ""
+    formData?.emergencyRelationship || "",
   );
 
   useEffect(() => {
@@ -100,7 +100,7 @@ export default function AboutYou() {
         emergencyLastName,
         emergencyPhone,
         emergencyRelationship,
-        emailPermission
+        emailPermission,
       });
     }
 
@@ -119,7 +119,7 @@ export default function AboutYou() {
           ...currentProfile,
           firstName,
           lastName,
-          email
+          email,
         });
       }
     }
@@ -136,12 +136,12 @@ export default function AboutYou() {
     emergencyRelationship,
     emailPermission,
     setFormData,
-    setProfile
+    setProfile,
   ]);
 
   return (
     <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#ACDCFD] via-[#B3E9FC] to-[#B9F2FC]  h-[100vh] w-full flex flex-col justify-center items-center">
-      <div className="w-full h-full flex items-center justify-center px-4 py-8 overflow-hidden">
+      <div className="w-full h-full flex items-start md:mt-0 md:items-center justify-center px-4 py-8 overflow-hidden">
         <div className="flex flex-col items-center sm:items-start justify-center gap-12 w-full max-w-[850px] z-30">
           <div className="flex flex-col items-start w-full gap-2">
             <div className="flex flex-col gap-4">
@@ -200,7 +200,7 @@ export default function AboutYou() {
             <div className="flex flex-col gap-1 w-full">
               {page === 1 && (
                 <>
-                  <div className="flex flex-col sm:flex-row gap-4 w-full">
+                  <div className="flex flex-col sm:flex-row gap-0 sm:gap-4 w-full">
                     <div className="w-full sm:w-1/2">
                       <Text
                         textType="paragraph-sm"
@@ -249,7 +249,7 @@ export default function AboutYou() {
                     placeholder="hacker@hackthe6ix.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="!w-2/3"
+                    className="w-full sm:!w-2/3"
                   />
                   <div className="ml-2 py-2">
                     <Checkbox
@@ -371,7 +371,7 @@ export default function AboutYou() {
                         value={emergencyPhone}
                         onChange={(e) =>
                           setEmergencyPhone(
-                            e.target.value.replace(/\D/g, "").slice(0, 10)
+                            e.target.value.replace(/\D/g, "").slice(0, 10),
                           )
                         }
                         maxLength={10}
@@ -398,7 +398,7 @@ export default function AboutYou() {
               )}
             </div>
 
-            <div className="flex flex-col-reverse sm:flex-row justify-center sm:justify-end w-full gap-3">
+            <div className="flex flex-col-reverse sm:flex-row justify-center sm:justify-end w-full gap-3 mt-6 sm:mt-0">
               <Button
                 variant="back"
                 onClick={() => {
@@ -429,7 +429,7 @@ export default function AboutYou() {
                     setSearchParams({ page: `${page + 1}` });
                   } else {
                     const updateCompleted = completedSection.map((val, i) =>
-                      i === 0 ? true : val
+                      i === 0 ? true : val,
                     );
                     setCompletedSection(updateCompleted);
                     navigate("/apply/experience?page=1");
@@ -468,7 +468,7 @@ export default function AboutYou() {
       <img
         src={PLAYER_IMAGES[selectedSkin][selectedItem]}
         alt="Player"
-        className="absolute h-[140px] sm:bottom-[85px] sm:right-[200px] right-[100px] bottom-[35px]"
+        className="absolute h-[100px] sm:h-[100px] sm:h-[140px] sm:bottom-[85px] sm:right-[200px] right-[100px] bottom-[35px]"
       />
 
       <img
