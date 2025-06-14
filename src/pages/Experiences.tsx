@@ -306,7 +306,7 @@ export default function Experiences() {
           <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
             <div className="flex flex-col gap-4 w-full">{renderPage()}</div>
             <div className="flex flex-col gap-4 w-full">
-              <div className="flex flex-row justify-end w-full gap-3">
+              <div className="flex flex-col-reverse sm:flex-row justify-center sm:justify-end w-full gap-3">
                 {page > 1 ? (
                   <Button
                     variant="back"

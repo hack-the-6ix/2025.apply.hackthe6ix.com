@@ -312,7 +312,7 @@ export default function AboutYou() {
                 </>
               )}
               {page === 4 && (
-                <>
+                <div className=" overflow-y-auto max-h-[200px]">
                   <div className="flex flex-col sm:flex-row gap-4 w-full">
                     <div className="w-full sm:w-1/2">
                       <Text
@@ -345,7 +345,7 @@ export default function AboutYou() {
                       />
                     </div>
                   </div>
-                  <div className="flex flex-col sm:flex-row gap-4 w-full">
+                  <div className="flex flex-col mt-4 sm:mt-0 sm:flex-row gap-4 w-full">
                     <div className="w-full sm:w-1/2">
                       <Text
                         textType="paragraph-sm"
@@ -356,9 +356,14 @@ export default function AboutYou() {
                         Phone Number*
                       </Text>
                       <Input
-                        placeholder="###-###-####"
+                        placeholder="##########"
                         value={emergencyPhone}
-                        onChange={(e) => setEmergencyPhone(e.target.value)}
+                        onChange={(e) =>
+                          setEmergencyPhone(
+                            e.target.value.replace(/\D/g, "").slice(0, 10)
+                          )
+                        }
+                        maxLength={10}
                       />
                     </div>
                     <div className="w-full">
@@ -378,11 +383,11 @@ export default function AboutYou() {
                       />
                     </div>
                   </div>
-                </>
+                </div>
               )}
             </div>
 
-            <div className="flex flex-col sm:flex-row justify-center sm:justify-end w-full gap-3">
+            <div className="flex flex-col-reverse sm:flex-row justify-center sm:justify-end w-full gap-3">
               <Button
                 variant="back"
                 onClick={() => {
@@ -421,7 +426,7 @@ export default function AboutYou() {
               />
             </div>
 
-            <div className="flex justify-center sm:justify-end w-full">
+            <div className="flex z-10 justify-end w-full">
               <ProgressBar numSteps={4} currPage={page} />
             </div>
           </div>

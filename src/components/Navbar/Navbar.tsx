@@ -10,7 +10,7 @@ const NAV_LINKS = [
   { label: "Experiences", path: "/apply/experience?page=1" },
   { label: "Long-Answer", path: "/apply/long-answer?page=1" },
   { label: "Survey", path: "/apply/survey?page=1" },
-  { label: "Review", path: "/apply/review?page=1" },
+  { label: "Review", path: "/apply/review?page=1" }
 ];
 
 const LIGHT_MODE: string[] = ["player", "about", "review"];
@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
 
   useLayoutEffect(() => {
     const activeIndex = NAV_LINKS.findIndex((link) =>
-      link.path.includes(section ?? "null"),
+      link.path.includes(section ?? "null")
     );
 
     if (activeIndex !== -1 && linkRefs.current[activeIndex]) {
@@ -40,7 +40,7 @@ const Navbar: React.FC = () => {
           setTShapeStyle({
             left: `${leftPosition}px`,
             opacity: 1,
-            transition: "left 0.3s ease-in-out, opacity 0.3s ease-in-out",
+            transition: "left 0.3s ease-in-out, opacity 0.3s ease-in-out"
           });
         }
       }
@@ -50,7 +50,7 @@ const Navbar: React.FC = () => {
   }, [section]);
 
   return (
-    <nav className="w-full flex items-center justify-between absolute z-50 transition-all duration-300">
+    <nav className="w-full flex items-center justify-between absolute z-[90] transition-all duration-300">
       <div className="lg:hidden absolute top-[30px] right-[30px]">
         <button
           onClick={() => setMenuOpen(!menuOpen)}
@@ -58,7 +58,7 @@ const Navbar: React.FC = () => {
           style={{
             color: LIGHT_MODE.includes(section ?? "null")
               ? "#023441"
-              : "#FA8D1F",
+              : "#FA8D1F"
           }}
         >
           {menuOpen ? <RxCross2 size={24} /> : <IoMenu size={24} />}
@@ -129,14 +129,14 @@ const Navbar: React.FC = () => {
 
       {menuOpen && (
         <div
-          className="absolute top-[65px] left-1/2 -translate-x-1/2 w-[calc(100%-50px)] rounded-xl flex flex-col items-start px-6 py-4 lg:hidden"
+          className="absolute top-[65px] left-1/2 -translate-x-1/2 w-[calc(100%-50px)] rounded-xl flex flex-col items-start px-6 py-4 lg:hidden z-50"
           style={{
             backgroundColor: LIGHT_MODE.includes(section ?? "null")
               ? "#cfedfe"
               : "#21293C",
             border: LIGHT_MODE.includes(section ?? "null")
               ? "2px solid rgba(255, 255, 255, 0.7)"
-              : "2px solid rgba(255, 255, 255, 0.4)",
+              : "2px solid rgba(255, 255, 255, 0.4)"
           }}
         >
           {NAV_LINKS.map(({ label, path }) => (

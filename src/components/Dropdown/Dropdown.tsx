@@ -39,19 +39,19 @@ const Dropdown: React.FC<DropdownProps> = ({
       selectedBackgroundColor: "#F3F4F6",
       selectedTextColor: "#111827",
       hoverColor: "#ffffff",
-      borderColor: "#F9FAFB",
+      borderColor: "#FFFFFF",
       activeBorderColor: "#d1d5db",
       activeBoxShadow: "0 0 0 2px rgba(107, 114, 128, 0.1)"
     },
     dark: {
-      backgroundColor: "#1F2937",
+      backgroundColor: "#465D7B",
       textColor: "#F9FAFB",
-      menuBackgroundColor: "#1F2937",
+      menuBackgroundColor: "#465D7B",
       menuTextColor: "#F9FAFB",
       selectedBackgroundColor: "#4B5563",
       selectedTextColor: "#F9FAFB",
       hoverColor: "#374151",
-      borderColor: "#111827",
+      borderColor: "#000000",
       activeBorderColor: "#4B5563",
       activeBoxShadow: "0 0 0 2px rgba(0, 0, 0, 0.3)"
     }
@@ -153,9 +153,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           [styles.disabled]: disabled
         })}
         style={{
-          backgroundColor: value
-            ? resolvedSelectedBackgroundColor
-            : colors.backgroundColor,
+          backgroundColor: colors.backgroundColor,
           color: value ? resolvedSelectedTextColor : colors.textColor
         }}
         onClick={() => !disabled && setIsOpen(!isOpen)}

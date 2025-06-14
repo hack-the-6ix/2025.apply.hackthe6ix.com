@@ -75,7 +75,7 @@ export default function LongAnswer() {
             <TextArea
               value={accomplish}
               onChange={(e) => setAccomplish(e.target.value)}
-              placeholder="Tell us what you hope to achieve..."
+              placeholder="My favourite project..."
               backgroundColor="#3D4759"
               textColor="white"
               rows={10}
@@ -99,7 +99,7 @@ export default function LongAnswer() {
             <TextArea
               value={project}
               onChange={(e) => setProject(e.target.value)}
-              placeholder="Share your project experience..."
+              placeholder="I would..."
               backgroundColor="#3D4759"
               textColor="white"
               rows={10}
@@ -115,12 +115,14 @@ export default function LongAnswer() {
               You are given an elephant. You cannot sell or give away the
               elephant. What do you do with the elephant?*
             </Text>
-            <Input
+            <TextArea
               value={funFact}
               onChange={(e) => setFunFact(e.target.value)}
-              placeholder="Share something interesting about yourself..."
+              placeholder="I would..."
               backgroundColor="#3D4759"
               textColor="white"
+              rows={2}
+              maxWords={20}
             />
           </div>
         );
@@ -136,7 +138,7 @@ export default function LongAnswer() {
           <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
             <div className="flex flex-col gap-4 w-full">{renderPage()}</div>
             <div className="flex flex-col gap-4 w-full">
-              <div className="flex flex-col sm:flex-row justify-center sm:justify-end w-full gap-3">
+              <div className="flex flex-col-reverse sm:flex-row justify-center sm:justify-end w-full gap-3">
                 {page > 1 ? (
                   <Button
                     variant="back"
@@ -174,7 +176,7 @@ export default function LongAnswer() {
                   variant="next"
                 />
               </div>
-              <div className="flex justify-center sm:justify-end w-full">
+              <div className="flex justify-end w-full">
                 <ProgressBar darkMode={true} numSteps={3} currPage={page} />
               </div>
             </div>

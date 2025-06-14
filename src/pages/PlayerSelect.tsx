@@ -162,7 +162,7 @@ export default function PlayerSelect() {
   }, [selectedSkin, setSelectedSkin]);
 
   return (
-    <div className="overflow-hidden bg-linear-to-b from-[#ACDCFD] via-[#B3E9FC] to-[#B9F2FC] h-[100vh] w-full flex flex-col justify-center items-center">
+    <div className="overflow-hidden bg-linear-to-b from-[#ACDCFD] via-[#B3E9FC] to-[#B9F2FC] h-[100vh] w-full flex flex-col justify-center items-center p-8">
       <img
         src={tree2SVG}
         alt="Tree"
@@ -189,8 +189,8 @@ export default function PlayerSelect() {
         className="absolute sm:h-[70px] sm:w-[70px] sm:bottom-[90px] sm:right-[55px] right-[70px] w-[35px] h-[35px] bottom-[38px]"
       />
 
-      <div className="w-full h-full flex items-center justify-center px-4 py-8 overflow-hidden">
-        <div className="flex flex-col sm:flex-row items-center sm:items-center justify-center gap-12 sm:gap-[150px] w-full max-w-[850px] mx-auto">
+      <div className="w-full h-full flex items-center justify-center px-4 py-8 overflow-hidden z-10">
+        <div className="flex flex-col-reverse sm:flex-row items-center sm:items-center justify-center gap-12 sm:gap-[150px] w-full max-w-[850px] mx-auto">
           <div className="flex flex-col items-center sm:items-start w-full sm:w-[430px] gap-4">
             <Text
               textType="heading-lg"
@@ -214,7 +214,7 @@ export default function PlayerSelect() {
               />
             )}
 
-            <div className="flex flex-col sm:flex-row gap-3 w-full justify-end">
+            <div className="flex flex-col-reverse sm:flex-row justify-center sm:justify-end w-full gap-3">
               {page === 2 && (
                 <Button
                   variant="back"

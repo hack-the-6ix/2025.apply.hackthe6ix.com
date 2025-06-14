@@ -135,21 +135,23 @@ export default function Survey() {
         );
       case 2:
         return (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 z-30">
             <Text textType="heading-lg" textFont="rubik" textColor="white">
               Please choose 3 workshops that you are interested in.*
             </Text>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 z-50">
-              {enums?.requestedWorkshops?.map((workshop) => (
-                <Checkbox
-                  key={workshop}
-                  checked={selectedWorkshops.includes(workshop)}
-                  onChange={() => handleWorkshopToggle(workshop)}
-                  label={workshop}
-                  backgroundColor="#656B8C"
-                  textColor="white"
-                />
-              ))}
+            <div className="max-h-[300px] overflow-y-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 z-50">
+                {enums?.requestedWorkshops?.map((workshop) => (
+                  <Checkbox
+                    key={workshop}
+                    checked={selectedWorkshops.includes(workshop)}
+                    onChange={() => handleWorkshopToggle(workshop)}
+                    label={workshop}
+                    backgroundColor="#656B8C"
+                    textColor="white"
+                  />
+                ))}
+              </div>
             </div>
           </div>
         );
@@ -191,10 +193,19 @@ export default function Survey() {
         return (
           <div className="flex flex-col gap-4 z-50">
             <Text textType="heading-lg" textFont="rubik" textColor="white">
-              Please specify your gender and background:
+              Please specify your gender and background:*
+            </Text>
+            <Text
+              textType="paragraph-sm"
+              textFont="rubik"
+              textColor="white"
+              className="ml-[5px]"
+            >
+              Your responses to this question will not affect your
+              application.{" "}
             </Text>
             <div className="flex flex-col sm:flex-row gap-4 w-full">
-              <div className="w-full sm:w-1/2">
+              <div className="w-full sm:w-1/2 z-20">
                 <Dropdown
                   options={enums?.gender || []}
                   value={gender}
@@ -203,7 +214,7 @@ export default function Survey() {
                   theme="dark"
                 />
               </div>
-              <div className="w-full sm:w-1/2">
+              <div className="w-full sm:w-1/2 z-0 overflow-visible">
                 <Dropdown
                   options={enums?.ethnicity || []}
                   value={ethnicity}
@@ -265,13 +276,13 @@ export default function Survey() {
   };
 
   return (
-    <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#21293C] via-[#60639D] to-[#DF6369] h-[100vh] w-full flex flex-col justify-center items-center z-50">
-      <div className="w-full h-full flex items-center justify-center px-4 py-8 overflow-hidden">
-        <div className="flex flex-col items-center sm:items-start justify-center gap-12 w-full max-w-[850px] sm:w-2/3 mx-auto">
+    <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#21293C] via-[#60639D] to-[#DF6369] min-h-[100vh] w-full flex flex-col justify-center items-center z-50">
+      <div className="w-full flex items-center justify-center px-4 py-8">
+        <div className="flex flex-col items-center sm:items-start justify-center gap-12 w-full max-w-[850px] sm:w-2/3 mx-auto max-h-[calc(100vh-100px)] overflow-y-auto">
           <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
             <div className="flex flex-col gap-4 w-full">{renderPage()}</div>
             <div className="flex flex-col gap-4 w-full">
-              <div className="flex flex-row justify-end w-full gap-3 z-10">
+              <div className="flex flex-col-reverse sm:flex-row justify-center sm:justify-end w-full gap-3">
                 {page > 1 ? (
                   <Button
                     variant="back"
@@ -308,7 +319,7 @@ export default function Survey() {
                   variant="next"
                 />
               </div>
-              <div className="flex justify-end w-full">
+              <div className="flex justify-end w-full z-20">
                 <ProgressBar darkMode={true} numSteps={7} currPage={page} />
               </div>
             </div>
