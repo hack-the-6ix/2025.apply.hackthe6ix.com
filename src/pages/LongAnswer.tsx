@@ -9,7 +9,6 @@ import apple from "../assets/apple.svg";
 import { useState, useRef, useEffect } from "react";
 import Text from "../components/Text/Text";
 import TextArea from "../components/TextArea/TextArea";
-import Input from "../components/Input/Input";
 import Button from "../components/Button/Button";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import { useNavigate } from "react-router-dom";

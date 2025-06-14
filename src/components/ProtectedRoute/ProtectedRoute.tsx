@@ -32,7 +32,7 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
           ...formData,
           firstName: formData.firstName || profile.firstName,
           lastName: formData.lastName || profile.lastName,
-          email: formData.email || profile.email
+          email: formData.email || profile.email,
         };
         setFormData(newFormData);
         setProfile({ ...profile, ...newFormData });

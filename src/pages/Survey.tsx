@@ -27,31 +27,31 @@ export default function Survey() {
     selectedItem,
     selectedSkin,
     formData,
-    setFormData
+    setFormData,
   } = useApplicationContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1");
 
   const [selectedWorkshops, setSelectedWorkshops] = useState<string[]>(
-    formData?.requestedWorkshops || []
+    formData?.requestedWorkshops || [],
   );
   const [tshirtSize, setTshirtSize] = useState(formData?.tshirtSize || "");
   const [dietaryRestrictions, setDietaryRestrictions] = useState(
-    formData?.dietaryRestrictions || ""
+    formData?.dietaryRestrictions || "",
   );
   const [gender, setGender] = useState(formData?.gender || "");
   const [ethnicity, setEthnicity] = useState(formData?.ethnicity || "");
   const [howDidYouHearAboutHT6, sethowDidYouHearAboutHT6] = useState<string[]>(
-    formData?.howDidYouHearAboutHT6 || []
+    formData?.howDidYouHearAboutHT6 || [],
   );
   const [previousHT6Experience, setpreviousHT6Experience] = useState<string[]>(
-    formData?.previousHT6Experience || []
+    formData?.previousHT6Experience || [],
   );
   const [permission1, setPermission1] = useState(
-    formData?.permission1 || false
+    formData?.permission1 || false,
   );
   const [permission2, setPermission2] = useState(
-    formData?.permission2 || false
+    formData?.permission2 || false,
   );
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function Survey() {
       howDidYouHearAboutHT6,
       previousHT6Experience,
       permission1,
-      permission2
+      permission2,
     };
     setFormData(updatedFormData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -79,7 +79,7 @@ export default function Survey() {
     previousHT6Experience,
     permission1,
     permission2,
-    setFormData
+    setFormData,
   ]);
 
   const handleWorkshopToggle = (value: string) => {
@@ -93,7 +93,7 @@ export default function Survey() {
   const handlehowDidYouHearAboutHT6Toggle = (value: string) => {
     if (howDidYouHearAboutHT6.includes(value)) {
       sethowDidYouHearAboutHT6(
-        howDidYouHearAboutHT6.filter((v) => v !== value)
+        howDidYouHearAboutHT6.filter((v) => v !== value),
       );
     } else {
       sethowDidYouHearAboutHT6([...howDidYouHearAboutHT6, value]);
@@ -103,7 +103,7 @@ export default function Survey() {
   const handlepreviousHT6ExperienceToggle = (value: string) => {
     if (previousHT6Experience.includes(value)) {
       setpreviousHT6Experience(
-        previousHT6Experience.filter((v) => v !== value)
+        previousHT6Experience.filter((v) => v !== value),
       );
     } else {
       setpreviousHT6Experience([...previousHT6Experience, value]);
@@ -310,7 +310,7 @@ export default function Survey() {
                       setSearchParams({ page: `${page + 1}` });
                     } else {
                       const updateCompleted = completedSection.map((val, i) =>
-                        i === 3 ? true : val
+                        i === 3 ? true : val,
                       );
                       setCompletedSection(updateCompleted);
                       navigate("/apply/review");

@@ -31,8 +31,8 @@ export default function Callback() {
           "/auth/apply-backend/callback",
           {
             method: "POST",
-            body: { state: state || "", code: code || "" }
-          }
+            body: { state: state || "", code: code || "" },
+          },
         );
 
         if (
@@ -54,7 +54,7 @@ export default function Callback() {
               ...formData,
               firstName: formData.firstName || profile.firstName,
               lastName: formData.lastName || profile.lastName,
-              email: formData.email || profile.email
+              email: formData.email || profile.email,
             };
             setFormData(newFormData);
           }
