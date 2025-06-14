@@ -50,6 +50,15 @@ export default function Experiences() {
   const [linkedin, setLinkedin] = useState(formData?.linkedin || "");
   const [portfolio, setPortfolio] = useState(formData?.portfolio || "");
 
+  const isValidUrl = (url: string) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
   const formDataRef = useRef<FormData>(formData);
 
   useEffect(() => {
@@ -138,10 +147,12 @@ export default function Experiences() {
     switch (page) {
       case 1:
         return (
-          <div className="flex flex-col gap-4">
-            <Text textType="heading-lg" textFont="rubik" textColor="white">
-              Your School (Most Recently Attended)*
-            </Text>
+          <div className="flex flex-col">
+            <div className="mb-4">
+              <Text textType="heading-lg" textFont="rubik" textColor="white">
+                Your School (as of September 2025)*
+              </Text>
+            </div>
             <Text
               textType="paragraph-sm"
               textFont="rubik"
@@ -150,13 +161,15 @@ export default function Experiences() {
             >
               School Name*
             </Text>
-            <Dropdown
-              options={enums?.school || []}
-              value={school}
-              onChange={setSchool}
-              placeholder="Select your school"
-              theme="dark"
-            />
+            <div className="w-2/3">
+              <Dropdown
+                options={enums?.school || []}
+                value={school}
+                onChange={setSchool}
+                placeholder="Select your school"
+                theme="dark"
+              />
+            </div>
           </div>
         );
       case 2:
@@ -205,9 +218,19 @@ export default function Experiences() {
         );
       case 3:
         return (
-          <div className="flex flex-col gap-8">
-            <Text textType="heading-lg" textFont="rubik" textColor="white">
-              Number of Previous Hackathons*
+          <div className="flex flex-col">
+            <div className="mb-4">
+              <Text textType="heading-lg" textFont="rubik" textColor="white">
+                Number of Previous Hackathons*
+              </Text>
+            </div>
+            <Text
+              textType="paragraph-sm"
+              textFont="rubik"
+              textColor="white"
+              className="ml-[10px]"
+            >
+              Number of hackathons*
             </Text>
             <Dropdown
               options={enums?.hackathonsAttended || []}
@@ -224,6 +247,14 @@ export default function Experiences() {
             <Text textType="heading-lg" textFont="rubik" textColor="white">
               Upload Your Resume*
             </Text>
+            <Text
+              textType="paragraph-sm"
+              textFont="rubik"
+              textColor="white"
+              className="ml-[10px]"
+            >
+              Your resume will be sent to sponsors for job opportunities!
+            </Text>
             <FileUpload
               value={resume}
               onChange={handleFileChange}
@@ -239,7 +270,7 @@ export default function Experiences() {
             <Text textType="heading-lg" textFont="rubik" textColor="white">
               Link Your Socials
             </Text>
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6 w-2/3">
               <div className="flex flex-col gap-1">
                 <Text
                   textType="paragraph-sm"
@@ -302,7 +333,7 @@ export default function Experiences() {
   return (
     <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#2C4374] to-[#062938] h-[100vh] w-full flex flex-col justify-center items-center">
       <div className="w-full h-full flex items-center justify-center px-4 py-8 overflow-hidden">
-        <div className="flex flex-col items-center sm:items-start justify-center gap-12 w-full max-w-[850px] sm:w-2/3 mx-auto">
+        <div className="flex flex-col items-center sm:items-start justify-center gap-12 w-full max-w-[850px] mx-auto">
           <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
             <div className="flex flex-col gap-4 w-full">{renderPage()}</div>
             <div className="flex flex-col gap-4 w-full">
@@ -325,7 +356,11 @@ export default function Experiences() {
                     (page == 1 && !school) ||
                     (page == 2 && (!year || !program)) ||
                     (page == 3 && !hackathonCount) ||
-                    (page == 4 && !resume)
+                    (page == 4 && !resume) ||
+                    (page == 5 &&
+                      ((github.length > 0 && !isValidUrl(github)) ||
+                        (linkedin.length > 0 && !isValidUrl(linkedin)) ||
+                        (portfolio.length > 0 && !isValidUrl(portfolio))))
                   }
                   darkMode={true}
                   onClick={() => {
@@ -343,7 +378,7 @@ export default function Experiences() {
                   variant="next"
                 />
               </div>
-              <div className="flex justify-end w-full">
+              <div className="flex justify-end w-full z-20">
                 <ProgressBar darkMode={true} numSteps={5} currPage={page} />
               </div>
             </div>

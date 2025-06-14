@@ -218,7 +218,7 @@ export default function Review() {
 
   return (
     <div className="sm:gap-0 gap-4 overflow-hidden bg-[linear-gradient(to_bottom,_#B1E1F9,_#E5DCD9,_#FCD2B3,_#F5AB42)] min-h-screen w-full flex flex-col items-center px-4">
-      <div className="w-full max-w-[1000px] bg-[#E6EFF3]/80 rounded-2xl shadow-lg mt-32 mb-16 p-4 md:p-8 z-30">
+      <div className="w-full max-w-[1000px] bg-[#E6EFF3]/80 rounded-2xl shadow-lg mt-16 md:mt-32 mb-16 py-4 px-8 md:px-[76px] z-30">
         <div className="flex justify-between items-center">
           <Text
             textType="heading-lg"
@@ -285,7 +285,7 @@ export default function Review() {
               )}
             </div>
             <div className="rounded-md">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <ReviewField
                   label="Full Name"
                   value={
@@ -334,7 +334,7 @@ export default function Review() {
               )}
             </div>
             <div className="rounded-md">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <ReviewField
                   label="School (Most Recently Attended)"
                   value={formData?.school}
@@ -450,28 +450,28 @@ export default function Review() {
               )}
             </div>
             <div className="rounded-md">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4">
-                <ReviewField
-                  label="T-shirt Size"
-                  value={formData?.tshirtSize}
-                />
-                <ReviewField label="Gender" value={formData?.gender} />
-                <ReviewField label="Ethnicity" value={formData?.ethnicity} />
-                <ReviewField
-                  label="Dietary Restrictions"
-                  value={formData?.dietaryRestrictions}
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <ReviewField
                   label="Previous Hack the 6ix Experience"
                   value={formData?.previousHT6Experience?.join(", ")}
                 />
                 <ReviewField
-                  label="How did you hear about us?"
-                  value={formData?.howDidYouHearAboutHT6?.join(", ")}
-                />
-                <ReviewField
                   label="Workshop Preferences"
                   value={formData?.requestedWorkshops?.join(", ")}
+                />
+                <ReviewField
+                  label="T-shirt Size"
+                  value={formData?.tshirtSize}
+                />
+                <ReviewField
+                  label="Dietary Restrictions"
+                  value={formData?.dietaryRestrictions}
+                />
+                <ReviewField label="Gender" value={formData?.gender} />
+                <ReviewField label="Ethnicity" value={formData?.ethnicity} />
+                <ReviewField
+                  label="How did you hear about us?"
+                  value={formData?.howDidYouHearAboutHT6?.join(", ")}
                 />
               </div>
             </div>

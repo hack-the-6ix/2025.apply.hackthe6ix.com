@@ -214,7 +214,7 @@ export default function Survey() {
                   theme="dark"
                 />
               </div>
-              <div className="w-full sm:w-1/2 z-0 overflow-visible">
+              <div className="w-full sm:w-1/2 z-10">
                 <Dropdown
                   options={enums?.ethnicity || []}
                   value={ethnicity}
@@ -276,9 +276,9 @@ export default function Survey() {
   };
 
   return (
-    <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#21293C] via-[#60639D] to-[#DF6369] min-h-[100vh] w-full flex flex-col justify-center items-center z-50">
+    <div className="sm:gap-0 gap-4 p-8 bg-linear-to-b from-[#21293C] via-[#60639D] to-[#DF6369] min-h-[100vh] w-full flex flex-col justify-center items-center z-50">
       <div className="w-full flex items-center justify-center px-4 py-8">
-        <div className="flex flex-col items-center sm:items-start justify-center gap-12 w-full max-w-[850px] sm:w-2/3 mx-auto max-h-[calc(100vh-100px)] overflow-y-auto">
+        <div className="flex flex-col items-center sm:items-start justify-center gap-12 w-full max-w-[850px] mx-auto max-h-[calc(100vh-100px)]">
           <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
             <div className="flex flex-col gap-4 w-full">{renderPage()}</div>
             <div className="flex flex-col gap-4 w-full">

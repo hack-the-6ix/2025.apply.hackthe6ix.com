@@ -4,7 +4,7 @@ const Footer = () => {
   const { formData } = useApplicationContext();
 
   return (
-    <div className="w-full absolute bottom-4 z-50">
+    <div className="w-full absolute bottom-4 z-10">
       <div className="w-[80%] mx-auto flex justify-between items-center">
         <div className="bg-[#EBA867] rounded-md p-2 font--jersey-10-regular border border-black flex items-center">
           {formData

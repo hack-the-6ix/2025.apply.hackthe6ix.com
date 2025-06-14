@@ -142,9 +142,9 @@ export default function AboutYou() {
   return (
     <div className="sm:gap-0 gap-4 overflow-hidden p-8 bg-linear-to-b from-[#ACDCFD] via-[#B3E9FC] to-[#B9F2FC]  h-[100vh] w-full flex flex-col justify-center items-center">
       <div className="w-full h-full flex items-center justify-center px-4 py-8 overflow-hidden">
-        <div className="flex flex-col items-center sm:items-start justify-center gap-12 w-full max-w-[850px] sm:w-2/3 mx-auto">
-          <div className="flex flex-col items-start w-full gap-6 max-w-[850px]">
-            <div className="flex flex-col gap-4 py-4">
+        <div className="flex flex-col items-center sm:items-start justify-center gap-12 w-full max-w-[850px] z-30">
+          <div className="flex flex-col items-start w-full gap-2">
+            <div className="flex flex-col gap-4">
               {page === 1 && (
                 <Text
                   textType="heading-lg"
@@ -241,6 +241,7 @@ export default function AboutYou() {
                     placeholder="hacker@hackthe6ix.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    className="!w-2/3"
                   />
                   <div className="ml-2 py-2">
                     <Checkbox
@@ -255,7 +256,7 @@ export default function AboutYou() {
               )}
 
               {page === 3 && (
-                <>
+                <div>
                   <Text
                     textType="paragraph-sm"
                     textFont="rubik"
@@ -269,9 +270,9 @@ export default function AboutYou() {
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                   />
-                  <div className="flex flex-col sm:flex-row gap-4 w-full">
+                  <div className="flex flex-col sm:flex-row gap-0 sm:gap-4 w-full">
                     <div
-                      className={`w-full ${
+                      className={`w-full z-60 ${
                         country === "Canada" ? "sm:w-1/2" : ""
                       }`}
                     >
@@ -283,15 +284,17 @@ export default function AboutYou() {
                       >
                         Country*
                       </Text>
-                      <Dropdown
-                        placeholder="Select Country"
-                        options={enums?.countries || []}
-                        value={country}
-                        onChange={(value) => setCountry(value)}
-                      />
+                      <div className="w-full">
+                        <Dropdown
+                          placeholder="Select Country"
+                          options={enums?.countries || []}
+                          value={country}
+                          onChange={(value) => setCountry(value)}
+                        />
+                      </div>
                     </div>
                     {country === "Canada" && (
-                      <div className="w-full sm:w-1/2">
+                      <div className="w-full sm:w-1/2 z-30">
                         <Text
                           textType="paragraph-sm"
                           textFont="rubik"
@@ -309,7 +312,7 @@ export default function AboutYou() {
                       </div>
                     )}
                   </div>
-                </>
+                </div>
               )}
               {page === 4 && (
                 <div className=" overflow-y-auto max-h-[200px]">
