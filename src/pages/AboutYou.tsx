@@ -315,7 +315,7 @@ export default function AboutYou() {
                 </div>
               )}
               {page === 4 && (
-                <div className=" overflow-y-auto max-h-[200px]">
+                <div className="overflow-y-auto md:overflow-y-visible max-h-[200px] md:max-h-none">
                   <div className="flex flex-col sm:flex-row gap-4 w-full">
                     <div className="w-full sm:w-1/2">
                       <Text

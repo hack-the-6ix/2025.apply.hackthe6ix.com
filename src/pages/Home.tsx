@@ -123,7 +123,7 @@ export default function Home() {
           textColor="secondary"
           className="text-center"
         >
-          Application due: June 30, 2025 @ 11:59pm EST
+          Application due: June 24, 2025 @ 11:59pm EST
         </Text>
         <button
           className="hover:bg-[#20b7ac] relative sm:w-[180px] w-full bg-[#00887E] border-black sm:border-[5px] border-[3px] sm:h-[80px] h-[50px] flex justify-center items-center sm:mt-[30px] mt-[140px] transition-colors cursor-pointer"

@@ -166,7 +166,7 @@ export default function Home() {
         >
           Application submitted successfully
         </Text>
-        <div className="flex gap-4 mt-8">
+        <div className="flex flex-col md:flex-row gap-4 mt-8">
           <button
             className="hover:bg-[#20b7ac] relative sm:w-[180px] w-full bg-[#00887E] border-black sm:border-[5px] border-[3px] sm:h-[80px] h-[50px] flex justify-center items-center transition-colors cursor-pointer"
             onClick={() => setShowModal(true)}
@@ -211,8 +211,8 @@ export default function Home() {
 
       {showModal && application && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-          <div className="bg-[#E6EFF3]/80 backdrop-blur-lg rounded-2xl p-8 shadow-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="px-8">
+          <div className="bg-[#E6EFF3]/80 backdrop-blur-lg rounded-2xl p-2 md:p-8 shadow-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-2 md:px-8">
               <div className="flex justify-between items-center">
                 <Text
                   textType="heading-lg"
@@ -242,7 +242,7 @@ export default function Home() {
                     <img src={checkCircle} alt="Complete" className="w-3 h-3" />
                   </div>
                   <div className="rounded-md">
-                    <div className="grid grid-cols-2 gap-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4">
                       <ReviewField
                         label="Location"
                         value={`${application.hackerApplication.city}, ${application.hackerApplication.province}, ${application.hackerApplication.country}`}

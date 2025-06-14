@@ -50,6 +50,10 @@ export default function Experiences() {
   const [linkedin, setLinkedin] = useState(formData?.linkedin || "");
   const [portfolio, setPortfolio] = useState(formData?.portfolio || "");
 
+  const [githubError, setGithubError] = useState(false);
+  const [linkedinError, setLinkedinError] = useState(false);
+  const [portfolioError, setPortfolioError] = useState(false);
+
   const isValidUrl = (url: string) => {
     try {
       new URL(url);
@@ -176,7 +180,7 @@ export default function Experiences() {
         return (
           <div className="flex flex-col gap-4">
             <Text textType="heading-lg" textFont="rubik" textColor="white">
-              Year of Study & Program*
+              Year of Study & Program (as of September 2025)*
             </Text>
             <div className="flex gap-4">
               <div className="w-1/2">
@@ -285,8 +289,23 @@ export default function Experiences() {
                   placeholder="GitHub URL"
                   textColor="white"
                   value={github}
-                  onChange={(e) => setGithub(e.target.value)}
+                  onChange={(e) => {
+                    setGithub(e.target.value);
+                    setGithubError(
+                      e.target.value.length > 0 && !isValidUrl(e.target.value),
+                    );
+                  }}
                 />
+                {githubError && (
+                  <Text
+                    textType="paragraph-sm"
+                    textFont="rubik"
+                    textColor="accent"
+                    className="ml-[10px]"
+                  >
+                    Please enter a valid URL.
+                  </Text>
+                )}
               </div>
               <div className="flex flex-col gap-1">
                 <Text
@@ -302,8 +321,23 @@ export default function Experiences() {
                   placeholder="LinkedIn URL"
                   textColor="white"
                   value={linkedin}
-                  onChange={(e) => setLinkedin(e.target.value)}
+                  onChange={(e) => {
+                    setLinkedin(e.target.value);
+                    setLinkedinError(
+                      e.target.value.length > 0 && !isValidUrl(e.target.value),
+                    );
+                  }}
                 />
+                {linkedinError && (
+                  <Text
+                    textType="paragraph-sm"
+                    textFont="rubik"
+                    textColor="accent"
+                    className="ml-[10px]"
+                  >
+                    Please enter a valid URL.
+                  </Text>
+                )}
               </div>
               <div className="flex flex-col gap-1">
                 <Text
@@ -319,8 +353,23 @@ export default function Experiences() {
                   placeholder="Portfolio URL"
                   textColor="white"
                   value={portfolio}
-                  onChange={(e) => setPortfolio(e.target.value)}
+                  onChange={(e) => {
+                    setPortfolio(e.target.value);
+                    setPortfolioError(
+                      e.target.value.length > 0 && !isValidUrl(e.target.value),
+                    );
+                  }}
                 />
+                {portfolioError && (
+                  <Text
+                    textType="paragraph-sm"
+                    textFont="rubik"
+                    textColor="accent"
+                    className="ml-[10px]"
+                  >
+                    Please enter a valid URL.
+                  </Text>
+                )}
               </div>
             </div>
           </div>
@@ -358,9 +407,7 @@ export default function Experiences() {
                     (page == 3 && !hackathonCount) ||
                     (page == 4 && !resume) ||
                     (page == 5 &&
-                      ((github.length > 0 && !isValidUrl(github)) ||
-                        (linkedin.length > 0 && !isValidUrl(linkedin)) ||
-                        (portfolio.length > 0 && !isValidUrl(portfolio))))
+                      (githubError || linkedinError || portfolioError))
                   }
                   darkMode={true}
                   onClick={() => {
@@ -378,7 +425,7 @@ export default function Experiences() {
                   variant="next"
                 />
               </div>
-              <div className="flex justify-end w-full z-20">
+              <div className="flex justify-end w-full z-10">
                 <ProgressBar darkMode={true} numSteps={5} currPage={page} />
               </div>
             </div>
