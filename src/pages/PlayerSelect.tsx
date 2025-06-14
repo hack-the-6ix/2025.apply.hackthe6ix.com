@@ -23,21 +23,21 @@ const COLORS = [
   "#6E3C3C",
   "#79C9D2",
   "#E1E6E7",
-  "#BCBBB5",
+  "#BCBBB5"
 ];
 const ITEMS = [cupPNG, tissuePNG, duckPNG];
 const ENCOURAGEMENTS = [
   "LOOKIN' FINE!",
   "GOOD CHOICE!",
   "NICE PICK!",
-  "LOVE IT!",
+  "LOVE IT!"
 ];
 const STATBONUS = ["NONE", "+3 ENERGY", "+3 MORALE", "+3 VIBES"];
 
 function ColorPicker({
   selectedSkin,
   setSelectedSkin,
-  setEncouragement,
+  setEncouragement
 }: {
   selectedSkin: number;
   setSelectedSkin: (skin: number) => void;
@@ -51,7 +51,7 @@ function ColorPicker({
           className="sm:w-[50px] h-[50px] w-[31%] sm:h-[48px] border-[3px] rounded-[5px] sm:rounded-[10px] cursor-pointer hover:scale-105 transition-all duration-300"
           style={{
             backgroundColor: color,
-            borderColor: selectedSkin === index ? "#00887E" : "#919DAF",
+            borderColor: selectedSkin === index ? "#00887E" : "#919DAF"
           }}
           onClick={() => {
             if (selectedSkin !== index) {
@@ -67,7 +67,7 @@ function ColorPicker({
 
 function ItemPicker({
   selectedItem,
-  setSelectedItem,
+  setSelectedItem
 }: {
   selectedItem: number;
   setSelectedItem: (item: number) => void;
@@ -79,7 +79,7 @@ function ItemPicker({
           key={index}
           className="border-[3px] bg-[#F3FAE0] rounded-[5px] sm:rounded-[10px] flex items-center justify-center w-[31%] sm:w-[70px] h-[70px] hover:scale-105 transition-all duration-300"
           style={{
-            borderColor: selectedItem === index + 1 ? "#00887E" : "#919DAF",
+            borderColor: selectedItem === index + 1 ? "#00887E" : "#919DAF"
           }}
           onClick={() => setSelectedItem(index + 1)}
         >
@@ -93,7 +93,7 @@ function ItemPicker({
 function SignDisplay({
   page,
   encouragement,
-  selectedItem,
+  selectedItem
 }: {
   page: number;
   encouragement: number;
@@ -124,7 +124,7 @@ export default function PlayerSelect() {
     setSelectedItem,
     setSelectedSkin,
     formData,
-    setFormData,
+    setFormData
   } = useApplicationContext();
   const [encouragement, setEncouragement] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -150,7 +150,7 @@ export default function PlayerSelect() {
       setFormData({
         ...currentFormData,
         selectedItem,
-        selectedSkin,
+        selectedSkin
       });
     }
   }, [selectedItem, selectedSkin, setFormData]);
@@ -247,11 +247,7 @@ export default function PlayerSelect() {
               <img
                 src={PLAYER_IMAGES[selectedSkin][selectedItem]}
                 alt="Character Select"
-                className={`object-cover !h-[280px] !w-[270px] !sm:h-[362px] !sm:w-[362px] absolute ${
-                  selectedSkin === 4 || selectedSkin === 5
-                    ? "sm:top-[-10px] sm:left-12 left-4 top-[-15px]"
-                    : "sm:top-1 sm:left-12 left-4 top-[-10px]"
-                }`}
+                className={`object-cover w-[85%] absolute top-1/2 -translate-y-[55%] left-1/2 -translate-x-1/2`}
               />
             </div>
             <SignDisplay
