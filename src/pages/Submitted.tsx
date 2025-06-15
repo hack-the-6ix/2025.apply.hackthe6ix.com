@@ -259,10 +259,6 @@ export default function Submitted() {
                         }
                       />
                       <ReviewField
-                        label="Age"
-                        value={application.hackerApplication.age?.toString()}
-                      />
-                      <ReviewField
                         label="Full Name"
                         value={`${application.firstName} ${application.lastName}`}
                       />
@@ -291,10 +287,6 @@ export default function Submitted() {
                       <ReviewField
                         label="Program and Year"
                         value={`${application.hackerApplication.program} - ${application.hackerApplication.levelOfStudy}`}
-                      />
-                      <ReviewField
-                        label="Graduation Year"
-                        value={application.hackerApplication.graduationYear?.toString()}
                       />
                       <ReviewField
                         label="Hackathon Experience"
