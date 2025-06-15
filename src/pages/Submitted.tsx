@@ -29,7 +29,7 @@ interface Application {
   hackerApplication: IApplication;
 }
 
-export default function Home() {
+export default function Submitted() {
   const location = useLocation();
   const { selectedSkin, selectedItem } = useApplicationContext();
   const { setProfile } = useAuth();
@@ -44,7 +44,7 @@ export default function Home() {
           setApplication(location.state.application);
         } else {
           const user = await fetchHt6<ApiResponse<Application>>(
-            "/api/action/profile",
+            "/api/action/profile"
           );
           if (user.message) {
             setApplication(user.message);
@@ -407,7 +407,7 @@ export default function Home() {
                       <ReviewField
                         label="How did you hear about us?"
                         value={application.hackerApplication.howDidYouHearAboutHT6?.join(
-                          ", ",
+                          ", "
                         )}
                       />
                       <ReviewField
@@ -447,13 +447,13 @@ export default function Home() {
                       <ReviewField
                         label="Previous Hack the 6ix Experience"
                         value={application.hackerApplication.previousHT6Experience?.join(
-                          ", ",
+                          ", "
                         )}
                       />
                       <ReviewField
                         label="Workshop Preferences"
                         value={application.hackerApplication.requestedWorkshops?.join(
-                          ", ",
+                          ", "
                         )}
                       />
                     </div>
