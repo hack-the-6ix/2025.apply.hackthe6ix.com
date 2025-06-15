@@ -361,17 +361,21 @@ export default function Submitted() {
                   </div>
                   <div className="rounded-md space-y-4">
                     <ReviewField
-                      label="What would you like to accomplish at Hack the 6ix?"
+                      label="What Tell us about a project you’ve enjoyed working on (this can be
+              non-technical!). What made you decide to work on this project?
+              What challenges did you face and how did you overcome them?"
                       value={
                         application.hackerApplication.creativeResponseEssay
                       }
                     />
                     <ReviewField
-                      label="What is one project you were proud of?"
+                      label="If you could not do anything related to school, work, or coding
+              for 4 months, what would you do and why?"
                       value={application.hackerApplication.whyHT6Essay}
                     />
                     <ReviewField
-                      label="Fun Fact"
+                      label="You are given an elephant. You cannot sell or give away the
+              elephant. What do you do with the elephant?"
                       value={application.hackerApplication.oneSentenceEssay}
                     />
                   </div>
