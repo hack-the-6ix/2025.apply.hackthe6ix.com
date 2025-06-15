@@ -24,29 +24,29 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
       const profile: Profile | null = await checkAuth();
       setProfile(profile);
 
-      const enums = await checkEnums();
-      setEnums(enums);
-
       if (profile?.firstName && profile?.email && profile?.lastName) {
         const newFormData: FormData = {
           ...formData,
           firstName: formData.firstName || profile.firstName,
           lastName: formData.lastName || profile.lastName,
-          email: formData.email || profile.email,
+          email: formData.email || profile.email
         };
         setFormData(newFormData);
         setProfile({ ...profile, ...newFormData });
-      }
 
-      if (profile?.status?.applied) {
-        setIsAuthenticated(false);
-        window.location.href = "/submitted";
+        if (profile.status?.applied) {
+          setIsAuthenticated(false);
+          window.location.href = "/submitted";
+        } else {
+          const enums = await checkEnums();
+          setEnums(enums);
+          setIsAuthenticated(!!profile);
+        }
       } else {
-        setIsAuthenticated(!!profile);
+        setIsAuthenticated(false);
       }
     };
     authenticate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname, setProfile, setFormData, setEnums]);
 
   if (isAuthenticated === null) {
