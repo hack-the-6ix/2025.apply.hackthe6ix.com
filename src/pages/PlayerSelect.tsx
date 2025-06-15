@@ -230,7 +230,7 @@ export default function PlayerSelect() {
                 }}
                 variant="next"
                 className="w-full sm:w-auto"
-                disabled={page === 1 ? selectedSkin === -1 : selectedItem === 0}
+                disabled={page === 1 ? selectedSkin === -1 : selectedItem === -1}
               />
             </div>
             <div className="flex justify-end sm:justify-end w-full">
