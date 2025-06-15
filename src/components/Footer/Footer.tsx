@@ -12,7 +12,7 @@ const Footer = () => {
             : "Not signed in"}
         </div>
         <div className="hidden md:flex bg-[#EBA867] rounded-md p-2 font--jersey-10-regular border border-black items-center gap-4">
-          Due June 25, 2025
+          Due June 24, 2025
         </div>
       </div>
     </div>
