@@ -353,7 +353,7 @@ export default function Submitted() {
                   </div>
                   <div className="rounded-md space-y-4">
                     <ReviewField
-                      label="What Tell us about a project you’ve enjoyed working on (this can be
+                      label="Tell us about a project you’ve enjoyed working on (this can be
               non-technical!). What made you decide to work on this project?
               What challenges did you face and how did you overcome them?"
                       value={
