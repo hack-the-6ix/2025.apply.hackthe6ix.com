@@ -160,7 +160,8 @@ export default function Review() {
         howDidYouHearAboutHT6: formData.howDidYouHearAboutHT6,
         previousHT6Experience: formData.previousHT6Experience,
         avatarBase: selectedSkin,
-        avatarItem: selectedItem
+        avatarItem: selectedItem,
+        requestedWorkshops: formData.requestedWorkshops
       };
 
       // const user = await fetchHt6<ApiResponse<UserResponse>>(
