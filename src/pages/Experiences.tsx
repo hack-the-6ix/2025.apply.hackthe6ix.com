@@ -19,7 +19,7 @@ import FileUpload from "../components/FileUpload/FileUpload";
 import { useNavigate } from "react-router-dom";
 import {
   useApplicationContext,
-  type FormData,
+  type FormData
 } from "../contexts/ApplicationContext";
 import { useSearchParams } from "react-router-dom";
 import { useEnums } from "../contexts/EnumsContext";
@@ -33,7 +33,7 @@ export default function Experiences() {
     selectedItem,
     selectedSkin,
     formData,
-    setFormData,
+    setFormData
   } = useApplicationContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1");
@@ -43,7 +43,7 @@ export default function Experiences() {
   const [year, setYear] = useState(formData?.year || "");
   const [program, setProgram] = useState(formData?.program || "");
   const [hackathonCount, setHackathonCount] = useState(
-    formData?.hackathonCount || "",
+    formData?.hackathonCount || ""
   );
   const [resume, setResume] = useState<File | null>(formData?.resume || null);
   const [github, setGithub] = useState(formData?.github || "");
@@ -73,7 +73,7 @@ export default function Experiences() {
     const currentFormData = formDataRef.current;
     setFormData({
       ...currentFormData,
-      school,
+      school
     });
   }, [school, setFormData]);
 
@@ -81,7 +81,7 @@ export default function Experiences() {
     const currentFormData = formDataRef.current;
     setFormData({
       ...currentFormData,
-      year,
+      year
     });
   }, [year, setFormData]);
 
@@ -89,7 +89,7 @@ export default function Experiences() {
     const currentFormData = formDataRef.current;
     setFormData({
       ...currentFormData,
-      program,
+      program
     });
   }, [program, setFormData]);
 
@@ -97,7 +97,7 @@ export default function Experiences() {
     const currentFormData = formDataRef.current;
     setFormData({
       ...currentFormData,
-      hackathonCount,
+      hackathonCount
     });
   }, [hackathonCount, setFormData]);
 
@@ -111,7 +111,7 @@ export default function Experiences() {
 
         const token = localStorage.getItem("token");
         const headers: Record<string, string> = {
-          "X-Access-Token": token || "",
+          "X-Access-Token": token || ""
         };
 
         const baseUrl =
@@ -119,7 +119,7 @@ export default function Experiences() {
         const response = await fetch(`${baseUrl}/api/action/updateresume`, {
           method: "PUT",
           headers,
-          body: formData,
+          body: formData
         });
 
         if (!response.ok) {
@@ -143,7 +143,7 @@ export default function Experiences() {
       resume,
       github,
       linkedin,
-      portfolio,
+      portfolio
     });
   };
 
@@ -292,7 +292,7 @@ export default function Experiences() {
                   onChange={(e) => {
                     setGithub(e.target.value);
                     setGithubError(
-                      e.target.value.length > 0 && !isValidUrl(e.target.value),
+                      e.target.value.length > 0 && !isValidUrl(e.target.value)
                     );
                   }}
                 />
@@ -324,7 +324,7 @@ export default function Experiences() {
                   onChange={(e) => {
                     setLinkedin(e.target.value);
                     setLinkedinError(
-                      e.target.value.length > 0 && !isValidUrl(e.target.value),
+                      e.target.value.length > 0 && !isValidUrl(e.target.value)
                     );
                   }}
                 />
@@ -356,7 +356,7 @@ export default function Experiences() {
                   onChange={(e) => {
                     setPortfolio(e.target.value);
                     setPortfolioError(
-                      e.target.value.length > 0 && !isValidUrl(e.target.value),
+                      e.target.value.length > 0 && !isValidUrl(e.target.value)
                     );
                   }}
                 />
@@ -416,7 +416,7 @@ export default function Experiences() {
                     } else {
                       updateFormData();
                       const updateCompleted = completedSection.map((val, i) =>
-                        i === 1 ? true : val,
+                        i === 1 ? true : val
                       );
                       setCompletedSection(updateCompleted);
                       navigate("/apply/long-answer");
@@ -461,7 +461,7 @@ export default function Experiences() {
       <img
         src={mushroomSVG}
         alt="mushroom"
-        className="sm:block hidden absolute h-[30] w-[30] bottom-[100px] right-[300px]"
+        className="sm:block hidden absolute h-auto w-auto bottom-[100px] right-[300px]"
       />
       <img
         src={PLAYER_IMAGES[selectedSkin][selectedItem]}
@@ -476,32 +476,32 @@ export default function Experiences() {
       <img
         src={rock3SVG}
         alt="rock3"
-        className="sm:block hidden absolute h-[30] w-[30] bottom-[80px] right-[60px]"
+        className="sm:block hidden absolute h-auto w-auto bottom-[80px] right-[60px]"
       />
       <img
         src={mushroomSVG}
         alt="mushroom"
-        className="sm:block hidden absolute h-[30] w-[30] bottom-[130px] right-[80px] z-[1]"
+        className="sm:block hidden absolute h-auto w-auto bottom-[130px] right-[80px] z-[1]"
       />
       <img
         src={mushroomSVG}
         alt="mushroom"
-        className="sm:block hidden absolute h-[30] w-[30] bottom-[130px] right-[80px] z-[1]"
+        className="sm:block hidden absolute h-auto w-auto bottom-[130px] right-[80px] z-[1]"
       />
       <img
         src={bat}
         alt="bat"
-        className="sm:block hidden absolute h-[30] w-[30] top-[180px] right-[180px] z-[1]"
+        className="sm:block hidden absolute h-auto w-auto top-[180px] right-[180px] z-[1]"
       />
       <img
         src={corner_rocks}
         alt="corner_rocks"
-        className="sm:block hidden absolute h-[30] w-[30] top-[0px] right-[0px]"
+        className="sm:block hidden absolute h-auto w-auto top-[0px] right-[0px]"
       />
       <img
         src={corner_rocks2}
         alt="corner_rocks"
-        className="sm:block hidden absolute h-[30] w-[30] top-[0px] left-[0px]"
+        className="sm:block hidden absolute h-auto w-auto top-[0px] left-[0px]"
       />
     </div>
   );
