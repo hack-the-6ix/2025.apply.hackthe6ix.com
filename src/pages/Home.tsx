@@ -9,10 +9,10 @@ import shrub2SVG from "../assets/shrub2.svg";
 import cloudSVG from "../assets/cloudsLaptop.svg";
 import cloudPhoneSVG from "../assets/cloudsPhone.svg";
 
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 export default function Home() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const GRASSCOUNT = 40;
 
   return (
