@@ -123,9 +123,9 @@ export default function Home() {
           textColor="secondary"
           className="text-center"
         >
-          Application due: June 24, 2025 @ 11:59pm EST
+          Applications now closed! Decisions will be released soon.
         </Text>
-        <button
+        {/* <button
           className="hover:bg-[#20b7ac] relative sm:w-[180px] w-full bg-[#00887E] border-black sm:border-[5px] border-[3px] sm:h-[80px] h-[50px] flex justify-center items-center sm:mt-[30px] mt-[140px] transition-colors cursor-pointer"
           onClick={() => navigate("/apply/player")}
         >
@@ -141,7 +141,7 @@ export default function Home() {
           <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] top-[-6px] right-[-6px]"></div>
           <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] bottom-[-6px] left-[-6px]"></div>
           <div className="absolute w-[6px] h-[6px] bg-[#B9F2FC] bottom-[-6px] right-[-6px]"></div>
-        </button>
+        </button> */}
       </div>
     </div>
   );
