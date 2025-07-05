@@ -24,7 +24,7 @@ export default function LongAnswer() {
     selectedItem,
     selectedSkin,
     formData,
-    setFormData,
+    setFormData
   } = useApplicationContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1");
@@ -36,17 +36,19 @@ export default function LongAnswer() {
   }, [formData]);
 
   // Initialize state from context
-  const [accomplish, setAccomplish] = useState(formData?.accomplish || "");
-  const [project, setProject] = useState(formData?.project || "");
-  const [funFact, setFunFact] = useState(formData?.funFact || "");
+  const [longEssay, setLongEssay] = useState(formData?.longEssay || "");
+  const [shortEssay, setShortEssay] = useState(formData?.shortEssay || "");
+  const [oneSentenceEssay, setOneSentenceEssay] = useState(
+    formData?.oneSentenceEssay || ""
+  );
 
   useEffect(() => {
     const currentFormData = formDataRef.current;
     let shouldUpdateFormData = false;
     if (
-      currentFormData.accomplish !== accomplish ||
-      currentFormData.project !== project ||
-      currentFormData.funFact !== funFact
+      currentFormData.longEssay !== longEssay ||
+      currentFormData.shortEssay !== shortEssay ||
+      currentFormData.oneSentenceEssay !== oneSentenceEssay
     ) {
       shouldUpdateFormData = true;
     }
@@ -54,12 +56,12 @@ export default function LongAnswer() {
     if (shouldUpdateFormData) {
       setFormData({
         ...currentFormData,
-        accomplish,
-        project,
-        funFact,
+        longEssay,
+        shortEssay,
+        oneSentenceEssay
       });
     }
-  }, [accomplish, project, funFact, setFormData]);
+  }, [longEssay, shortEssay, oneSentenceEssay, setFormData]);
 
   const renderPage = () => {
     switch (page) {
@@ -72,8 +74,8 @@ export default function LongAnswer() {
               What challenges did you face and how did you overcome them?*
             </Text>
             <TextArea
-              value={accomplish}
-              onChange={(e) => setAccomplish(e.target.value)}
+              value={longEssay}
+              onChange={(e) => setLongEssay(e.target.value)}
               placeholder="My favourite project..."
               backgroundColor="#3D4759"
               textColor="white"
@@ -96,8 +98,8 @@ export default function LongAnswer() {
               for 4 months, what would you do and why?*
             </Text>
             <TextArea
-              value={project}
-              onChange={(e) => setProject(e.target.value)}
+              value={shortEssay}
+              onChange={(e) => setShortEssay(e.target.value)}
               placeholder="I would..."
               backgroundColor="#3D4759"
               textColor="white"
@@ -115,8 +117,8 @@ export default function LongAnswer() {
               elephant. What do you do with the elephant?*
             </Text>
             <TextArea
-              value={funFact}
-              onChange={(e) => setFunFact(e.target.value)}
+              value={oneSentenceEssay}
+              onChange={(e) => setOneSentenceEssay(e.target.value)}
               placeholder="I would..."
               backgroundColor="#3D4759"
               textColor="white"
@@ -155,9 +157,9 @@ export default function LongAnswer() {
                 )}
                 <Button
                   disabled={
-                    (page == 1 && !accomplish) ||
-                    (page == 2 && !project) ||
-                    (page == 3 && !funFact)
+                    (page == 1 && !longEssay) ||
+                    (page == 2 && !shortEssay) ||
+                    (page == 3 && !oneSentenceEssay)
                   }
                   darkMode={true}
                   onClick={() => {
@@ -165,7 +167,7 @@ export default function LongAnswer() {
                       setSearchParams({ page: `${page + 1}` });
                     } else {
                       const updateCompleted = completedSection.map((val, i) =>
-                        i === 2 ? true : val,
+                        i === 2 ? true : val
                       );
                       setCompletedSection(updateCompleted);
                       navigate("/apply/survey");

@@ -26,9 +26,9 @@ export interface FormData {
   portfolio?: string;
 
   // Long Answer fields
-  accomplish?: string;
-  project?: string;
-  funFact?: string;
+  longEssay?: string;
+  shortEssay?: string;
+  oneSentenceEssay?: string;
 
   // Survey fields
   requestedWorkshops?: string[];
@@ -59,11 +59,11 @@ interface ApplicationContextType {
 }
 
 const ApplicationContext = createContext<ApplicationContextType | undefined>(
-  undefined,
+  undefined
 );
 
 export const ApplicationContextProvider = ({
-  children,
+  children
 }: {
   children: ReactNode;
 }) => {
@@ -72,7 +72,7 @@ export const ApplicationContextProvider = ({
     false,
     false,
     false,
-    false,
+    false
   ]);
   const [selectedSkin, setSelectedSkin] = useState(0);
   const [selectedItem, setSelectedItem] = useState(0);
@@ -87,7 +87,7 @@ export const ApplicationContextProvider = ({
     emergencyLastName: "",
     emergencyPhone: "",
     emergencyRelationship: "",
-    emailPermission: false,
+    emailPermission: false
   });
 
   return (
@@ -100,7 +100,7 @@ export const ApplicationContextProvider = ({
         selectedSkin,
         setSelectedSkin,
         formData,
-        setFormData,
+        setFormData
       }}
     >
       {children}
@@ -113,7 +113,7 @@ export const useApplicationContext = () => {
   const context = useContext(ApplicationContext);
   if (context === undefined) {
     throw new Error(
-      "useApplicationContext must be used within an ApplicationContextProvider",
+      "useApplicationContext must be used within an ApplicationContextProvider"
     );
   }
   return context;

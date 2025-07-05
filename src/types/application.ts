@@ -29,8 +29,8 @@ export interface IApplication {
   githubLink: string;
   portfolioLink: string;
   linkedinLink: string;
-  creativeResponseEssay: string;
-  whyHT6Essay: string;
+  longEssay: string;
+  shortEssay: string;
   oneSentenceEssay: string;
   mlhCOC: boolean;
   mlhEmail: boolean;

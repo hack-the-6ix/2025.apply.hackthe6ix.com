@@ -61,15 +61,15 @@ export default function Review() {
     if (!formData?.program) missing.push("Program");
     if (!formData?.hackathonCount) missing.push("Hackathon Count");
     if (!formData?.resume) missing.push("Resume");
-    if (!formData?.accomplish)
+    if (!formData?.longEssay)
       missing.push(
         "Tell us about a project you've enjoyed working on (this can be non-technical!). What made you decide to work on this project? What challenges did you face and how did you overcome them?*"
       );
-    if (!formData?.project)
+    if (!formData?.shortEssay)
       missing.push(
         "If you could not do anything related to school, work, or coding for 4 months, what would you do and why?*"
       );
-    if (!formData?.funFact)
+    if (!formData?.oneSentenceEssay)
       missing.push(
         "You are given an elephant. You cannot sell or give away the elephant. What do you do with the elephant?*"
       );
@@ -98,9 +98,9 @@ export default function Review() {
       formData?.program &&
       formData?.hackathonCount &&
       formData?.resume &&
-      formData?.accomplish &&
-      formData?.project &&
-      formData?.funFact &&
+      formData?.longEssay &&
+      formData?.shortEssay &&
+      formData?.oneSentenceEssay &&
       formData?.tshirtSize &&
       formData?.gender &&
       formData?.ethnicity &&
@@ -132,9 +132,9 @@ export default function Review() {
         program: formData.program,
         levelOfStudy: formData.year,
         hackathonsAttended: formData.hackathonCount,
-        creativeResponseEssay: formData.accomplish,
-        whyHT6Essay: formData.project,
-        oneSentenceEssay: formData.funFact,
+        longEssay: formData.longEssay,
+        shortEssay: formData.shortEssay,
+        oneSentenceEssay: formData.oneSentenceEssay,
         mlhCOC: formData.permission1,
         mlhData: formData.permission2,
         mlhEmail: formData.emailPermission,
@@ -410,9 +410,9 @@ export default function Review() {
               <Text textType="heading-sm" textFont="rubik" textColor="primary">
                 Long Answer Responses
               </Text>
-              {formData?.accomplish &&
-              formData?.project &&
-              formData?.funFact ? (
+              {formData?.longEssay &&
+              formData?.shortEssay &&
+              formData?.oneSentenceEssay ? (
                 <img src={checkCircle} alt="Complete" className="w-3 h-3" />
               ) : (
                 <img src={exclamation} alt="Incomplete" className="w-3 h-3" />
@@ -423,17 +423,17 @@ export default function Review() {
                 label="Tell us about a project you've enjoyed working on (this can be
               non-technical!). What made you decide to work on this project?
               What challenges did you face and how did you overcome them?*"
-                value={formData?.accomplish}
+                value={formData?.longEssay}
               />
               <ReviewField
                 label="If you could not do anything related to school, work, or coding
               for 4 months, what would you do and why?*"
-                value={formData?.project}
+                value={formData?.shortEssay}
               />
               <ReviewField
                 label="You are given an elephant. You cannot sell or give away the
               elephant. What do you do with the elephant?*"
-                value={formData?.funFact}
+                value={formData?.oneSentenceEssay}
               />
             </div>
           </div>

@@ -356,14 +356,12 @@ export default function Submitted() {
                       label="Tell us about a project you’ve enjoyed working on (this can be
               non-technical!). What made you decide to work on this project?
               What challenges did you face and how did you overcome them?"
-                      value={
-                        application.hackerApplication.creativeResponseEssay
-                      }
+                      value={application.hackerApplication.longEssay}
                     />
                     <ReviewField
                       label="If you could not do anything related to school, work, or coding
               for 4 months, what would you do and why?"
-                      value={application.hackerApplication.whyHT6Essay}
+                      value={application.hackerApplication.shortEssay}
                     />
                     <ReviewField
                       label="You are given an elephant. You cannot sell or give away the
